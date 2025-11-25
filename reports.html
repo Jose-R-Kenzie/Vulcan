@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Reports | VULCAN</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script>
+    function simplifyCapture() {
+      const reports = document.querySelectorAll('.report-section');
+      reports.forEach(section => section.style.border = '2px dashed #888');
+      alert("Reports are now visually grouped for easy copy/paste or screenshot.");
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Reports</h1>
+    <p class="subtitle">Back Half Nights Operational Reports</p>
+    <div class="report-controls">
+        <button class="nav-btn" onclick="refreshReports()">
+          <i class="fas fa-sync-alt"></i> Refresh Data
+        </button>
+        <button class="nav-btn" onclick="simplifyCapture()">
+          <i class="fas fa-scissors"></i> Simplify Capture
+        </button>
+      </div>
+    <button class="nav-btn" onclick="simplifyCapture()">
+      <i class="fas fa-scissors"></i> Simplify Capture
+    </button>
+
+    <!-- Report 1: Start of Shift -->
+    <section class="report-section">
+      <h2>Start of Shift Report</h2>
+      <table>
+        <tr><td>LIVE In-door Roll-overs</td><td>2</td></tr>
+        <tr><td>LIVE Standby Roll-overs</td><td>0</td></tr>
+        <tr><td>Total LIVE Roll-overs</td><td>2</td></tr>
+        <!-- Add rest of SOS rows here -->
+      </table>
+    </section>
+
+    <!-- Report 2: Appointment Summary -->
+    <section class="report-section">
+      <h2>Appointment Summary</h2>
+      <table>
+        <tr><th>Type</th><th>Count</th></tr>
+        <tr><td>Drop</td><td>--</td></tr>
+        <tr><td>Live</td><td>--</td></tr>
+        <tr><td>Transship</td><td>--</td></tr>
+      </table>
+    </section>
+
+    <!-- Report 3: Dwell Time Analysis -->
+    <section class="report-section">
+      <h2>Dwell Time Analysis</h2>
+      <table>
+        <tr><th>Appointment ID</th><th>Dwell Time</th></tr>
+        <tr><td>--</td><td>--</td></tr>
+      </table>
+    </section>
+
+    <!-- Report 4: Hot List Breakdown -->
+    <section class="report-section">
+      <h2>Hot List Breakdown</h2>
+      <table>
+        <tr><th>Priority</th><th>Count</th></tr>
+        <tr><td>Critical</td><td>--</td></tr>
+        <tr><td>Late</td><td>--</td></tr>
+        <tr><td>Normal</td><td>--</td></tr>
+      </table>
+    </section>
+
+    <!-- Report 5: Appointment Visualizer Summary -->
+    <section class="report-section">
+      <h2>Appointment Visualizer Summary</h2>
+      <table>
+        <tr><th>Appointment</th><th>Current Location</th><th>Next Location</th></tr>
+        <tr><td>12345</td><td>Dock 7</td><td>Outbound Yard</td></tr>
+      </table>
+    </section>
+
+    <a href="back-nights.html" class="nav-btn">← Back to Dashboard</a>
+  </div>
+</body>
+</html>
