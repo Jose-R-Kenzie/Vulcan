@@ -25,52 +25,51 @@
 
             <table>
                 <tr><th>Description</th><th>Count</th></tr>
-
-                <tr><td>LIVE to-door Roll-overs</td><td id="liveToDoorRollovers">0</td></tr>
+                <!--Live portion of the SOS-->
+                <tr><td>LIVE In-door Roll-overs</td><td id="liveInDoorRollovers">0</td></tr>
                 <tr><td>LIVE Standby Roll-overs</td><td id="liveStandbyRollovers">0</td></tr>
-                <tr><td>LIVE Total Roll-Overs</td><td id="liveTotalRollovers">0</td></tr>
-
-                <tr><td>LIVE FLOORLOADS EXPECTED ARRIVAL</td><td id="liveFloorloadsExpected">0</td></tr>
-                <tr><td>LIVE Floorloads in Doors</td><td id="liveFloorloadsInDoors">0</td></tr>
-
-                <tr><td>LIVE PALLET LOADS EXPECTED ARRIVAL</td><td id="livePalletLoadsExpected">0</td></tr>
-                <tr><td>LIVE Pallets in Doors</td><td id="livePalletsInDoors">0</td></tr>
-
-                <tr><td>Parcels Expected</td><td id="parcelExpected">0</td></tr>
-                <tr><td>Parcels in Doors</td><td id="parcelInDoors">0</td></tr>
-                <tr><td>All Parcels Available</td><td id="parcelsAvailable">0</td></tr>
-
-                <tr><td>DROP FLOORLOADS EXPECTED ARRIVAL</td><td id="dropFloorloadsExpected">0</td></tr>
-                <tr><td>Available Drop Floorloads</td><td id="availableDropFloorloads">0</td></tr>
-
-                <tr><td>DROP PALLETS EXPECTED ARRIVAL</td><td id="dropPalletsExpected">0</td></tr>
-                <tr><td>Available Drop Pallets</td><td id="availableDropPallets">0</td></tr>
-
-                <tr><td>Total Drop Floorloads Available</td><td id="totalDropFloorloadsAvailable">0</td></tr>
-                <tr><td>Total Drop Pallets Available</td><td id="totalDropPalletsAvailable">0</td></tr>
-
-                <tr><td>Transhipment Floorloads in Doors</td><td id="transFloorloadsInDoors">0</td></tr>
-                <tr><td>Transhipment Pallets in Doors</td><td id="transPalletsInDoors">0</td></tr>
-
-                <tr><td>Total Transhipment Floorloads</td><td id="transTotalFloorloads">0</td></tr>
-                <tr><td>Total Transhipment Pallets</td><td id="transTotalPallets">0</td></tr>
-
-                <tr><td>Total Transhipment Trailers Available</td><td id="totalTransTrailersAvailable">0</td></tr>
-
-                <tr><td>Total Available Topology Units</td><td id="totalTopologyUnits">0</td></tr>
-                <tr><td>Total Live Units</td><td id="totalLiveUnits">0</td></tr>
-                <tr><td>Total Available Units</td><td id="totalAvailableUnits">0</td></tr>
-
-                <tr><td>Total Appointments in Yard</td><td id="totalYardAppointments">0</td></tr>
-                <tr><td>Closed Appointments in Yard</td><td id="totalClosedAppointments">0</td></tr>
-
-                <tr><td>Total Appointments</td><td id="totalAppointments">0</td></tr>
-
-                <tr><td>Live Drop & Hook Appointments</td><td id="dropHookAppointments">0</td></tr>
-
-                <tr><td>Total Empty Slots Available</td><td id="emptySlotsAvailable">0</td></tr>
-
-                <tr><td>NF of AZN9 – 24 Hours</td><td id="nfAZN9">0</td></tr>  
+                <tr><td>TOTAL LIVE ROLL-OVERS</td><td id="totalLiveRollovers">0</td></tr>
+                <tr><td>LIVE FLOORLOADS EXPECTED ARRIVAL:</td><td id="liveFloorloadsExpected">0</td></tr>
+                <tr><td>Live Floorloads in Doors:</td><td id="liveFloorloadsInDoors">0</td></tr>
+                <tr><td>LIVE PALLET LOADS EXPECTED ARRIVAL:</td><td id="livePalletLoadsExpected">0</td></tr>
+                <tr><td>Live Pallets in Doors:</td><td id="livePalletsInDoors">0</td></tr>
+                <tr><td>Total Lives EXPECTED Arrival:</td><td id="totalLivesExpected">0</td></tr>
+                <!--Parcel portion of the SOS-->
+                <tr><td>Parcels in Doors:</td><td id="parcelInDoors">0</td></tr>
+                <tr><td>Parcels Onsite:</td><td id="parcelOnsite">0</td></tr>
+                <tr><td>Parcels Offsite:</td><td id="parcelsOffsite">0</td></tr>
+                <tr><td>Total # of Parcels Available:</td><td id="totalParcelsAvailable">0</td></tr>
+                <!--Drop floorload portion of the SOS-->
+                <tr><td>DROP FLOORLOADS EXPECTED ARRIVAL:</td><td id="dropFloorloadsExpected">0</td></tr>
+                <tr><td>Drops Floorloads in Doors:</td><td id="dropFloorloadsInDoors">0</td></tr>
+                <tr><td>Drops Floorloads Onsite:</td><td id="dropFloorloadsOnsite">0</td></tr>
+                <tr><td>Drops Floorloads Offsite:</td><td id="dropFloorloadsOffsite">0</td></tr>
+                <tr><td>Total # of Drop Floorloads Available:</td><td id="totalDropFloorAvailable">0</td></tr>
+                <!--Drop Pallet portion of the SOS-->
+                <tr><td>DROP PALLETS EXPECTED ARRIVAL:</td><td id="dropPalletsExpected">0</td></tr>
+                <tr><td>Drop Pallets in Doors:</td><td id="dropPalletsInDoors">0</td></tr>
+                <tr><td>Drop Pallets Onsite:</td><td id="dropPalletsOnsite">0</td></tr>
+                <tr><td>Drop Pallets Offsite:</td><td id="dropPalletsOffsite">0</td></tr>
+                <tr><td>Total # of Drop Pallet Loads Available:</td><td id="totalDropPalletAvailable">0</td></tr>
+                <!--Transship portion of the SOS-->
+                <tr><td>Transship Floorloads in Doors:</td><td id="transFloorloadsInDoors">0</td></tr>
+                <tr><td>Transship Floorloads Onsite:</td><td id="transFloorloadsOnsite">0</td></tr>
+                <tr><td>Transship Floorloads Offsite:</td><td id="transFloorloadsOffsite">0</td></tr>
+                <tr><td>Transship Pallets in Doors:</td><td id="transPalletsInDoors">0</td></tr>
+                <tr><td>Transship Pallets Onsite:</td><td id="transPalletsOnsite">0</td></tr>
+                <tr><td>Transship Pallets Offsite:</td><td id="transPalletsOffsite">0</td></tr>
+                <tr><td>Total # of Transhipment Trailers Available:</td><td id="transTotalTrailerAvailable">0</td></tr>
+                <!--Units portion of the SOS-->
+                <tr><td>Total Available Drop/Live Units:</td><td id="totalDropLiveUnits">0</td></tr>
+                <tr><td>Total Available Transship Units:</td><td id="totalTransshipUnits">0</td></tr>
+                <tr><td>Total Units Available:</td><td id="totalUnitsAvailable">0</td></tr>
+                <!--Oldest Appointment portion of the SOS-->
+                <tr><td>Oldest Appointment in Yard:</td><td id="oldestIsa">0</td></tr>
+                <tr><td>Location of Oldest Appointment in Yard:</td><td id="oldestIsaLocation">0</td></tr>
+                <tr><td>Time Dwelling</td><td id="oldestIsaDwellTime">0</td></tr>
+                <!--Bottom portion of the SOS-->
+                <tr><td># of Empty Slips Available:</td><td id="totalEmptySlips">0</td></tr>
+                <tr><td># of AZNG > 72 Hours:</td><td id="azngPast72Hrs">0</td></tr>
             </table>
         </section>
 
