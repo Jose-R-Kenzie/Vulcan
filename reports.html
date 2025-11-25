@@ -1,79 +1,263 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reports</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>VULCAN — Reports</title>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+
+  <!-- Font Awesome (icons) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <!-- html2canvas for capturing table as image -->
+  <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
-
 <body>
-    <div class="container">
+  <div class="page-wrap">
 
-        <h1>Reports</h1>
-        <p class="subtitle">Mostly Automated Reports</p>
+    <!-- LEFT SIDEBAR -->
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>VULCAN</h1>
+        <p class="subtitle-small">Reports</p>
+      </div>
 
-        <!-- Navigation Buttons -->
-        <div class="nav-buttons">
-            <a href="index.html" class="nav-btn">Home</a>
-            <a href="back-nights.html" class="nav-btn">Back Half Nights</a>
-            <a href="reports.html" class="nav-btn">Reports</a>
+      <nav class="side-nav">
+        <button class="side-tab active" data-target="tab-sos">
+          <i class="fa-solid fa-play"></i> Start of Shift
+        </button>
+
+        <button class="side-tab" data-target="tab-hourly">
+          <i class="fa-solid fa-clock"></i> Hourly
+        </button>
+
+        <button class="side-tab" data-target="tab-cuts">
+          <i class="fa-solid fa-tachometer-alt"></i> CUTs & Dwells
+        </button>
+
+        <button class="side-tab" data-target="tab-yard">
+          <i class="fa-solid fa-warehouse"></i> Yard Freight Mix
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <a href="index.html" class="side-link"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="back-nights.html" class="side-link"><i class="fa-solid fa-user-clock"></i> Back Nights</a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+      <header class="main-header">
+        <div>
+          <h2 id="page-title">Reports</h2>
+          <p class="subtitle">Mostly automated reports — select a tab on the left</p>
         </div>
 
-        <section class="report-section">
-            <h2>Start of Shift (SOS)</h2>
+        <div class="header-actions">
+          <button id="refreshBtn" class="nav-btn small" title="Refresh data">
+            <i class="fa-solid fa-sync"></i>
+          </button>
+        </div>
+      </header>
 
-            <table>
+      <!-- Notification / toast -->
+      <div id="toast" class="toast" aria-live="polite" role="status"></div>
+
+      <!-- TABS CONTENT -->
+      <section id="tab-sos" class="report-tab active">
+        <div class="report-controls">
+          <div class="left-controls">
+            <button class="nav-btn" data-action="copy-data" data-target="sos-table">
+              <i class="fa-solid fa-copy"></i> Copy Table Data
+            </button>
+            <button class="nav-btn" data-action="copy-image" data-target="sos-table">
+              <i class="fa-solid fa-file-image"></i> Copy Table as Image
+            </button>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <h3>Start of Shift (SOS)</h3>
+
+          <div class="table-wrap">
+            <table id="sos-table" class="dark-table">
+              <thead>
                 <tr><th>Description</th><th>Count</th></tr>
-                <!--Live portion of the SOS-->
+              </thead>
+              <tbody>
+                <!-- Live -->
                 <tr><td>LIVE In-door Roll-overs</td><td id="liveInDoorRollovers">0</td></tr>
                 <tr><td>LIVE Standby Roll-overs</td><td id="liveStandbyRollovers">0</td></tr>
                 <tr><td>TOTAL LIVE ROLL-OVERS</td><td id="totalLiveRollovers">0</td></tr>
-                <tr><td>LIVE FLOORLOADS EXPECTED ARRIVAL:</td><td id="liveFloorloadsExpected">0</td></tr>
-                <tr><td>Live Floorloads in Doors:</td><td id="liveFloorloadsInDoors">0</td></tr>
-                <tr><td>LIVE PALLET LOADS EXPECTED ARRIVAL:</td><td id="livePalletLoadsExpected">0</td></tr>
-                <tr><td>Live Pallets in Doors:</td><td id="livePalletsInDoors">0</td></tr>
-                <tr><td>Total Lives EXPECTED Arrival:</td><td id="totalLivesExpected">0</td></tr>
-                <!--Parcel portion of the SOS-->
-                <tr><td>Parcels in Doors:</td><td id="parcelInDoors">0</td></tr>
-                <tr><td>Parcels Onsite:</td><td id="parcelOnsite">0</td></tr>
-                <tr><td>Parcels Offsite:</td><td id="parcelsOffsite">0</td></tr>
-                <tr><td>Total # of Parcels Available:</td><td id="totalParcelsAvailable">0</td></tr>
-                <!--Drop floorload portion of the SOS-->
-                <tr><td>DROP FLOORLOADS EXPECTED ARRIVAL:</td><td id="dropFloorloadsExpected">0</td></tr>
-                <tr><td>Drops Floorloads in Doors:</td><td id="dropFloorloadsInDoors">0</td></tr>
-                <tr><td>Drops Floorloads Onsite:</td><td id="dropFloorloadsOnsite">0</td></tr>
-                <tr><td>Drops Floorloads Offsite:</td><td id="dropFloorloadsOffsite">0</td></tr>
-                <tr><td>Total # of Drop Floorloads Available:</td><td id="totalDropFloorAvailable">0</td></tr>
-                <!--Drop Pallet portion of the SOS-->
-                <tr><td>DROP PALLETS EXPECTED ARRIVAL:</td><td id="dropPalletsExpected">0</td></tr>
-                <tr><td>Drop Pallets in Doors:</td><td id="dropPalletsInDoors">0</td></tr>
-                <tr><td>Drop Pallets Onsite:</td><td id="dropPalletsOnsite">0</td></tr>
-                <tr><td>Drop Pallets Offsite:</td><td id="dropPalletsOffsite">0</td></tr>
-                <tr><td>Total # of Drop Pallet Loads Available:</td><td id="totalDropPalletAvailable">0</td></tr>
-                <!--Transship portion of the SOS-->
-                <tr><td>Transship Floorloads in Doors:</td><td id="transFloorloadsInDoors">0</td></tr>
-                <tr><td>Transship Floorloads Onsite:</td><td id="transFloorloadsOnsite">0</td></tr>
-                <tr><td>Transship Floorloads Offsite:</td><td id="transFloorloadsOffsite">0</td></tr>
-                <tr><td>Transship Pallets in Doors:</td><td id="transPalletsInDoors">0</td></tr>
-                <tr><td>Transship Pallets Onsite:</td><td id="transPalletsOnsite">0</td></tr>
-                <tr><td>Transship Pallets Offsite:</td><td id="transPalletsOffsite">0</td></tr>
-                <tr><td>Total # of Transhipment Trailers Available:</td><td id="transTotalTrailerAvailable">0</td></tr>
-                <!--Units portion of the SOS-->
-                <tr><td>Total Available Drop/Live Units:</td><td id="totalDropLiveUnits">0</td></tr>
-                <tr><td>Total Available Transship Units:</td><td id="totalTransshipUnits">0</td></tr>
-                <tr><td>Total Units Available:</td><td id="totalUnitsAvailable">0</td></tr>
-                <!--Oldest Appointment portion of the SOS-->
-                <tr><td>Oldest Appointment in Yard:</td><td id="oldestIsa">0</td></tr>
-                <tr><td>Location of Oldest Appointment in Yard:</td><td id="oldestIsaLocation">0</td></tr>
-                <tr><td>Time Dwelling</td><td id="oldestIsaDwellTime">0</td></tr>
-                <!--Bottom portion of the SOS-->
-                <tr><td># of Empty Slips Available:</td><td id="totalEmptySlips">0</td></tr>
-                <tr><td># of AZNG > 72 Hours:</td><td id="azngPast72Hrs">0</td></tr>
+                <tr><td>LIVE FLOORLOADS EXPECTED ARRIVAL</td><td id="liveFloorloadsExpected">0</td></tr>
+                <tr><td>Live Floorloads in Doors</td><td id="liveFloorloadsInDoors">0</td></tr>
+                <tr><td>LIVE PALLET LOADS EXPECTED ARRIVAL</td><td id="livePalletLoadsExpected">0</td></tr>
+                <tr><td>Live Pallets in Doors</td><td id="livePalletsInDoors">0</td></tr>
+                <tr><td>Total Lives EXPECTED Arrival</td><td id="totalLivesExpected">0</td></tr>
+
+                <!-- Parcels -->
+                <tr><td>Parcels in Doors</td><td id="parcelInDoors">0</td></tr>
+                <tr><td>Parcels Onsite</td><td id="parcelOnsite">0</td></tr>
+                <tr><td>Parcels Offsite</td><td id="parcelsOffsite">0</td></tr>
+                <tr><td>Total # of Parcels Available</td><td id="totalParcelsAvailable">0</td></tr>
+
+                <!-- Drops Floorloads -->
+                <tr><td>DROP FLOORLOADS EXPECTED ARRIVAL</td><td id="dropFloorloadsExpected">0</td></tr>
+                <tr><td>Drops Floorloads in Doors</td><td id="dropFloorloadsInDoors">0</td></tr>
+                <tr><td>Drops Floorloads Onsite</td><td id="dropFloorloadsOnsite">0</td></tr>
+                <tr><td>Drops Floorloads Offsite</td><td id="dropFloorloadsOffsite">0</td></tr>
+                <tr><td>Total # of Drop Floorloads Available</td><td id="totalDropFloorAvailable">0</td></tr>
+
+                <!-- Drop Pallets -->
+                <tr><td>DROP PALLETS EXPECTED ARRIVAL</td><td id="dropPalletsExpected">0</td></tr>
+                <tr><td>Drop Pallets in Doors</td><td id="dropPalletsInDoors">0</td></tr>
+                <tr><td>Drop Pallets Onsite</td><td id="dropPalletsOnsite">0</td></tr>
+                <tr><td>Drop Pallets Offsite</td><td id="dropPalletsOffsite">0</td></tr>
+                <tr><td>Total # of Drop Pallet Loads Available</td><td id="totalDropPalletAvailable">0</td></tr>
+
+                <!-- Transship -->
+                <tr><td>Transship Floorloads in Doors</td><td id="transFloorloadsInDoors">0</td></tr>
+                <tr><td>Transship Floorloads Onsite</td><td id="transFloorloadsOnsite">0</td></tr>
+                <tr><td>Transship Floorloads Offsite</td><td id="transFloorloadsOffsite">0</td></tr>
+                <tr><td>Transship Pallets in Doors</td><td id="transPalletsInDoors">0</td></tr>
+                <tr><td>Transship Pallets Onsite</td><td id="transPalletsOnsite">0</td></tr>
+                <tr><td>Transship Pallets Offsite</td><td id="transPalletsOffsite">0</td></tr>
+                <tr><td>Total # of Transhipment Trailers Available</td><td id="transTotalTrailerAvailable">0</td></tr>
+
+                <!-- Units -->
+                <tr><td>Total Available Drop/Live Units</td><td id="totalDropLiveUnits">0</td></tr>
+                <tr><td>Total Available Transship Units</td><td id="totalTransshipUnits">0</td></tr>
+                <tr><td>Total Units Available</td><td id="totalUnitsAvailable">0</td></tr>
+
+                <!-- Oldest appointment -->
+                <tr><td>Oldest Appointment in Yard</td><td id="oldestIsa">--</td></tr>
+                <tr><td>Location of Oldest Appointment in Yard</td><td id="oldestIsaLocation">--</td></tr>
+                <tr><td>Time Dwelling</td><td id="oldestIsaDwellTime">--</td></tr>
+
+                <!-- Bottom -->
+                <tr><td># of Empty Slips Available</td><td id="totalEmptySlips">0</td></tr>
+                <tr><td># of AZNG &gt; 72 Hours</td><td id="azngPast72Hrs">0</td></tr>
+              </tbody>
             </table>
-        </section>
+          </div>
+        </div>
+      </section>
 
-    </div>
+      <!-- HOURLY REPORT -->
+      <section id="tab-hourly" class="report-tab">
+        <div class="report-controls">
+          <div class="left-controls">
+            <button class="nav-btn" data-action="copy-data" data-target="hourly-table">
+              <i class="fa-solid fa-copy"></i> Copy Table Data
+            </button>
+            <button class="nav-btn" data-action="copy-image" data-target="hourly-table">
+              <i class="fa-solid fa-file-image"></i> Copy Table as Image
+            </button>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <h3>Hourly Report</h3>
+
+          <div class="table-wrap">
+            <table id="hourly-table" class="dark-table">
+              <thead><tr><th>Hour</th><th>Appointments</th></tr></thead>
+              <tbody>
+                <!-- Placeholder rows — replace with dynamic values later -->
+                <tr><td>00:00 - 00:59</td><td id="hour-0">0</td></tr>
+                <tr><td>01:00 - 01:59</td><td id="hour-1">0</td></tr>
+                <tr><td>02:00 - 02:59</td><td id="hour-2">0</td></tr>
+                <tr><td>03:00 - 03:59</td><td id="hour-3">0</td></tr>
+                <tr><td>04:00 - 04:59</td><td id="hour-4">0</td></tr>
+                <tr><td>05:00 - 05:59</td><td id="hour-5">0</td></tr>
+                <tr><td>06:00 - 06:59</td><td id="hour-6">0</td></tr>
+                <tr><td>07:00 - 07:59</td><td id="hour-7">0</td></tr>
+                <tr><td>08:00 - 08:59</td><td id="hour-8">0</td></tr>
+                <tr><td>09:00 - 09:59</td><td id="hour-9">0</td></tr>
+                <tr><td>10:00 - 10:59</td><td id="hour-10">0</td></tr>
+                <tr><td>11:00 - 11:59</td><td id="hour-11">0</td></tr>
+                <tr><td>12:00 - 12:59</td><td id="hour-12">0</td></tr>
+                <tr><td>13:00 - 13:59</td><td id="hour-13">0</td></tr>
+                <tr><td>14:00 - 14:59</td><td id="hour-14">0</td></tr>
+                <tr><td>15:00 - 15:59</td><td id="hour-15">0</td></tr>
+                <tr><td>16:00 - 16:59</td><td id="hour-16">0</td></tr>
+                <tr><td>17:00 - 17:59</td><td id="hour-17">0</td></tr>
+                <tr><td>18:00 - 18:59</td><td id="hour-18">0</td></tr>
+                <tr><td>19:00 - 19:59</td><td id="hour-19">0</td></tr>
+                <tr><td>20:00 - 20:59</td><td id="hour-20">0</td></tr>
+                <tr><td>21:00 - 21:59</td><td id="hour-21">0</td></tr>
+                <tr><td>22:00 - 22:59</td><td id="hour-22">0</td></tr>
+                <tr><td>23:00 - 23:59</td><td id="hour-23">0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- CUTs & DWELLS -->
+      <section id="tab-cuts" class="report-tab">
+        <div class="report-controls">
+          <div class="left-controls">
+            <button class="nav-btn" data-action="copy-data" data-target="cuts-table">
+              <i class="fa-solid fa-copy"></i> Copy Table Data
+            </button>
+            <button class="nav-btn" data-action="copy-image" data-target="cuts-table">
+              <i class="fa-solid fa-file-image"></i> Copy Table as Image
+            </button>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <h3>CUTs & Dwells</h3>
+
+          <div class="table-wrap">
+            <table id="cuts-table" class="dark-table">
+              <thead><tr><th>Appointment ID</th><th>Type</th><th>Scheduled</th><th>Dwell (min)</th></tr></thead>
+              <tbody>
+                <tr><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- YARD -->
+      <section id="tab-yard" class="report-tab">
+        <div class="report-controls">
+          <div class="left-controls">
+            <button class="nav-btn" data-action="copy-data" data-target="yard-table">
+              <i class="fa-solid fa-copy"></i> Copy Table Data
+            </button>
+            <button class="nav-btn" data-action="copy-image" data-target="yard-table">
+              <i class="fa-solid fa-file-image"></i> Copy Table as Image
+            </button>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <h3>Yard Freight Mix (Breakdown)</h3>
+
+          <div class="table-wrap">
+            <table id="yard-table" class="dark-table">
+              <thead><tr><th>Category</th><th>Count</th></tr></thead>
+              <tbody>
+                <tr><td>Floorloads</td><td id="yard-floorloads">0</td></tr>
+                <tr><td>Pallets</td><td id="yard-pallets">0</td></tr>
+                <tr><td>Parcels</td><td id="yard-parcels">0</td></tr>
+                <tr><td>Transship Units</td><td id="yard-trans">0</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- External JS (separate) -->
+  <script src="reports.js"></script>
 </body>
-
 </html>
