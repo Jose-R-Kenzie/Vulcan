@@ -1,117 +1,95 @@
+/* General Page Styling */
 body {
+    font-family: Arial, sans-serif;
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
-    color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 2rem;
-  }
-  
-  .container {
-    text-align: center;
-    max-width: 800px;
-    width: 100%;
-  }
-  
-  h1 {
-    font-size: 3rem;
-    margin-bottom: 0.5rem;
-    letter-spacing: 2px;
-    animation: fadeIn 1.5s ease-in;
-  }
-  
-  .subtitle {
-    font-size: 1.2rem;
-    color: #bbbbbb;
-    margin-bottom: 2rem;
-  }
-  
-  .nav-buttons {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem;
-    margin-top: 2rem;
-  }
-  
-  .nav-btn {
-    padding: 1rem 1.5rem;
-    border: none;
-    border-radius: 8px;
+    background: #f4f4f4;
+}
+
+/* Header Navigation */
+header {
+    background: #1f4e79;
+    color: white;
+    padding: 15px 20px;
+}
+
+header h1 {
+    margin: 0 0 10px 0;
+}
+
+nav a {
+    color: white;
+    margin-right: 15px;
     text-decoration: none;
     font-weight: bold;
-    color: white;
-    background: linear-gradient(135deg, #ff6a00, #ee0979);
-    transition: transform 0.2s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-  }
-  
-  .nav-btn:hover {
-    transform: scale(1.05);
-  }
-  
-  .upload-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-  
-  .upload-form input[type="file"] {
-    padding: 0.5rem;
-    border-radius: 5px;
-    border: none;
-    background-color: #2a2a2a;
-    color: #f0f0f0;
-  }
-  
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-  
-  @media (max-width: 600px) {
-    h1 {
-      font-size: 2rem;
-    }
-  
-    .nav-buttons {
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-  
-    .nav-btn {
-      width: 80%;
-      margin: 0 auto;
-    }
-  }
-  .report-section {
-    margin: 2rem 0;
-    padding: 1rem;
-    background-color: #1a1a1a;
-    border-radius: 8px;
-  }
-  
-  table {
+}
+
+nav a.active {
+    text-decoration: underline;
+}
+
+/* Main Content */
+main {
+    padding: 20px;
+}
+
+/* Report Section */
+.report-section {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    max-width: 900px;
+    margin: auto;
+}
+
+/* SOS Table */
+.sos-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 1rem;
-  }
-  
-  th, td {
-    padding: 0.75rem;
-    border: 1px solid #444;
-    text-align: center;
-    background-color: #1f1f1f;
-    color: #f0f0f0;
-  }
-  
-  th {
-    background-color: #333;
-  }
+    background: #ffffff;
+    font-size: 14px;
+}
+
+.sos-table th {
+    background: #1f4e79;
+    color: white;
+    padding: 10px;
+    text-align: left;
+}
+
+.sos-table td {
+    padding: 8px;
+    border-bottom: 1px solid #ccc;
+}
+
+.sos-table tr:nth-child(even) {
+    background: #f2f2f2;
+}
+
+.sos-table td:last-child {
+    text-align: right;
+    font-weight: bold;
+}
+
+/* Responsive (Mobile-Friendly) */
+@media (max-width: 600px) {
+    .sos-table td {
+        display: block;
+        text-align: left;
+    }
+
+    .sos-table td:last-child {
+        text-align: left;
+        padding-top: 0;
+    }
+
+    .sos-table tr {
+        margin-bottom: 15px;
+        display: block;
+        border-bottom: 2px solid #ddd;
+    }
+
+    .sos-table th {
+        display: none;
+    }
+}
