@@ -164,33 +164,55 @@
 
           <div class="table-wrap">
             <table id="hourly-table" class="dark-table">
-              <thead><tr><th>Hour</th><th>Appointments</th></tr></thead>
+              <thead><tr><th>Description</th><th>Count</th></tr></thead>
               <tbody>
                 <!-- Placeholder rows — replace with dynamic values later -->
-                <tr><td>00:00 - 00:59</td><td id="hour-0">0</td></tr>
-                <tr><td>01:00 - 01:59</td><td id="hour-1">0</td></tr>
-                <tr><td>02:00 - 02:59</td><td id="hour-2">0</td></tr>
-                <tr><td>03:00 - 03:59</td><td id="hour-3">0</td></tr>
-                <tr><td>04:00 - 04:59</td><td id="hour-4">0</td></tr>
-                <tr><td>05:00 - 05:59</td><td id="hour-5">0</td></tr>
-                <tr><td>06:00 - 06:59</td><td id="hour-6">0</td></tr>
-                <tr><td>07:00 - 07:59</td><td id="hour-7">0</td></tr>
-                <tr><td>08:00 - 08:59</td><td id="hour-8">0</td></tr>
-                <tr><td>09:00 - 09:59</td><td id="hour-9">0</td></tr>
-                <tr><td>10:00 - 10:59</td><td id="hour-10">0</td></tr>
-                <tr><td>11:00 - 11:59</td><td id="hour-11">0</td></tr>
-                <tr><td>12:00 - 12:59</td><td id="hour-12">0</td></tr>
-                <tr><td>13:00 - 13:59</td><td id="hour-13">0</td></tr>
-                <tr><td>14:00 - 14:59</td><td id="hour-14">0</td></tr>
-                <tr><td>15:00 - 15:59</td><td id="hour-15">0</td></tr>
-                <tr><td>16:00 - 16:59</td><td id="hour-16">0</td></tr>
-                <tr><td>17:00 - 17:59</td><td id="hour-17">0</td></tr>
-                <tr><td>18:00 - 18:59</td><td id="hour-18">0</td></tr>
-                <tr><td>19:00 - 19:59</td><td id="hour-19">0</td></tr>
-                <tr><td>20:00 - 20:59</td><td id="hour-20">0</td></tr>
-                <tr><td>21:00 - 21:59</td><td id="hour-21">0</td></tr>
-                <tr><td>22:00 - 22:59</td><td id="hour-22">0</td></tr>
-                <tr><td>23:00 - 23:59</td><td id="hour-23">0</td></tr>
+                <tr><td>Live Floorloads Completed</td><td id="hourly-liveFloorloadsCompleted">6</td></tr>
+                <tr><td>Live Floorloads Pending Arrival</td><td id="hourly-liveFloorloadsPending">0</td></tr>
+                <tr><td>Live Floorloads in Doors</td><td id="hourly-liveFloorloadsDoors">4</td></tr>
+                <tr><td>Live Pallets Completed</td><td id="hourly-livePalletsCompleted">3</td></tr>
+                <tr><td>Live Box Trucks Completed</td><td id="hourly-liveBoxTrucksCompleted">2</td></tr>
+                <tr><td>Live Pallets Pending Arrival</td><td id="hourly-livePalletsPending">0</td></tr>
+                <tr><td>Live Pallets in Doors</td><td id="hourly-livePalletsDoors">2</td></tr>
+                <tr><td>Total Lives Completed</td><td id="hourly-totalLivesCompleted">11</td></tr>
+                <tr><td>Total Lives Pending Arrival</td><td id="hourly-totalLivesPending">0</td></tr>
+                <tr><td>Lives in Line</td><td id="hourly-livesInLine">0</td></tr>
+                <tr><td>NCNS Lives</td><td id="hourly-ncnsLives">1</td></tr>
+                <tr><td>Refused</td><td id="hourly-refused">0</td></tr>
+                <tr><td>Rescheduled</td><td id="hourly-rescheduled">2</td></tr>
+                <tr><td># of Parcels Completed</td><td id="hourly-parcelsCompleted">0</td></tr>
+                <tr><td>Parcels in Doors</td><td id="hourly-parcelsDoors">0</td></tr>
+                <tr><td>Parcels Onsite</td><td id="hourly-parcelsOnsite">2</td></tr>
+                <tr><td>Parcels Offsite</td><td id="hourly-parcelsOffsite">0</td></tr>
+                <tr><td>Parcels offsite Yellow/Red Tagged</td><td id="hourly-parcelsTagged">-</td></tr>
+                <tr><td>Total # of Parcels Available</td><td id="hourly-totalParcelsAvailable">2</td></tr>
+                <tr><td>Drop Floorloads in Doors</td><td id="hourly-dropFloorloadsDoors">3</td></tr>
+                <tr><td>Drop Floorloads Onsite</td><td id="hourly-dropFloorloadsOnsite">3</td></tr>
+                <tr><td>Drop Floorloads Offsite</td><td id="hourly-dropFloorloadsOffsite">28</td></tr>
+                <tr><td>Drop Floorloads offsite Yellow/Red Tagged</td><td id="hourly-dropFloorloadsTagged">-</td></tr>
+                <tr><td>Total # of Drop Floorloads Completed</td><td id="hourly-totalDropFloorloadsCompleted">2</td></tr>
+                <tr><td>Drop Pallet in Doors</td><td id="hourly-dropPalletDoors">2</td></tr>
+                <tr><td>Drop Pallet Onsite</td><td id="hourly-dropPalletOnsite">3</td></tr>
+                <tr><td>Drop Pallet Offsite</td><td id="hourly-dropPalletOffsite">61</td></tr>
+                <tr><td>Drop Pallet offsite Yellow/Red Tagged</td><td id="hourly-dropPalletTagged">-</td></tr>
+                <tr><td>Total # of Drop Pallet Completed</td><td id="hourly-totalDropPalletCompleted">7</td></tr>
+                <tr><td>Transship Floorloads in Doors</td><td id="hourly-transFloorloadsDoors">14</td></tr>
+                <tr><td>Transship Floorloads in Yard(s)</td><td id="hourly-transFloorloadsYard">32</td></tr>
+                <tr><td>Transship Pallet in Doors</td><td id="hourly-transPalletDoors">6</td></tr>
+                <tr><td>Transship Pallet in Yard(s)</td><td id="hourly-transPalletYard">54</td></tr>
+                <tr><td>Transships in Yard(s) Yellow/Red Tagged</td><td id="hourly-transTagged">-</td></tr>
+                <tr><td># of Transhipments Available</td><td id="hourly-transAvailable">106</td></tr>
+                <tr><td>Total # of Ti Floorloads Completed</td><td id="hourly-tiFloorloadsCompleted">25</td></tr>
+                <tr><td>Total # of Ti Pallet Completed</td><td id="hourly-tiPalletCompleted">9</td></tr>
+                <tr><td>Total Available Transhipment IXD Units</td><td id="hourly-transIXDUnits">2,216,961</td></tr>
+                <tr><td>Total Available Drop/Live Units</td><td id="hourly-dropLiveUnits">2,114,335</td></tr>
+                <tr><td>Longest Hostler Move</td><td id="hourly-longestHostlerMove">1 hr &amp; 1 min</td></tr>
+                <tr><td>Oldest Appointment</td><td id="hourly-oldestAppointment">1684693642</td></tr>
+                <tr><td>Location of Oldest Appointment</td><td id="hourly-oldestLocation">NX-OSY169 LIVES</td></tr>
+                <tr><td>Time Dwelling In Hours</td><td id="hourly-dwellHours">346</td></tr>
+                <tr><td># of Empty Slips Available</td><td id="hourly-emptySlips">1</td></tr>
+                <tr><td># of AZNG &gt;72 Hours</td><td id="hourly-azngPast72">61</td></tr>
+                <tr><td>Total ISA's Closed for Shift</td><td id="hourly-totalISAsClosed">54</td></tr>
               </tbody>
             </table>
           </div>
