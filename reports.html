@@ -236,10 +236,22 @@
           <h3>CUTs & Dwells</h3>
 
           <div class="table-wrap">
-            <table id="cuts-table" class="dark-table">
-              <thead><tr><th>Appointment ID</th><th>Type</th><th>Scheduled</th><th>Dwell (min)</th></tr></thead>
+            <table id="cuts-dwells-table" class="dark-table">
+              <thead>
+                <tr>
+                    <th>Description</th>
+                    <th>CUTs</th>
+                    <th>Dwells</th>
+                    <th>Notes</th>
+                </tr>
+              </thead>
               <tbody>
-                <tr><td>--</td><td>--</td><td>--</td><td>--</td></tr>
+                <tr><td>Closed</td><td id="cuts-closed">2</td><td id="dwells-closed">27</td><td></td></tr>
+                <tr><td>Open</td><td id="cuts-open">7</td><td id="dwells-open">148</td><td></td></tr>
+                <tr><td>In-door</td><td id="cuts-indoor">0</td><td id="dwells-indoor">16</td><td></td></tr>
+                <tr><td>Onsite</td><td id="cuts-onsite">0</td><td id="dwells-onsite">15</td><td></td></tr>
+                <tr><td>Offsite</td><td id="cuts-offsite">7</td><td id="dwells-offsite">117</td><td></td></tr>
+                <tr><td>Red/Yellow Tagged</td><td id="cuts-tagged">0</td><td id="dwells-tagged">4</td><td></td></tr>
               </tbody>
             </table>
           </div>
