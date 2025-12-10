@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lives | VULCAN</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div class="page-wrap">
+
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="brand">
+        <h1>VULCAN</h1>
+        <p class="subtitle-small">Lives</p>
+      </div>
+
+      <nav class="side-nav">
+        <a href="reports.html" class="side-tab"><i class="fas fa-chart-line"></i> Reports</a>
+        <a href="back-nights.html" class="side-tab"><i class="fas fa-user-clock"></i> Back Nights</a>
+        <a href="upload.html" class="side-tab"><i class="fas fa-file-upload"></i> Upload</a>
+        <a href="index.html" class="side-tab"><i class="fas fa-home"></i> Home</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <header class="main-header">
+        <div>
+          <h2>Live Appointments</h2>
+          <p class="subtitle">Tracking Pending, Standby, In-Doors, Closed, NCNS, Refused, Rescheduled</p>
+        </div>
+      </header>
+
+      <!-- Pending -->
+      <section class="report-section">
+        <h3>Pending</h3>
+        <div class="table-wrap">
+          <table class="dark-table">
+            <thead>
+              <tr>
+                <th>ISA</th><th>Status</th><th>SCAC</th><th>Constraint</th>
+                <th>Expected Arrival</th><th>Pallets</th><th>Cartons</th><th>Units</th>
+                <th>Arrived</th><th>Sent</th><th>Freight Type</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td colspan="11">No pending appointments</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Standby -->
+      <section class="report-section">
+        <h3>Standby</h3>
+        <div class="table-wrap">
+          <table class="dark-table">
+            <thead><tr><th>ISA</th><th>Status</th><th>SCAC</th><th>Expected Arrival</th><th>Slip</th><th>Arrived</th><th>Sent</th></tr></thead>
+            <tbody><tr><td colspan="7">No standby appointments</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- In-Doors -->
+      <section class="report-section">
+        <h3>In-Doors</h3>
+        <div class="table-wrap">
+          <table class="dark-table">
+            <thead><tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Sent</th><th>Freight Type</th></tr></thead>
+            <tbody><tr><td colspan="5">No in-door appointments</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Closed -->
+      <section class="report-section">
+        <h3>Closed</h3>
+        <div class="table-wrap">
+          <table class="dark-table">
+            <thead><tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Freight Type</th></tr></thead>
+            <tbody><tr><td colspan="5">No closed appointments</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- NCNS -->
+      <section class="report-section">
+        <h3>No Call No Show (NCNS)</h3>
+        <div class="table-wrap">
+          <table class="dark-table">
+            <thead><tr><th>ISA</th><th>Expected Arrival</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="3">No NCNS appointments</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Refused -->
+      <section class="report-section">
+        <h3>Refused</h3>
+        <div class="table-wrap">
+          <table class="dark-table">
+            <thead><tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected Arrival</th></tr></thead>
+            <tbody><tr><td colspan="4">No refused appointments</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Rescheduled -->
+      <section class="report-section">
+        <h3>Rescheduled</h3>
+        <div class="table-wrap">
+          <table class="dark-table">
+            <thead><tr><th>ISA</th><th>Original Arrival</th><th>New Arrival</th><th>Status</th></tr></thead>
+            <tbody><tr><td colspan="4">No rescheduled appointments</td></tr></tbody>
+          </table>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>
