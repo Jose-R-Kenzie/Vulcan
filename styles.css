@@ -140,6 +140,19 @@
     font-size: 0.95rem;
   }
   
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+  .nav-btn {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1.5rem;
+  }
+  
   /* header actions (refresh) */
   .header-actions {
     display:flex;
@@ -147,7 +160,7 @@
     align-items:center;
   }
   
-  /* gradient button (matches your nav-btn) */
+  /* gradient button (matches nav-btn) */
   .nav-btn {
     padding: 0.6rem 0.9rem;
     border-radius: 8px;
