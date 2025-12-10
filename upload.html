@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Upload Files | VULCAN</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>Upload Documents</h1>
+    <p class="subtitle">Convert Excel files into JSON and CRUD‑ready spreadsheets</p>
+
+    <!-- Upload Form: Lives -->
+    <form class="upload-form">
+      <label for="lives">Upload Lives File:</label>
+      <input type="file" id="lives" name="lives" accept=".xlsx,.xls" />
+      <button type="submit" class="nav-btn"><i class="fas fa-file-upload"></i> Process Lives</button>
+    </form>
+
+    <!-- Upload Form: NVF -->
+    <form class="upload-form">
+      <label for="nvf">Upload NVF File:</label>
+      <input type="file" id="nvf" name="nvf" accept=".xlsx,.xls" />
+      <button type="submit" class="nav-btn"><i class="fas fa-file-upload"></i> Process NVF</button>
+    </form>
+
+    <!-- Upload Form: Transship -->
+    <form class="upload-form">
+      <label for="transship">Upload Transship File:</label>
+      <input type="file" id="transship" name="transship" accept=".xlsx,.xls" />
+      <button type="submit" class="nav-btn"><i class="fas fa-file-upload"></i> Process Transship</button>
+    </form>
+
+    <!-- Navigation -->
+    <nav class="nav-buttons">
+      <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Back to Home</a>
+      <a href="reports.html" class="nav-btn"><i class="fas fa-chart-line"></i> Reports</a>
+      <a href="back-nights.html" class="nav-btn"><i class="fas fa-user-clock"></i> Back Nights</a>
+    </nav>
+  </div>
+</body>
+</html>

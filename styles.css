@@ -148,6 +148,7 @@
 
   .nav-btn {
     display: flex;
+    flex-wrap: wrap; /*Allows wrapping on small screens*/
     justify-content: center;
     gap: 1rem;
     margin-top: 1.5rem;
@@ -289,3 +290,20 @@
   /* tiny helper */
   .hidden { display:none; }
   
+  .upload-form {
+  margin: 1.5rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload-form label {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+.upload-form input[type="file"] {
+  flex: 1 1 auto;
+}
