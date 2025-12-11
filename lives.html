@@ -10,14 +10,12 @@
 </head>
 <body>
   <div class="page-wrap">
-
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="brand">
         <h1>VULCAN</h1>
         <p class="subtitle-small">Lives</p>
       </div>
-
       <nav class="side-nav">
         <a href="reports.html" class="side-tab"><i class="fas fa-chart-line"></i> Reports</a>
         <a href="back-nights.html" class="side-tab"><i class="fas fa-user-clock"></i> Back Nights</a>
@@ -26,101 +24,205 @@
       </nav>
     </aside>
 
-    <!-- Main Content -->
+    <!-- Main content -->
     <main class="main-content">
       <header class="main-header">
         <div>
-          <h2>Live Appointments</h2>
-          <p class="subtitle">Tracking Pending, Standby, In-Doors, Closed, NCNS, Refused, Rescheduled</p>
+          <h2>Live appointments</h2>
+          <p class="subtitle">Pending, In-Doors, Standby, Closed, NCNS, Refused, Rescheduled</p>
+        </div>
+        <div class="header-actions">
+          <button id="livesRefreshBtn" class="nav-btn small" title="Refresh">
+            <i class="fa-solid fa-sync"></i>
+          </button>
         </div>
       </header>
 
-      <!-- Pending -->
+      <!-- Row 1: Pending (left) + In-Doors (right) -->
+      <section class="grid-2">
+        <div class="report-section">
+          <div class="section-header">
+            <h3>Pending</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="pending-table"><i class="fa-solid fa-plus"></i> Add row</button>
+              <button class="nav-btn small" data-paste="pending-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+            </div>
+          </div>
+          <div class="table-wrap fixed-rows-20">
+            <table id="pending-table" class="dark-table editable">
+              <thead>
+                <tr>
+                  <th>ISA</th><th>Status</th><th>SCAC</th><th>Constraint</th>
+                  <th>Expected</th><th>Pallets</th><th>Cartons</th><th>Units</th>
+                  <th>Arrived</th><th>Sent</th><th>Freight</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="11">No pending appointments</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <div class="section-header">
+            <h3>In-Doors</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="indoors-table"><i class="fa-solid fa-plus"></i> Add row</button>
+              <button class="nav-btn small" data-paste="indoors-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+            </div>
+          </div>
+          <div class="table-wrap fixed-rows-20">
+            <table id="indoors-table" class="dark-table editable">
+              <thead>
+                <tr>
+                  <th>Door</th><th>ISA</th><th>Arrived</th><th>Sent</th><th>Freight</th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Populated with DD05–DD65 (excluding emergency/compactor) -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- Row 2: Standby (full-width) -->
       <section class="report-section">
-        <h3>Pending</h3>
-        <div class="table-wrap">
-          <table class="dark-table">
+        <div class="section-header">
+          <h3>Standby</h3>
+          <div class="section-actions">
+            <button class="nav-btn small" data-add="standby-table"><i class="fa-solid fa-plus"></i> Add row</button>
+            <button class="nav-btn small" data-paste="standby-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+          </div>
+        </div>
+        <div class="table-wrap fixed-rows-13">
+          <table id="standby-table" class="dark-table editable">
             <thead>
-              <tr>
-                <th>ISA</th><th>Status</th><th>SCAC</th><th>Constraint</th>
-                <th>Expected Arrival</th><th>Pallets</th><th>Cartons</th><th>Units</th>
-                <th>Arrived</th><th>Sent</th><th>Freight Type</th>
-              </tr>
+              <tr><th>ISA</th><th>Status</th><th>SCAC</th><th>Expected</th><th>Slip</th><th>Arrived</th><th>Sent</th></tr>
             </thead>
             <tbody>
-              <tr><td colspan="11">No pending appointments</td></tr>
+              <tr><td colspan="7">No standby appointments</td></tr>
             </tbody>
           </table>
         </div>
       </section>
 
-      <!-- Standby -->
-      <section class="report-section">
-        <h3>Standby</h3>
-        <div class="table-wrap">
-          <table class="dark-table">
-            <thead><tr><th>ISA</th><th>Status</th><th>SCAC</th><th>Expected Arrival</th><th>Slip</th><th>Arrived</th><th>Sent</th></tr></thead>
-            <tbody><tr><td colspan="7">No standby appointments</td></tr></tbody>
-          </table>
+      <!-- Row 3: Closed Floor loads + Closed Pallet loads -->
+      <section class="grid-2">
+        <div class="report-section">
+          <div class="section-header">
+            <h3>Closed — Floor loads</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="closed-floor-table"><i class="fa-solid fa-plus"></i> Add row</button>
+              <button class="nav-btn small" data-paste="closed-floor-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="closed-floor-table" class="dark-table editable">
+              <thead><tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Cartons</th></tr></thead>
+              <tbody><tr><td colspan="5">No closed floor loads</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <div class="section-header">
+            <h3>Closed — Pallet loads</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="closed-pallet-table"><i class="fa-solid fa-plus"></i> Add row</button>
+              <button class="nav-btn small" data-paste="closed-pallet-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="closed-pallet-table" class="dark-table editable">
+              <thead><tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Freight</th></tr></thead>
+              <tbody><tr><td colspan="5">No closed pallet loads</td></tr></tbody>
+            </table>
+          </div>
         </div>
       </section>
 
-      <!-- In-Doors -->
-      <section class="report-section">
-        <h3>In-Doors</h3>
-        <div class="table-wrap">
-          <table class="dark-table">
-            <thead><tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Sent</th><th>Freight Type</th></tr></thead>
-            <tbody><tr><td colspan="5">No in-door appointments</td></tr></tbody>
-          </table>
+      <!-- Row 4: NCNS + Refused -->
+      <section class="grid-2">
+        <div class="report-section">
+          <div class="section-header">
+            <h3>NCNS</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="ncns-table"><i class="fa-solid fa-plus"></i> Add row</button>
+              <button class="nav-btn small" data-paste="ncns-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="ncns-table" class="dark-table editable">
+              <thead><tr><th>ISA</th><th>Expected</th><th>Status</th></tr></thead>
+              <tbody><tr><td colspan="3">No NCNS appointments</td></tr></tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="report-section">
+          <div class="section-header">
+            <h3>Refused</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="refused-table"><i class="fa-solid fa-plus"></i> Add row</button>
+              <button class="nav-btn small" data-paste="refused-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+            </div>
+          </div>
+          <div class="table-wrap">
+            <table id="refused-table" class="dark-table editable">
+              <thead><tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected</th></tr></thead>
+              <tbody><tr><td colspan="4">No refused appointments</td></tr></tbody>
+            </table>
+          </div>
         </div>
       </section>
 
-      <!-- Closed -->
+      <!-- Bottom: Rescheduled -->
       <section class="report-section">
-        <h3>Closed</h3>
-        <div class="table-wrap">
-          <table class="dark-table">
-            <thead><tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Freight Type</th></tr></thead>
-            <tbody><tr><td colspan="5">No closed appointments</td></tr></tbody>
-          </table>
+        <div class="section-header">
+          <h3>Rescheduled</h3>
+          <div class="section-actions">
+            <button class="nav-btn small" data-add="rescheduled-table"><i class="fa-solid fa-plus"></i> Add row</button>
+            <button class="nav-btn small" data-paste="rescheduled-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+          </div>
         </div>
-      </section>
-
-      <!-- NCNS -->
-      <section class="report-section">
-        <h3>No Call No Show (NCNS)</h3>
         <div class="table-wrap">
-          <table class="dark-table">
-            <thead><tr><th>ISA</th><th>Expected Arrival</th><th>Status</th></tr></thead>
-            <tbody><tr><td colspan="3">No NCNS appointments</td></tr></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Refused -->
-      <section class="report-section">
-        <h3>Refused</h3>
-        <div class="table-wrap">
-          <table class="dark-table">
-            <thead><tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected Arrival</th></tr></thead>
-            <tbody><tr><td colspan="4">No refused appointments</td></tr></tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- Rescheduled -->
-      <section class="report-section">
-        <h3>Rescheduled</h3>
-        <div class="table-wrap">
-          <table class="dark-table">
-            <thead><tr><th>ISA</th><th>Original Arrival</th><th>New Arrival</th><th>Status</th></tr></thead>
+          <table id="rescheduled-table" class="dark-table editable">
+            <thead><tr><th>ISA</th><th>Original</th><th>New</th><th>Status</th></tr></thead>
             <tbody><tr><td colspan="4">No rescheduled appointments</td></tr></tbody>
           </table>
         </div>
       </section>
-
     </main>
+
+    <!-- Right column summary -->
+    <aside class="summary-panel">
+      <div class="report-section">
+        <h3>Hourly — Lives summary</h3>
+        <div class="table-wrap">
+          <table id="hourly-lives-summary" class="dark-table">
+            <tbody>
+              <tr><td>Live Floorloads Completed</td><td id="hl-floor-completed">10</td></tr>
+              <tr><td>Live Floorloads Pending Arrival</td><td id="hl-floor-pending">0</td></tr>
+              <tr><td>Live Floorloads In Doors</td><td id="hl-floor-doors">1</td></tr>
+              <tr><td>Live Pallets Completed</td><td id="hl-pallet-completed">4</td></tr>
+              <tr><td>Live Box Trucks Completed</td><td id="hl-box-completed">2</td></tr>
+              <tr><td>Live Pallets Pending Arrival</td><td id="hl-pallet-pending">1</td></tr>
+              <tr><td>Live Pallets In Doors</td><td id="hl-pallet-doors">1</td></tr>
+              <tr><td>Total Lives Completed</td><td id="hl-total-completed">16</td></tr>
+              <tr><td>Total Lives Pending Arrival</td><td id="hl-total-pending">1</td></tr>
+              <tr><td>Lives in Line</td><td id="hl-line">0</td></tr>
+              <tr><td>NCNS Lives</td><td id="hl-ncns">0</td></tr>
+              <tr><td>Refused</td><td id="hl-refused">1</td></tr>
+              <tr><td>Rescheduled</td><td id="hl-rescheduled">0</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </aside>
   </div>
+
+  <script src="lives.js"></script>
 </body>
 </html>

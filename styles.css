@@ -307,3 +307,60 @@
 .upload-form input[type="file"] {
   flex: 1 1 auto;
 }
+
+/* 2-column content sections inside main */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.9rem;
+}
+
+/* Section header with actions */
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.section-actions { display: flex; gap: 0.5rem; }
+
+/* Editable tables: allow cell editing */
+.editable td { cursor: text; }
+.editable td[contenteditable="true"] { outline: none; }
+
+/* Fixed visible rows (approx by height). Adjust per your row height. */
+.fixed-rows-20 { max-height: 540px; overflow: auto; } /* ~20 rows at ~27px each */
+.fixed-rows-13 { max-height: 351px; overflow: auto; }
+
+/* Right-hand summary panel column in page-wrap */
+.summary-panel {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
+  height: calc(100vh - 3rem);
+  position: sticky;
+  top: 1.25rem;
+  overflow: auto;
+}
+
+/* Make page-wrap 3 columns: sidebar | main | summary */
+.page-wrap {
+  display: grid;
+  grid-template-columns: 260px 1fr 320px;
+  gap: 1.5rem;
+  align-items: start;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+/* Mobile: stack everything */
+@media (max-width: 1100px) {
+  .page-wrap { grid-template-columns: 260px 1fr; }
+  .summary-panel { display: none; } /* hide summary on smaller screens; optional */
+}
+@media (max-width: 900px) {
+  .page-wrap { grid-template-columns: 1fr; }
+  .sidebar { position: relative; height: auto; }
+  .main-content { max-height: none; }
+  .grid-2 { grid-template-columns: 1fr; } /* stack pairs */
+}
