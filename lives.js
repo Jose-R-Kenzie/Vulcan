@@ -1,4 +1,9 @@
 // lives.js
+// Only run this script on the Lives page
+if (!document.querySelector('.main-header h2')?.textContent.includes('Live Appointments')) {
+  console.log('Lives.js: Not on Lives page — script skipped.');
+  return;
+}
 document.addEventListener('DOMContentLoaded', () => {
 
   /* -----------------------------
