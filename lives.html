@@ -22,30 +22,38 @@
       <nav class="side-nav">
         <p class="sidebar-label">Lives Tabs</p>
 
-        <button class="side-tab active" data-target="tab-pending">
+        <button class="side-tab active" data-target="tab-pending-floor">
           Pending Floor Loads <span id="count-pending-floor" class="count">0</span>
         </button>
-        <button class="side-tab" data-target="tab-pending">
+
+        <button class="side-tab" data-target="tab-pending-pallet">
           Pending Palletized <span id="count-pending-pallet" class="count">0</span>
         </button>
+
         <button class="side-tab" data-target="tab-indoors">
           In-Doors <span id="count-indoors" class="count">0</span>
         </button>
+
         <button class="side-tab" data-target="tab-standby">
           Standby <span id="count-standby" class="count">0</span>
         </button>
+
         <button class="side-tab" data-target="tab-closed-floor">
           Closed Floor Loads <span id="count-closed-floor" class="count">0</span>
         </button>
+
         <button class="side-tab" data-target="tab-closed-pallet">
           Closed Pallet Loads <span id="count-closed-pallet" class="count">0</span>
         </button>
+
         <button class="side-tab" data-target="tab-ncns">
           NCNS <span id="count-ncns" class="count">0</span>
         </button>
+
         <button class="side-tab" data-target="tab-refused">
           Refused <span id="count-refused" class="count">0</span>
         </button>
+
         <button class="side-tab" data-target="tab-rescheduled">
           Rescheduled <span id="count-rescheduled" class="count">0</span>
         </button>
@@ -76,10 +84,20 @@
         </div>
       </header>
 
-      <!-- Tabs -->
-      <section id="tab-pending" class="report-tab active">
+      <!-- ========================= -->
+      <!-- TAB: Pending Floor Loads -->
+      <!-- ========================= -->
+      <section id="tab-pending-floor" class="report-tab active">
         <div class="report-section">
-          <h3>Pending</h3>
+
+          <div class="section-header">
+            <h3>Pending Floor Loads</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="pending-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="pending-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
           <div class="table-wrap fixed-rows-20">
             <table id="pending-table" class="dark-table editable">
               <thead>
@@ -94,12 +112,56 @@
               </tbody>
             </table>
           </div>
+
         </div>
       </section>
 
+      <!-- ========================= -->
+      <!-- TAB: Pending Palletized -->
+      <!-- ========================= -->
+      <section id="tab-pending-pallet" class="report-tab">
+        <div class="report-section">
+
+          <div class="section-header">
+            <h3>Pending Palletized</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="pending-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="pending-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
+          <div class="table-wrap fixed-rows-20">
+            <table class="dark-table editable">
+              <thead>
+                <tr>
+                  <th>ISA</th><th>Status</th><th>SCAC</th><th>Constraint</th>
+                  <th>Expected</th><th>Pallets</th><th>Cartons</th><th>Units</th>
+                  <th>Arrived</th><th>Sent</th><th>Freight</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="11">No pending palletized appointments</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================= -->
+      <!-- TAB: In-Doors -->
+      <!-- ========================= -->
       <section id="tab-indoors" class="report-tab">
         <div class="report-section">
-          <h3>In-Doors</h3>
+
+          <div class="section-header">
+            <h3>In-Doors</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="indoors-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="indoors-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
           <div class="table-wrap fixed-rows-49">
             <table id="indoors-table" class="dark-table editable">
               <thead>
@@ -108,12 +170,24 @@
               <tbody></tbody>
             </table>
           </div>
+
         </div>
       </section>
 
+      <!-- ========================= -->
+      <!-- TAB: Standby -->
+      <!-- ========================= -->
       <section id="tab-standby" class="report-tab">
         <div class="report-section">
-          <h3>Standby</h3>
+
+          <div class="section-header">
+            <h3>Standby</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="standby-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="standby-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
           <div class="table-wrap fixed-rows-13">
             <table id="standby-table" class="dark-table editable">
               <thead>
@@ -124,12 +198,24 @@
               </tbody>
             </table>
           </div>
+
         </div>
       </section>
 
+      <!-- ========================= -->
+      <!-- TAB: Closed Floor Loads -->
+      <!-- ========================= -->
       <section id="tab-closed-floor" class="report-tab">
         <div class="report-section">
-          <h3>Closed — Floor Loads</h3>
+
+          <div class="section-header">
+            <h3>Closed — Floor Loads</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="closed-floor-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="closed-floor-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
           <div class="table-wrap">
             <table id="closed-floor-table" class="dark-table editable">
               <thead>
@@ -140,12 +226,24 @@
               </tbody>
             </table>
           </div>
+
         </div>
       </section>
 
+      <!-- ========================= -->
+      <!-- TAB: Closed Pallet Loads -->
+      <!-- ========================= -->
       <section id="tab-closed-pallet" class="report-tab">
         <div class="report-section">
-          <h3>Closed — Pallet Loads</h3>
+
+          <div class="section-header">
+            <h3>Closed — Pallet Loads</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="closed-pallet-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="closed-pallet-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
           <div class="table-wrap">
             <table id="closed-pallet-table" class="dark-table editable">
               <thead>
@@ -156,37 +254,86 @@
               </tbody>
             </table>
           </div>
+
         </div>
       </section>
 
+      <!-- ========================= -->
+      <!-- TAB: NCNS -->
+      <!-- ========================= -->
       <section id="tab-ncns" class="report-tab">
         <div class="report-section">
-          <h3>NCNS</h3>
+
+          <div class="section-header">
+            <h3>NCNS</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="ncns-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="ncns-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
           <div class="table-wrap">
             <table id="ncns-table" class="dark-table editable">
               <thead><tr><th>ISA</th><th>Expected</th><th>Status</th></tr></thead>
               <tbody><tr><td colspan="3">No NCNS appointments</td></tr></tbody>
             </table>
           </div>
+
         </div>
       </section>
 
+      <!-- ========================= -->
+      <!-- TAB: Refused -->
+      <!-- ========================= -->
       <section id="tab-refused" class="report-tab">
         <div class="report-section">
-          <h3>Refused</h3>
+
+          <div class="section-header">
+            <h3>Refused</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="refused-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="refused-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
           <div class="table-wrap">
             <table id="refused-table" class="dark-table editable">
               <thead><tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected</th></tr></thead>
               <tbody><tr><td colspan="4">No refused appointments</td></tr></tbody>
             </table>
           </div>
+
         </div>
       </section>
 
+      <!-- ========================= -->
+      <!-- TAB: Rescheduled -->
+      <!-- ========================= -->
       <section id="tab-rescheduled" class="report-tab">
         <div class="report-section">
-          <h3>Rescheduled</h3>
+
+          <div class="section-header">
+            <h3>Rescheduled</h3>
+            <div class="section-actions">
+              <button class="nav-btn small" data-add="rescheduled-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="rescheduled-table"><i class="fa-solid fa-paste"></i> Paste</button>
+            </div>
+          </div>
+
           <div class="table-wrap">
             <table id="rescheduled-table" class="dark-table editable">
               <thead><tr><th>ISA</th><th>Original</th><th>New</th><th>Status</th></tr></thead>
-              <tbody><tr><td colspan="4">No rescheduled appointments</
+              <tbody><tr><td colspan="4">No rescheduled appointments</td></tr></tbody>
+            </table>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <script src="lives.js"></script>
+</body>
+</html>
