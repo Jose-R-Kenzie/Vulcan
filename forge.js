@@ -1,4 +1,4 @@
-<script src="forge.js"></script>
+
 // Mouse reactive forge lighting
 document.addEventListener("mousemove", (e) => {
   const light = document.querySelector(".mouse-light");
