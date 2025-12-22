@@ -295,3 +295,137 @@ body {
   gap: 1rem;
   flex-wrap: wrap; /* or nowrap if you want them always in one line */
 }
+/* ============================================================
+   VULCAN FORGE — GOD-TIER ENHANCEMENTS
+============================================================ */
+
+/* Forge door opening animation */
+.forge-door {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  z-index: 9999;
+  animation: forgeDoorOpen 1.6s ease-out forwards;
+}
+
+@keyframes forgeDoorOpen {
+  0%   { transform: scaleY(1); opacity: 1; }
+  60%  { transform: scaleY(0.1); opacity: 1; }
+  100% { transform: scaleY(0); opacity: 0; display: none; }
+}
+
+/* Ember field */
+.ember-field {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(circle, rgba(255,120,0,0.4) 0%, transparent 60%),
+    radial-gradient(circle, rgba(255,80,0,0.3) 0%, transparent 70%),
+    radial-gradient(circle, rgba(255,200,0,0.2) 0%, transparent 80%);
+  background-size: 4px 4px, 3px 3px, 2px 2px;
+  animation: emberDrift 22s infinite linear;
+  opacity: 0.25;
+}
+
+@keyframes emberDrift {
+  from { transform: translateY(0); }
+  to   { transform: translateY(-300px); }
+}
+
+/* Glowing anvil behind rune */
+.anvil-glow {
+  position: absolute;
+  width: 140px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(255,120,0,0.5), transparent 70%);
+  filter: blur(18px);
+  transform: translateY(20px);
+  z-index: -1;
+}
+
+/* Rune logo */
+.forge-rune {
+  font-size: 4.5rem;
+  font-weight: 900;
+  letter-spacing: 4px;
+  color: #ffae00;
+  text-shadow:
+    0 0 14px rgba(255,150,0,0.9),
+    0 0 28px rgba(255,80,0,0.7),
+    0 0 50px rgba(255,40,0,0.5);
+  animation: runePulse 3s infinite ease-in-out;
+}
+
+@keyframes runePulse {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.18); }
+  100% { transform: scale(1); }
+}
+
+/* Molten underline */
+.molten-underline {
+  display: block;
+  height: 6px;
+  width: 160px;
+  margin: 0.4rem auto 0.6rem;
+  background: linear-gradient(90deg, #ff6a00, #ffae00, #ff6a00);
+  border-radius: 4px;
+  box-shadow: 0 0 14px rgba(255,120,0,0.7);
+  animation: moltenFlow 3s infinite linear;
+}
+
+@keyframes moltenFlow {
+  0%   { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+/* Molten drip */
+.molten-drip {
+  display: block;
+  width: 10px;
+  height: 18px;
+  margin: 0 auto;
+  background: #ffae00;
+  border-radius: 50%;
+  animation: moltenDrip 2.4s infinite ease-in-out;
+  box-shadow: 0 0 10px rgba(255,120,0,0.7);
+}
+
+@keyframes moltenDrip {
+  0%   { transform: translateY(0) scale(1); opacity: 1; }
+  70%  { transform: translateY(14px) scale(0.8); opacity: 0.8; }
+  100% { transform: translateY(22px) scale(0.4); opacity: 0; }
+}
+
+/* Hammer spark burst on button hover */
+.hero-btn:hover {
+  transform: translateY(-4px) scale(1.03);
+  box-shadow: 0 12px 28px rgba(238,9,121,0.45);
+}
+
+.hero-btn:hover::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(255,200,0,0.4), transparent 70%);
+  animation: sparkBurst 0.25s ease-out;
+}
+
+@keyframes sparkBurst {
+  0%   { opacity: 1; transform: scale(0.4); }
+  100% { opacity: 0; transform: scale(1.8); }
+}
+
+/* Mouse reactive forge lighting */
+.mouse-light {
+  position: fixed;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255,120,0,0.25), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  transform: translate(-50%, -50%);
+  transition: transform 0.08s linear;
+}
