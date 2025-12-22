@@ -93,22 +93,23 @@
           <div class="section-header">
             <h3>Pending Floor Loads</h3>
             <div class="section-actions">
-              <button class="nav-btn small" data-add="pending-table"><i class="fa-solid fa-plus"></i> Add</button>
-              <button class="nav-btn small" data-paste="pending-table"><i class="fa-solid fa-paste"></i> Paste</button>
+              <button class="nav-btn small" data-add="pending-floor-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="pending-floor-table"><i class="fa-solid fa-paste"></i> Paste</button>
             </div>
           </div>
 
           <div class="table-wrap fixed-rows-20">
-            <table id="pending-table" class="dark-table editable">
+            <table id="pending-floor-table" class="dark-table editable">
               <thead>
                 <tr>
-                  <th>ISA</th><th>Status</th><th>SCAC</th><th>Constraint</th>
-                  <th>Expected</th><th>Pallets</th><th>Cartons</th><th>Units</th>
-                  <th>Arrived</th><th>Sent</th><th>Freight</th>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td colspan="11">No pending appointments</td></tr>
+                <tr><td colspan="12">No pending floor load appointments</td></tr>
               </tbody>
             </table>
           </div>
@@ -125,22 +126,23 @@
           <div class="section-header">
             <h3>Pending Palletized</h3>
             <div class="section-actions">
-              <button class="nav-btn small" data-add="pending-table"><i class="fa-solid fa-plus"></i> Add</button>
-              <button class="nav-btn small" data-paste="pending-table"><i class="fa-solid fa-paste"></i> Paste</button>
+              <button class="nav-btn small" data-add="pending-pallet-table"><i class="fa-solid fa-plus"></i> Add</button>
+              <button class="nav-btn small" data-paste="pending-pallet-table"><i class="fa-solid fa-paste"></i> Paste</button>
             </div>
           </div>
 
           <div class="table-wrap fixed-rows-20">
-            <table class="dark-table editable">
+            <table id="pending-pallet-table" class="dark-table editable">
               <thead>
                 <tr>
-                  <th>ISA</th><th>Status</th><th>SCAC</th><th>Constraint</th>
-                  <th>Expected</th><th>Pallets</th><th>Cartons</th><th>Units</th>
-                  <th>Arrived</th><th>Sent</th><th>Freight</th>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
                 </tr>
               </thead>
               <tbody>
-                <tr><td colspan="11">No pending palletized appointments</td></tr>
+                <tr><td colspan="12">No pending palletized appointments</td></tr>
               </tbody>
             </table>
           </div>
@@ -157,7 +159,6 @@
           <div class="section-header">
             <h3>In-Doors</h3>
             <div class="section-actions">
-              <button class="nav-btn small" data-add="indoors-table"><i class="fa-solid fa-plus"></i> Add</button>
               <button class="nav-btn small" data-paste="indoors-table"><i class="fa-solid fa-paste"></i> Paste</button>
             </div>
           </div>
@@ -165,7 +166,12 @@
           <div class="table-wrap fixed-rows-49">
             <table id="indoors-table" class="dark-table editable">
               <thead>
-                <tr><th>Door</th><th>ISA</th><th>Arrived</th><th>Sent</th><th>Freight</th></tr>
+                <tr>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
+                </tr>
               </thead>
               <tbody></tbody>
             </table>
@@ -191,10 +197,15 @@
           <div class="table-wrap fixed-rows-13">
             <table id="standby-table" class="dark-table editable">
               <thead>
-                <tr><th>ISA</th><th>Status</th><th>SCAC</th><th>Expected</th><th>Slip</th><th>Arrived</th><th>Sent</th></tr>
+                <tr>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td colspan="7">No standby appointments</td></tr>
+                <tr><td colspan="12">No standby appointments</td></tr>
               </tbody>
             </table>
           </div>
@@ -219,10 +230,15 @@
           <div class="table-wrap">
             <table id="closed-floor-table" class="dark-table editable">
               <thead>
-                <tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Cartons</th></tr>
+                <tr>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td colspan="5">No closed floor loads</td></tr>
+                <tr><td colspan="12">No closed floor loads</td></tr>
               </tbody>
             </table>
           </div>
@@ -247,10 +263,15 @@
           <div class="table-wrap">
             <table id="closed-pallet-table" class="dark-table editable">
               <thead>
-                <tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Freight</th></tr>
+                <tr>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
+                </tr>
               </thead>
               <tbody>
-                <tr><td colspan="5">No closed pallet loads</td></tr>
+                <tr><td colspan="12">No closed pallet loads</td></tr>
               </tbody>
             </table>
           </div>
@@ -274,8 +295,17 @@
 
           <div class="table-wrap">
             <table id="ncns-table" class="dark-table editable">
-              <thead><tr><th>ISA</th><th>Expected</th><th>Status</th></tr></thead>
-              <tbody><tr><td colspan="3">No NCNS appointments</td></tr></tbody>
+              <thead>
+                <tr>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="12">No NCNS appointments</td></tr>
+              </tbody>
             </table>
           </div>
 
@@ -298,8 +328,17 @@
 
           <div class="table-wrap">
             <table id="refused-table" class="dark-table editable">
-              <thead><tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected</th></tr></thead>
-              <tbody><tr><td colspan="4">No refused appointments</td></tr></tbody>
+              <thead>
+                <tr>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="12">No refused appointments</td></tr>
+              </tbody>
             </table>
           </div>
 
@@ -322,8 +361,17 @@
 
           <div class="table-wrap">
             <table id="rescheduled-table" class="dark-table editable">
-              <thead><tr><th>ISA</th><th>Original</th><th>New</th><th>Status</th></tr></thead>
-              <tbody><tr><td colspan="4">No rescheduled appointments</td></tr></tbody>
+              <thead>
+                <tr>
+                  <th>Door</th><th>ISA</th><th>Status</th><th>SCAC</th>
+                  <th>Constraint</th><th>Expected Arrival</th><th>Pallets</th>
+                  <th>Cartons</th><th>Units</th><th>Arrived</th><th>Sent</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="12">No rescheduled appointments</td></tr>
+              </tbody>
             </table>
           </div>
 

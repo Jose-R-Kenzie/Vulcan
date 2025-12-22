@@ -28,7 +28,8 @@ document.addEventListener('DOMContentLoaded', () => {
      MAKE TABLES EDITABLE
   ----------------------------- */
   const editableTables = [
-    'pending-table',
+    'pending-floor-table',
+    'pending-pallet-table',
     'indoors-table',
     'standby-table',
     'closed-floor-table',
@@ -174,11 +175,13 @@ function populateDoors() {
     const door = `DD${String(d).padStart(2, '0')}`;
     const tr = document.createElement('tr');
 
-    const cols = ['Door', 'ISA', 'Arrived', 'Sent', 'Freight'];
-    cols.forEach((col, idx) => {
+    // 12 columns: Door + 11 blanks
+    const cols = [door, '', '', '', '', '', '', '', '', '', '', ''];
+
+    cols.forEach(value => {
       const td = document.createElement('td');
       td.setAttribute('contenteditable', 'true');
-      td.textContent = idx === 0 ? door : '';
+      td.textContent = value;
       tr.appendChild(td);
     });
 
@@ -191,17 +194,25 @@ function populateDoors() {
    SIDEBAR COUNT UPDATES
 ----------------------------- */
 function updateSidebarCounts() {
-  setCount('count-pending-floor', '#pending-table', row => {
-    const type = row.querySelector('td:nth-child(11)')?.textContent.trim();
-    return type === 'FL';
+
+  // Pending Floor Loads (Freight type = FL)
+  setCount('count-pending-floor', '#pending-floor-table', row => {
+    const freight = row.querySelector('td:nth-child(12)')?.textContent.trim();
+    return freight === 'FL';
   });
 
-  setCount('count-pending-pallet', '#pending-table', row => {
-    const type = row.querySelector('td:nth-child(11)')?.textContent.trim();
-    return ['LP','LP/Mix','NPC','PREP','PR','BOXTRUCK'].includes(type);
+  // Pending Palletized (Freight type = LP, NPC, etc.)
+  setCount('count-pending-pallet', '#pending-pallet-table', row => {
+    const freight = row.querySelector('td:nth-child(12)')?.textContent.trim();
+    return ['LP','LP/Mix','NPC','PREP','PR','BOXTRUCK'].includes(freight);
   });
 
-  setCount('count-indoors', '#indoors-table');
+  // In-Doors (count only rows with ISA)
+  setCount('count-indoors', '#indoors-table', row => {
+    const isa = row.querySelector('td:nth-child(2)')?.textContent.trim();
+    return isa !== '';
+  });
+
   setCount('count-standby', '#standby-table');
   setCount('count-closed-floor', '#closed-floor-table');
   setCount('count-closed-pallet', '#closed-pallet-table');
