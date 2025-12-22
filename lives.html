@@ -8,14 +8,17 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
+
 <body>
   <div class="page-wrap">
+
     <!-- Sidebar -->
     <aside class="sidebar">
       <div class="brand">
         <h1>VULCAN</h1>
         <p class="subtitle-small">Lives</p>
       </div>
+
       <nav class="side-nav">
         <a href="reports.html" class="side-tab"><i class="fas fa-chart-line"></i> Reports</a>
         <a href="back-nights.html" class="side-tab"><i class="fas fa-user-clock"></i> Back Nights</a>
@@ -24,13 +27,16 @@
       </nav>
     </aside>
 
-    <!-- Main content -->
+    <!-- Main Content -->
     <main class="main-content">
+
+      <!-- Header -->
       <header class="main-header">
         <div>
-          <h2>Live appointments</h2>
-          <p class="subtitle">Pending, In-Doors, Standby, Closed, NCNS, Refused, Rescheduled</p>
+          <h2>Live Appointments</h2>
+          <p class="subtitle">Select a category tab below</p>
         </div>
+
         <div class="header-actions">
           <button id="livesRefreshBtn" class="nav-btn small" title="Refresh">
             <i class="fa-solid fa-sync"></i>
@@ -38,16 +44,24 @@
         </div>
       </header>
 
-      <!-- Row 1: Pending (left) + In-Doors (right) -->
-      <section class="grid-2">
+      <!-- Lives Tab Navigation -->
+      <nav class="lives-nav">
+        <button class="side-tab active" data-target="tab-pending">Pending</button>
+        <button class="side-tab" data-target="tab-indoors">In-Doors</button>
+        <button class="side-tab" data-target="tab-standby">Standby</button>
+        <button class="side-tab" data-target="tab-closed-floor">Closed Floor Loads</button>
+        <button class="side-tab" data-target="tab-closed-pallet">Closed Pallet Loads</button>
+        <button class="side-tab" data-target="tab-ncns">NCNS</button>
+        <button class="side-tab" data-target="tab-refused">Refused</button>
+        <button class="side-tab" data-target="tab-rescheduled">Rescheduled</button>
+      </nav>
+
+      <!-- ========================= -->
+      <!-- TAB: Pending -->
+      <!-- ========================= -->
+      <section id="tab-pending" class="report-tab active">
         <div class="report-section">
-          <div class="section-header">
-            <h3>Pending</h3>
-            <div class="section-actions">
-              <button class="nav-btn small" data-add="pending-table"><i class="fa-solid fa-plus"></i> Add row</button>
-              <button class="nav-btn small" data-paste="pending-table"><i class="fa-solid fa-paste"></i> Paste row</button>
-            </div>
-          </div>
+          <h3>Pending</h3>
           <div class="table-wrap fixed-rows-20">
             <table id="pending-table" class="dark-table editable">
               <thead>
@@ -63,143 +77,147 @@
             </table>
           </div>
         </div>
+      </section>
 
+      <!-- ========================= -->
+      <!-- TAB: In-Doors -->
+      <!-- ========================= -->
+      <section id="tab-indoors" class="report-tab">
         <div class="report-section">
-          <div class="section-header">
-            <h3>In-Doors</h3>
-            <div class="section-actions">
-              <button class="nav-btn small" data-add="indoors-table"><i class="fa-solid fa-plus"></i> Add row</button>
-              <button class="nav-btn small" data-paste="indoors-table"><i class="fa-solid fa-paste"></i> Paste row</button>
-            </div>
-          </div>
-          <div class="table-wrap fixed-rows-20">
+          <h3>In-Doors</h3>
+          <div class="table-wrap fixed-rows-49">
             <table id="indoors-table" class="dark-table editable">
               <thead>
-                <tr>
-                  <th>Door</th><th>ISA</th><th>Arrived</th><th>Sent</th><th>Freight</th>
-                </tr>
+                <tr><th>Door</th><th>ISA</th><th>Arrived</th><th>Sent</th><th>Freight</th></tr>
               </thead>
               <tbody>
-                <!-- Populated with DD05–DD65 (excluding emergency/compactor) -->
+                <!-- Doors auto-populated by lives.js -->
               </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- Row 2: Standby (full-width) -->
-      <section class="report-section">
-        <div class="section-header">
+      <!-- ========================= -->
+      <!-- TAB: Standby -->
+      <!-- ========================= -->
+      <section id="tab-standby" class="report-tab">
+        <div class="report-section">
           <h3>Standby</h3>
-          <div class="section-actions">
-            <button class="nav-btn small" data-add="standby-table"><i class="fa-solid fa-plus"></i> Add row</button>
-            <button class="nav-btn small" data-paste="standby-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+          <div class="table-wrap fixed-rows-13">
+            <table id="standby-table" class="dark-table editable">
+              <thead>
+                <tr><th>ISA</th><th>Status</th><th>SCAC</th><th>Expected</th><th>Slip</th><th>Arrived</th><th>Sent</th></tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="7">No standby appointments</td></tr>
+              </tbody>
+            </table>
           </div>
-        </div>
-        <div class="table-wrap fixed-rows-13">
-          <table id="standby-table" class="dark-table editable">
-            <thead>
-              <tr><th>ISA</th><th>Status</th><th>SCAC</th><th>Expected</th><th>Slip</th><th>Arrived</th><th>Sent</th></tr>
-            </thead>
-            <tbody>
-              <tr><td colspan="7">No standby appointments</td></tr>
-            </tbody>
-          </table>
         </div>
       </section>
 
-      <!-- Row 3: Closed Floor loads + Closed Pallet loads -->
-      <section class="grid-2">
+      <!-- ========================= -->
+      <!-- TAB: Closed Floor Loads -->
+      <!-- ========================= -->
+      <section id="tab-closed-floor" class="report-tab">
         <div class="report-section">
-          <div class="section-header">
-            <h3>Closed — Floor loads</h3>
-            <div class="section-actions">
-              <button class="nav-btn small" data-add="closed-floor-table"><i class="fa-solid fa-plus"></i> Add row</button>
-              <button class="nav-btn small" data-paste="closed-floor-table"><i class="fa-solid fa-paste"></i> Paste row</button>
-            </div>
-          </div>
+          <h3>Closed — Floor Loads</h3>
           <div class="table-wrap">
             <table id="closed-floor-table" class="dark-table editable">
-              <thead><tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Cartons</th></tr></thead>
-              <tbody><tr><td colspan="5">No closed floor loads</td></tr></tbody>
+              <thead>
+                <tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Cartons</th></tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="5">No closed floor loads</td></tr>
+              </tbody>
             </table>
           </div>
         </div>
+      </section>
 
+      <!-- ========================= -->
+      <!-- TAB: Closed Pallet Loads -->
+      <!-- ========================= -->
+      <section id="tab-closed-pallet" class="report-tab">
         <div class="report-section">
-          <div class="section-header">
-            <h3>Closed — Pallet loads</h3>
-            <div class="section-actions">
-              <button class="nav-btn small" data-add="closed-pallet-table"><i class="fa-solid fa-plus"></i> Add row</button>
-              <button class="nav-btn small" data-paste="closed-pallet-table"><i class="fa-solid fa-paste"></i> Paste row</button>
-            </div>
-          </div>
+          <h3>Closed — Pallet Loads</h3>
           <div class="table-wrap">
             <table id="closed-pallet-table" class="dark-table editable">
-              <thead><tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Freight</th></tr></thead>
-              <tbody><tr><td colspan="5">No closed pallet loads</td></tr></tbody>
+              <thead>
+                <tr><th>ISA</th><th>Door</th><th>Arrived</th><th>Closed</th><th>Freight</th></tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="5">No closed pallet loads</td></tr>
+              </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- Row 4: NCNS + Refused -->
-      <section class="grid-2">
+      <!-- ========================= -->
+      <!-- TAB: NCNS -->
+      <!-- ========================= -->
+      <section id="tab-ncns" class="report-tab">
         <div class="report-section">
-          <div class="section-header">
-            <h3>NCNS</h3>
-            <div class="section-actions">
-              <button class="nav-btn small" data-add="ncns-table"><i class="fa-solid fa-plus"></i> Add row</button>
-              <button class="nav-btn small" data-paste="ncns-table"><i class="fa-solid fa-paste"></i> Paste row</button>
-            </div>
-          </div>
+          <h3>NCNS</h3>
           <div class="table-wrap">
             <table id="ncns-table" class="dark-table editable">
-              <thead><tr><th>ISA</th><th>Expected</th><th>Status</th></tr></thead>
-              <tbody><tr><td colspan="3">No NCNS appointments</td></tr></tbody>
+              <thead>
+                <tr><th>ISA</th><th>Expected</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="3">No NCNS appointments</td></tr>
+              </tbody>
             </table>
           </div>
         </div>
+      </section>
 
+      <!-- ========================= -->
+      <!-- TAB: Refused -->
+      <!-- ========================= -->
+      <section id="tab-refused" class="report-tab">
         <div class="report-section">
-          <div class="section-header">
-            <h3>Refused</h3>
-            <div class="section-actions">
-              <button class="nav-btn small" data-add="refused-table"><i class="fa-solid fa-plus"></i> Add row</button>
-              <button class="nav-btn small" data-paste="refused-table"><i class="fa-solid fa-paste"></i> Paste row</button>
-            </div>
-          </div>
+          <h3>Refused</h3>
           <div class="table-wrap">
             <table id="refused-table" class="dark-table editable">
-              <thead><tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected</th></tr></thead>
-              <tbody><tr><td colspan="4">No refused appointments</td></tr></tbody>
+              <thead>
+                <tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected</th></tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="4">No refused appointments</td></tr>
+              </tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- Bottom: Rescheduled -->
-      <section class="report-section">
-        <div class="section-header">
+      <!-- ========================= -->
+      <!-- TAB: Rescheduled -->
+      <!-- ========================= -->
+      <section id="tab-rescheduled" class="report-tab">
+        <div class="report-section">
           <h3>Rescheduled</h3>
-          <div class="section-actions">
-            <button class="nav-btn small" data-add="rescheduled-table"><i class="fa-solid fa-plus"></i> Add row</button>
-            <button class="nav-btn small" data-paste="rescheduled-table"><i class="fa-solid fa-paste"></i> Paste row</button>
+          <div class="table-wrap">
+            <table id="rescheduled-table" class="dark-table editable">
+              <thead>
+                <tr><th>ISA</th><th>Original</th><th>New</th><th>Status</th></tr>
+              </thead>
+              <tbody>
+                <tr><td colspan="4">No rescheduled appointments</td></tr>
+              </tbody>
+            </table>
           </div>
         </div>
-        <div class="table-wrap">
-          <table id="rescheduled-table" class="dark-table editable">
-            <thead><tr><th>ISA</th><th>Original</th><th>New</th><th>Status</th></tr></thead>
-            <tbody><tr><td colspan="4">No rescheduled appointments</td></tr></tbody>
-          </table>
-        </div>
       </section>
+
     </main>
 
-    <!-- Right column summary -->
+    <!-- Right Column Summary -->
     <aside class="summary-panel">
       <div class="report-section">
-        <h3>Hourly — Lives summary</h3>
+        <h3>Hourly — Lives Summary</h3>
         <div class="table-wrap">
           <table id="hourly-lives-summary" class="dark-table">
             <tbody>
@@ -221,6 +239,7 @@
         </div>
       </div>
     </aside>
+
   </div>
 
   <script src="lives.js"></script>
