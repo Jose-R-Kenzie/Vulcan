@@ -72,10 +72,8 @@ body {
 }
 
 .side-nav {
-  margin-top: 1.25rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
+  max-height: calc(100vh - 6rem);
+  overflow-y: auto;
 }
 
 /* Sidebar section labels */
