@@ -20,14 +20,39 @@
       </div>
 
       <nav class="side-nav">
-        <button class="side-tab active" data-target="tab-pending">Pending</button>
-        <button class="side-tab" data-target="tab-indoors">In-Doors</button>
-        <button class="side-tab" data-target="tab-standby">Standby</button>
-        <button class="side-tab" data-target="tab-closed-floor">Closed Floor Loads</button>
-        <button class="side-tab" data-target="tab-closed-pallet">Closed Pallet Loads</button>
-        <button class="side-tab" data-target="tab-ncns">NCNS</button>
-        <button class="side-tab" data-target="tab-refused">Refused</button>
-        <button class="side-tab" data-target="tab-rescheduled">Rescheduled</button>
+        <p class="sidebar-label">Lives Tabs</p>
+
+        <button class="side-tab active" data-target="tab-pending">
+          Pending Floor Loads <span id="count-pending-floor" class="count">0</span>
+        </button>
+        <button class="side-tab" data-target="tab-pending">
+          Pending Palletized <span id="count-pending-pallet" class="count">0</span>
+        </button>
+        <button class="side-tab" data-target="tab-indoors">
+          In-Doors <span id="count-indoors" class="count">0</span>
+        </button>
+        <button class="side-tab" data-target="tab-standby">
+          Standby <span id="count-standby" class="count">0</span>
+        </button>
+        <button class="side-tab" data-target="tab-closed-floor">
+          Closed Floor Loads <span id="count-closed-floor" class="count">0</span>
+        </button>
+        <button class="side-tab" data-target="tab-closed-pallet">
+          Closed Pallet Loads <span id="count-closed-pallet" class="count">0</span>
+        </button>
+        <button class="side-tab" data-target="tab-ncns">
+          NCNS <span id="count-ncns" class="count">0</span>
+        </button>
+        <button class="side-tab" data-target="tab-refused">
+          Refused <span id="count-refused" class="count">0</span>
+        </button>
+        <button class="side-tab" data-target="tab-rescheduled">
+          Rescheduled <span id="count-rescheduled" class="count">0</span>
+        </button>
+
+        <hr />
+        <p class="sidebar-label">Navigation</p>
+
         <a href="reports.html" class="side-tab"><i class="fas fa-chart-line"></i> Reports</a>
         <a href="back-nights.html" class="side-tab"><i class="fas fa-user-clock"></i> Back Nights</a>
         <a href="upload.html" class="side-tab"><i class="fas fa-file-upload"></i> Upload</a>
@@ -42,9 +67,8 @@
       <header class="main-header">
         <div>
           <h2>Live Appointments</h2>
-          <p class="subtitle">Select a category tab below</p>
+          <p class="subtitle">Click a tab on the left to view and update appointments</p>
         </div>
-
         <div class="header-actions">
           <button id="livesRefreshBtn" class="nav-btn small" title="Refresh">
             <i class="fa-solid fa-sync"></i>
@@ -52,21 +76,7 @@
         </div>
       </header>
 
-      <!-- Lives Tab Navigation
-      <nav class="lives-nav">
-        <button class="side-tab active" data-target="tab-pending">Pending</button>
-        <button class="side-tab" data-target="tab-indoors">In-Doors</button>
-        <button class="side-tab" data-target="tab-standby">Standby</button>
-        <button class="side-tab" data-target="tab-closed-floor">Closed Floor Loads</button>
-        <button class="side-tab" data-target="tab-closed-pallet">Closed Pallet Loads</button>
-        <button class="side-tab" data-target="tab-ncns">NCNS</button>
-        <button class="side-tab" data-target="tab-refused">Refused</button>
-        <button class="side-tab" data-target="tab-rescheduled">Rescheduled</button>
-      </nav> -->
-
-      <!-- ========================= -->
-      <!-- TAB: Pending -->
-      <!-- ========================= -->
+      <!-- Tabs -->
       <section id="tab-pending" class="report-tab active">
         <div class="report-section">
           <h3>Pending</h3>
@@ -87,9 +97,6 @@
         </div>
       </section>
 
-      <!-- ========================= -->
-      <!-- TAB: In-Doors -->
-      <!-- ========================= -->
       <section id="tab-indoors" class="report-tab">
         <div class="report-section">
           <h3>In-Doors</h3>
@@ -98,17 +105,12 @@
               <thead>
                 <tr><th>Door</th><th>ISA</th><th>Arrived</th><th>Sent</th><th>Freight</th></tr>
               </thead>
-              <tbody>
-                <!-- Doors auto-populated by lives.js -->
-              </tbody>
+              <tbody></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- ========================= -->
-      <!-- TAB: Standby -->
-      <!-- ========================= -->
       <section id="tab-standby" class="report-tab">
         <div class="report-section">
           <h3>Standby</h3>
@@ -125,9 +127,6 @@
         </div>
       </section>
 
-      <!-- ========================= -->
-      <!-- TAB: Closed Floor Loads -->
-      <!-- ========================= -->
       <section id="tab-closed-floor" class="report-tab">
         <div class="report-section">
           <h3>Closed — Floor Loads</h3>
@@ -144,9 +143,6 @@
         </div>
       </section>
 
-      <!-- ========================= -->
-      <!-- TAB: Closed Pallet Loads -->
-      <!-- ========================= -->
       <section id="tab-closed-pallet" class="report-tab">
         <div class="report-section">
           <h3>Closed — Pallet Loads</h3>
@@ -163,93 +159,34 @@
         </div>
       </section>
 
-      <!-- ========================= -->
-      <!-- TAB: NCNS -->
-      <!-- ========================= -->
       <section id="tab-ncns" class="report-tab">
         <div class="report-section">
           <h3>NCNS</h3>
           <div class="table-wrap">
             <table id="ncns-table" class="dark-table editable">
-              <thead>
-                <tr><th>ISA</th><th>Expected</th><th>Status</th></tr>
-              </thead>
-              <tbody>
-                <tr><td colspan="3">No NCNS appointments</td></tr>
-              </tbody>
+              <thead><tr><th>ISA</th><th>Expected</th><th>Status</th></tr></thead>
+              <tbody><tr><td colspan="3">No NCNS appointments</td></tr></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- ========================= -->
-      <!-- TAB: Refused -->
-      <!-- ========================= -->
       <section id="tab-refused" class="report-tab">
         <div class="report-section">
           <h3>Refused</h3>
           <div class="table-wrap">
             <table id="refused-table" class="dark-table editable">
-              <thead>
-                <tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected</th></tr>
-              </thead>
-              <tbody>
-                <tr><td colspan="4">No refused appointments</td></tr>
-              </tbody>
+              <thead><tr><th>ISA</th><th>Reason</th><th>SCAC</th><th>Expected</th></tr></thead>
+              <tbody><tr><td colspan="4">No refused appointments</td></tr></tbody>
             </table>
           </div>
         </div>
       </section>
 
-      <!-- ========================= -->
-      <!-- TAB: Rescheduled -->
-      <!-- ========================= -->
       <section id="tab-rescheduled" class="report-tab">
         <div class="report-section">
           <h3>Rescheduled</h3>
           <div class="table-wrap">
             <table id="rescheduled-table" class="dark-table editable">
-              <thead>
-                <tr><th>ISA</th><th>Original</th><th>New</th><th>Status</th></tr>
-              </thead>
-              <tbody>
-                <tr><td colspan="4">No rescheduled appointments</td></tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- Right Column Summary -->
-    <aside class="summary-panel">
-      <div class="report-section">
-        <h3>Hourly — Lives Summary</h3>
-        <div class="table-wrap">
-          <table id="hourly-lives-summary" class="dark-table">
-            <tbody>
-              <tr><td>Live Floorloads Completed</td><td id="hl-floor-completed">10</td></tr>
-              <tr><td>Live Floorloads Pending Arrival</td><td id="hl-floor-pending">0</td></tr>
-              <tr><td>Live Floorloads In Doors</td><td id="hl-floor-doors">1</td></tr>
-              <tr><td>Live Pallets Completed</td><td id="hl-pallet-completed">4</td></tr>
-              <tr><td>Live Box Trucks Completed</td><td id="hl-box-completed">2</td></tr>
-              <tr><td>Live Pallets Pending Arrival</td><td id="hl-pallet-pending">1</td></tr>
-              <tr><td>Live Pallets In Doors</td><td id="hl-pallet-doors">1</td></tr>
-              <tr><td>Total Lives Completed</td><td id="hl-total-completed">16</td></tr>
-              <tr><td>Total Lives Pending Arrival</td><td id="hl-total-pending">1</td></tr>
-              <tr><td>Lives in Line</td><td id="hl-line">0</td></tr>
-              <tr><td>NCNS Lives</td><td id="hl-ncns">0</td></tr>
-              <tr><td>Refused</td><td id="hl-refused">1</td></tr>
-              <tr><td>Rescheduled</td><td id="hl-rescheduled">0</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </aside>
-
-  </div>
-
-  <script src="lives.js"></script>
-</body>
-</html>
+              <thead><tr><th>ISA</th><th>Original</th><th>New</th><th>Status</th></tr></thead>
+              <tbody><tr><td colspan="4">No rescheduled appointments</

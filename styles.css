@@ -27,22 +27,17 @@ body {
 }
 
 /* ============================================================
-   PAGE LAYOUT (3 columns: sidebar | main | summary)
+   PAGE LAYOUT (3 columns: sidebar | main | empty)
 ============================================================ */
 .page-wrap {
   display: grid;
-  grid-template-columns: 260px 1fr 320px;
+  grid-template-columns: 260px 1fr;
   gap: 1.5rem;
   align-items: start;
   max-width: 1400px;
   margin: 0 auto;
 }
 
-/* Mobile adjustments */
-@media (max-width: 1100px) {
-  .page-wrap { grid-template-columns: 260px 1fr; }
-  .summary-panel { display: none; }
-}
 @media (max-width: 900px) {
   .page-wrap { grid-template-columns: 1fr; }
   .sidebar { position: relative; height: auto; }
@@ -62,7 +57,6 @@ body {
   top: 1.25rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
 }
 
 .brand h1 {
@@ -84,6 +78,25 @@ body {
   gap: 0.5rem;
 }
 
+/* Sidebar section labels */
+.sidebar-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+  margin-top: 1rem;
+  margin-bottom: 0.3rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* Lives tab counts */
+.count {
+  font-weight: 700;
+  color: var(--accent1);
+  margin-left: 0.4rem;
+}
+
+/* Sidebar buttons */
 .side-tab {
   background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
   color: #fff;
@@ -93,7 +106,7 @@ body {
   text-align: left;
   font-weight: 600;
   display: flex;
-  gap: 0.75rem;
+  justify-content: space-between;
   align-items: center;
   cursor: pointer;
   transition: transform .12s ease, box-shadow .12s ease;
@@ -114,22 +127,6 @@ body {
   border: 1px solid rgba(255,255,255,0.06);
   box-shadow: 0 6px 20px var(--accent-glow);
   outline: 2px solid rgba(255,106,0,0.06);
-}
-
-/* Sidebar footer links */
-.sidebar-footer {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-}
-
-.side-link {
-  color: var(--muted);
-  text-decoration: none;
-  font-size: 0.9rem;
-  display: inline-flex;
-  gap: 0.6rem;
-  align-items: center;
 }
 
 /* ============================================================
@@ -183,15 +180,6 @@ body {
   font-size: 0.9rem;
 }
 
-/* Button groups (horizontal nav on home/back-nights) */
-.nav-btn-group {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1.5rem;
-}
-
 /* ============================================================
    REPORT SECTIONS & TABS
 ============================================================ */
@@ -217,21 +205,10 @@ body {
   justify-content: space-between;
   align-items: center;
 }
+
 .section-actions {
   display: flex;
   gap: 0.5rem;
-}
-
-/* Lives tab navigation */
-.lives-nav {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-.lives-nav .side-tab {
-  flex: 1 1 auto;
-  text-align: center;
 }
 
 /* ============================================================
@@ -280,41 +257,6 @@ body {
 .fixed-rows-20 { max-height: 540px; overflow: auto; }
 .fixed-rows-13 { max-height: 351px; overflow: auto; }
 .fixed-rows-49 { max-height: 1323px; overflow: auto; }
-
-/* ============================================================
-   SUMMARY PANEL (right column)
-============================================================ */
-.summary-panel {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius: 12px;
-  padding: 1rem;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-  height: calc(100vh - 3rem);
-  position: sticky;
-  top: 1.25rem;
-  overflow: auto;
-}
-
-/* ============================================================
-   UPLOAD FORMS
-============================================================ */
-.upload-form {
-  margin: 1.5rem 0;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 1rem;
-  justify-content: center;
-  align-items: center;
-}
-
-.upload-form label {
-  font-weight: 600;
-  margin-right: 0.5rem;
-}
-
-.upload-form input[type="file"] {
-  flex: 1 1 auto;
-}
 
 /* ============================================================
    ANIMATIONS & TOAST

@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
   /* -----------------------------
      TAB SWITCHING
   ----------------------------- */
-  const tabs = document.querySelectorAll('.lives-nav .side-tab');
+  const tabs = document.querySelectorAll('.side-tab[data-target]');
   const panels = document.querySelectorAll('.report-tab');
 
   tabs.forEach(btn => {
@@ -44,7 +44,10 @@ document.addEventListener('DOMContentLoaded', () => {
      ADD ROW BUTTONS
   ----------------------------- */
   document.querySelectorAll('[data-add]').forEach(btn => {
-    btn.addEventListener('click', () => addBlankRow(btn.dataset.add));
+    btn.addEventListener('click', () => {
+      addBlankRow(btn.dataset.add);
+      updateSidebarCounts();
+    });
   });
 
 
@@ -55,7 +58,10 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', async () => {
       const tableId = btn.dataset.paste;
       const line = await promptPasteLine();
-      if (line) pasteRow(tableId, line);
+      if (line) {
+        pasteRow(tableId, line);
+        updateSidebarCounts();
+      }
     });
   });
 
@@ -64,10 +70,15 @@ document.addEventListener('DOMContentLoaded', () => {
      REFRESH BUTTON
   ----------------------------- */
   document.getElementById('livesRefreshBtn')?.addEventListener('click', () => {
-    // Later: reload from backend or JSON store
     showToast('Lives refreshed', 'success');
+    updateSidebarCounts();
   });
 
+
+  /* -----------------------------
+     INITIAL COUNT UPDATE
+  ----------------------------- */
+  updateSidebarCounts();
 });
 
 
@@ -173,6 +184,43 @@ function populateDoors() {
 
     body.appendChild(tr);
   }
+}
+
+
+/* -----------------------------
+   SIDEBAR COUNT UPDATES
+----------------------------- */
+function updateSidebarCounts() {
+  setCount('count-pending-floor', '#pending-table', row => {
+    const type = row.querySelector('td:nth-child(11)')?.textContent.trim();
+    return type === 'FL';
+  });
+
+  setCount('count-pending-pallet', '#pending-table', row => {
+    const type = row.querySelector('td:nth-child(11)')?.textContent.trim();
+    return ['LP','LP/Mix','NPC','PREP','PR','BOXTRUCK'].includes(type);
+  });
+
+  setCount('count-indoors', '#indoors-table');
+  setCount('count-standby', '#standby-table');
+  setCount('count-closed-floor', '#closed-floor-table');
+  setCount('count-closed-pallet', '#closed-pallet-table');
+  setCount('count-ncns', '#ncns-table');
+  setCount('count-refused', '#refused-table');
+  setCount('count-rescheduled', '#rescheduled-table');
+}
+
+function setCount(id, selector, filterFn = null) {
+  const table = document.querySelector(selector);
+  if (!table) return;
+
+  const rows = Array.from(table.querySelectorAll('tbody tr'))
+    .filter(row => !row.querySelector('td[colspan]'));
+
+  const count = filterFn ? rows.filter(filterFn).length : rows.length;
+
+  const el = document.getElementById(id);
+  if (el) el.textContent = count;
 }
 
 
