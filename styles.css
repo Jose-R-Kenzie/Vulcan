@@ -310,7 +310,8 @@ body {
 
 @keyframes forgeDoorOpen {
   0%   { transform: scaleY(1); opacity: 1; }
-  60%  { transform: scaleY(0.1); opacity: 1; }
+  40%  { transform: scaleY(0.6); opacity: 1; }
+  80%  { transform: scaleY(0.1); opacity: 0.6; }
   100% { transform: scaleY(0); opacity: 0; display: none; }
 }
 
@@ -323,9 +324,10 @@ body {
     radial-gradient(circle, rgba(255,120,0,0.4) 0%, transparent 60%),
     radial-gradient(circle, rgba(255,80,0,0.3) 0%, transparent 70%),
     radial-gradient(circle, rgba(255,200,0,0.2) 0%, transparent 80%);
-  background-size: 4px 4px, 3px 3px, 2px 2px;
+  background-size: 6px 6px, 5px 5px, 4px 4px;
   animation: emberDrift 22s infinite linear;
-  opacity: 0.25;
+  opacity: 0.5;
+  z-index: 1000;
 }
 
 @keyframes emberDrift {
@@ -340,8 +342,9 @@ body {
   height: 80px;
   background: radial-gradient(circle, rgba(255,120,0,0.5), transparent 70%);
   filter: blur(18px);
-  transform: translateY(20px);
+  transform: translate(-50%, 20px);
   z-index: -1;
+  left: 50%;
 }
 
 /* Rune logo */
@@ -428,5 +431,17 @@ body {
   mix-blend-mode: screen;
   transform: translate(-50%, -50%);
   transition: transform 0.08s linear;
-  z-index: 5000;
+  z-index: 9999;
+  opacity: 0.4;
+  filter: blur(40px);
+}
+
+/* Subtle vignette/radial gradient overlay*/
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 60%, rgba(0,0,0,0.6));
+  pointer-events: none;
+  z-index: 1000;
 }
