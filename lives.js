@@ -1,15 +1,5 @@
 // lives.js
-// Only run this script on the Lives page
-if (!document.querySelector('.main-header h2')?.textContent.includes('Live Appointments')) {
-  console.log('Lives.js: Not on Lives page — script skipped.');
-  return;
-}
 document.addEventListener('DOMContentLoaded', () => {
-
-  /* -----------------------------
-     LOAD SAVED DATA FIRST
-  ----------------------------- */
-  loadAllTablesFromLocalStorage();
 
   /* -----------------------------
      TAB SWITCHING
@@ -30,13 +20,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* -----------------------------
      POPULATE DOORS (DD05–DD65)
-     Only populate if table is empty
   ----------------------------- */
-  const indoorsBody = document.querySelector('#indoors-table tbody');
-  if (indoorsBody && indoorsBody.children.length === 0) {
-    populateDoors();
-    saveAllTablesToLocalStorage();
-  }
+  populateDoors();
 
 
   /* -----------------------------
@@ -63,7 +48,6 @@ document.addEventListener('DOMContentLoaded', () => {
     btn.addEventListener('click', () => {
       addBlankRow(btn.dataset.add);
       updateSidebarCounts();
-      saveAllTablesToLocalStorage();
     });
   });
 
@@ -78,7 +62,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (line) {
         pasteRow(tableId, line);
         updateSidebarCounts();
-        saveAllTablesToLocalStorage();
       }
     });
   });
@@ -90,7 +73,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('livesRefreshBtn')?.addEventListener('click', () => {
     showToast('Lives refreshed', 'success');
     updateSidebarCounts();
-    saveAllTablesToLocalStorage();
   });
 
 
@@ -117,11 +99,6 @@ function makeEditable(ids) {
 
     table.querySelectorAll('tbody tr td').forEach(td => {
       td.setAttribute('contenteditable', 'true');
-
-      // Save on edit
-      td.addEventListener('input', () => {
-        saveAllTablesToLocalStorage();
-      });
     });
   });
 }
@@ -149,7 +126,6 @@ function addBlankRow(tableId) {
   if (placeholder) body.innerHTML = '';
 
   body.appendChild(tr);
-  saveAllTablesToLocalStorage();
 }
 
 
@@ -180,7 +156,6 @@ function pasteRow(tableId, line) {
   if (placeholder) body.innerHTML = '';
 
   body.appendChild(tr);
-  saveAllTablesToLocalStorage();
 }
 
 
@@ -200,6 +175,7 @@ function populateDoors() {
     const door = `DD${String(d).padStart(2, '0')}`;
     const tr = document.createElement('tr');
 
+    // 12 columns: Door + 11 blanks
     const cols = [door, '', '', '', '', '', '', '', '', '', '', ''];
 
     cols.forEach(value => {
@@ -219,16 +195,19 @@ function populateDoors() {
 ----------------------------- */
 function updateSidebarCounts() {
 
+  // Pending Floor Loads (Freight type = FL)
   setCount('count-pending-floor', '#pending-floor-table', row => {
     const freight = row.querySelector('td:nth-child(12)')?.textContent.trim();
     return freight === 'FL';
   });
 
+  // Pending Palletized (Freight type = LP, NPC, etc.)
   setCount('count-pending-pallet', '#pending-pallet-table', row => {
     const freight = row.querySelector('td:nth-child(12)')?.textContent.trim();
     return ['LP','LP/Mix','NPC','PREP','PR','BOXTRUCK'].includes(freight);
   });
 
+  // In-Doors (count only rows with ISA)
   setCount('count-indoors', '#indoors-table', row => {
     const isa = row.querySelector('td:nth-child(2)')?.textContent.trim();
     return isa !== '';
@@ -253,53 +232,6 @@ function setCount(id, selector, filterFn = null) {
 
   const el = document.getElementById(id);
   if (el) el.textContent = count;
-}
-
-
-/* -----------------------------
-   LOCAL STORAGE PERSISTENCE
------------------------------ */
-function saveAllTablesToLocalStorage() {
-  const tableIds = [
-    'pending-floor-table',
-    'pending-pallet-table',
-    'indoors-table',
-    'standby-table',
-    'closed-floor-table',
-    'closed-pallet-table',
-    'ncns-table',
-    'refused-table',
-    'rescheduled-table'
-  ];
-
-  const data = {};
-
-  tableIds.forEach(id => {
-    const table = document.getElementById(id);
-    if (table) {
-      data[id] = table.querySelector('tbody').innerHTML;
-    }
-  });
-
-  localStorage.setItem('vulcan-lives-data', JSON.stringify(data));
-}
-
-function loadAllTablesFromLocalStorage() {
-  const saved = localStorage.getItem('vulcan-lives-data');
-  if (!saved) return;
-
-  const data = JSON.parse(saved);
-
-  Object.keys(data).forEach(id => {
-    const table = document.getElementById(id);
-    if (table) {
-      table.querySelector('tbody').innerHTML = data[id];
-    }
-  });
-}
-
-function clearAllTablesFromLocalStorage() {
-  localStorage.removeItem('vulcan-lives-data');
 }
 
 
