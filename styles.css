@@ -282,16 +282,3 @@ body {
 .toast.error { border-left: 4px solid #e74c3c; display:block; }
 
 .hidden { display:none; }
-/* HOME PAGE CONTAINER */
-.container {
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-  padding-top: 4rem;
-}
-.nav-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  flex-wrap: wrap; /* or nowrap if you want them always in one line */
-}
