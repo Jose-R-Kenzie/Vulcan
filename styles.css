@@ -1,4 +1,8 @@
 .home-link {
+  position: absolute;
+  top: -.5rem;
+  left: 50%;
+  transform: translateX(-50%);
   display: inline-block;
   margin-bottom: 1rem; /* slightly tighter spacing */
   justify-self: center;
@@ -14,7 +18,7 @@
 }
 
 .home-link img:hover {
-  transform: scale(1.05);
+  transform: scale(1.50);
 }
 
 body {
