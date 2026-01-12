@@ -1,284 +1,51 @@
-/* ============================================================
-   ROOT VARIABLES
-============================================================ */
-:root {
-  --bg-1: #0f0f0f;
-  --bg-2: #1a1a1a;
-  --card: #141414;
-  --muted: #bbbbbb;
-  --accent1: #ff6a00;
-  --accent2: #ee0979;
-  --accent-glow: rgba(238,9,121,0.12);
-  --glass: rgba(255,255,255,0.03);
+.home-link {
+  display: inline-block;
+  margin-bottom: 2rem;
 }
-
-/* ============================================================
-   GLOBAL BASE
-============================================================ */
-body {
-  margin: 0;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background: linear-gradient(135deg, var(--bg-1), var(--bg-2));
-  color: #f0f0f0;
-  min-height: 100vh;
-  padding: 1.5rem;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-/* ============================================================
-   PAGE LAYOUT (3 columns: sidebar | main | empty)
-============================================================ */
-.page-wrap {
-  display: grid;
-  grid-template-columns: 260px 1fr;
-  gap: 1.5rem;
-  align-items: start;
-  max-width: 1400px;
-  margin: 0 auto;
-}
-
-@media (max-width: 900px) {
-  .page-wrap { grid-template-columns: 1fr; }
-  .sidebar { position: relative; height: auto; }
-  .main-content { max-height: none; }
-}
-
-/* ============================================================
-   SIDEBAR
-============================================================ */
-.sidebar {
-  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border-radius: 12px;
-  padding: 1.25rem;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.02);
-  height: calc(100vh - 3rem);
-  position: sticky;
-  top: 1.25rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.brand h1 {
-  margin: 0;
-  font-size: 1.45rem;
-  letter-spacing: 1px;
-}
-
-.subtitle-small {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.85rem;
-}
-
-.side-nav {
-  max-height: calc(100vh - 6rem);
-  overflow-y: auto;
-}
-
-/* Sidebar section labels */
-.sidebar-label {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--muted);
-  margin-top: 1rem;
-  margin-bottom: 0.3rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-/* Lives tab counts */
-.count {
-  font-weight: 700;
-  color: var(--accent1);
-  margin-left: 0.4rem;
-}
-
-/* Sidebar buttons */
-.side-tab {
-  background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
-  color: #fff;
-  border: 1px solid rgba(255,255,255,0.03);
-  padding: 0.75rem 0.9rem;
-  border-radius: 8px;
-  text-align: left;
-  font-weight: 600;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.home-link img {
+  width: 120px;
+  height: auto;
   cursor: pointer;
-  transition: transform .12s ease, box-shadow .12s ease;
+  transition: transform 0.3s ease;
 }
-
-.side-tab i {
-  width: 22px;
+.home-link img:hover {
+  transform: scale(1.05);
+}
+.home-link {
+  justify-self: center;
+}
+body{
+  margin: 0;
+  height: 100dvh;
+  display: grid;
+  place-items: center;
+  background-color: #000000;
+  font-family: 'Inter', sans-serif;
+  color: white;
   text-align: center;
 }
-
-.side-tab:hover {
-  transform: translateX(6px);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
+h1 {
+  font-size: 3rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 4px;
 }
-
-.side-tab.active {
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  border: 1px solid rgba(255,255,255,0.06);
-  box-shadow: 0 6px 20px var(--accent-glow);
-  outline: 2px solid rgba(255,106,0,0.06);
-}
-
-/* ============================================================
-   MAIN CONTENT
-============================================================ */
-.main-content {
-  width: 100%;
-  max-height: calc(100vh - 3rem);
-  overflow: auto;
-  padding-bottom: 2rem;
-}
-
-.main-header {
-  display:flex;
-  align-items:center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-bottom: 1rem;
-}
-
-.main-header h2 {
-  margin: 0;
-  font-size: 1.35rem;
-}
-
-.subtitle {
-  margin: 0;
-  color: var(--muted);
-  font-size: 0.95rem;
-}
-
-/* ============================================================
-   BUTTONS
-============================================================ */
-.nav-btn {
-  padding: 0.6rem 0.9rem;
-  border-radius: 8px;
-  background: linear-gradient(135deg, var(--accent1), var(--accent2));
-  border: none;
-  color: white;
-  font-weight: 700;
-  cursor: pointer;
-  display: inline-flex;
-  gap: 0.5rem;
-  align-items: center;
-  box-shadow: 0 6px 18px rgba(238,9,121,0.08);
-}
-
-.nav-btn.small {
-  padding: 0.45rem 0.6rem;
-  font-size: 0.9rem;
-}
-
-/* ============================================================
-   REPORT SECTIONS & TABS
-============================================================ */
-.report-tab {
-  display: none;
-  animation: panelIn .18s ease;
-}
-.report-tab.active {
-  display: block;
-}
-
-.report-section {
-  margin-top: 0.6rem;
-  padding: 1rem;
-  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
-  border-radius: 10px;
-  border: 1px solid rgba(255,255,255,0.02);
-  box-shadow: 0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.01);
-}
-
-.section-header {
+nav {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  gap: 20px;
+  justify-self: center;
 }
-
-.section-actions {
-  display: flex;
-  gap: 0.5rem;
-}
-
-/* ============================================================
-   TABLES
-============================================================ */
-.table-wrap {
-  overflow: auto;
-  margin-top: 0.6rem;
-}
-
-.dark-table {
-  width: 100%;
-  border-collapse: collapse;
-  min-width: 420px;
-  font-size: 14px;
-}
-
-.dark-table thead th {
-  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-  color: #e9e9e9;
-  padding: 10px;
-  text-align: left;
-  border-bottom: 1px solid rgba(255,255,255,0.03);
-}
-
-.dark-table tbody td {
-  padding: 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.02);
-  color: #f0f0f0;
-  background: linear-gradient(0deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
-}
-
-.dark-table tbody tr:hover td {
-  background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.03));
-}
-
-/* Editable cells */
-.editable td {
-  cursor: text;
-}
-.editable td[contenteditable="true"] {
-  outline: none;
-}
-
-/* Scrollable table heights */
-.fixed-rows-20 { max-height: 540px; overflow: auto; }
-.fixed-rows-13 { max-height: 351px; overflow: auto; }
-.fixed-rows-49 { max-height: 1323px; overflow: auto; }
-
-/* ============================================================
-   ANIMATIONS & TOAST
-============================================================ */
-@keyframes panelIn {
-  from { opacity: 0; transform: translateY(6px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.toast {
-  position: fixed;
-  right: 20px;
-  top: 20px;
-  background: #111;
+nav a{
+  text-decoration: none;
   color: white;
-  padding: 0.6rem 0.9rem;
-  border-radius: 8px;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.6);
-  border: 1px solid rgba(255,255,255,0.03);
-  display: none;
-  z-index: 9999;
-  font-weight: 600;
+  font-weight: bold;
+  padding: 15px 30px;
+  border-radius: 5px;
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  box-shadow: 0 4px 15px rgba(218,31,5,0.3);
 }
-.toast.success { border-left: 4px solid var(--accent1); display:block; }
-.toast.error { border-left: 4px solid #e74c3c; display:block; }
-
-.hidden { display:none; }
+nav a:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(254, 101, 13, 0.6);
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+}
