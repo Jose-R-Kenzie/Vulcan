@@ -1,40 +1,51 @@
 .home-link {
   display: inline-block;
-  margin: 2rem 0 1rem;
-  align-self: center;
+  margin-bottom: 1rem; /* slightly tighter spacing */
   justify-self: center;
 }
+
 .home-link img {
-  width: 10dvh;
+  width: 15%;
+  aspect-ratio: 3/2;
+  object-fit: contain;
   height: auto;
   cursor: pointer;
   transition: transform 0.3s ease;
-} 
+}
+
 .home-link img:hover {
   transform: scale(1.05);
 }
-body{
+
+body {
   margin: 0;
-  height: 100dvh;
-  display: grid;
-  place-items: center;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* <-- THIS fixes the “too high” issue */
+  padding-top: 2rem; /* gentle spacing from the top */
   background-color: #000000;
   font-family: 'Inter', sans-serif;
   color: white;
   text-align: center;
 }
+
 h1 {
   font-size: 3rem;
+  margin-top: 1rem; /* ensures logo sits right above title */
   margin-bottom: 2rem;
   text-transform: uppercase;
   letter-spacing: 4px;
 }
+
 nav {
   display: flex;
   gap: 20px;
   justify-self: center;
 }
-nav a{
+
+nav a {
   text-decoration: none;
   color: white;
   font-weight: bold;
@@ -43,8 +54,15 @@ nav a{
   background: linear-gradient(135deg, #ff6a00, #ee0979);
   box-shadow: 0 4px 15px rgba(218,31,5,0.3);
 }
+
 nav a:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(254, 101, 13, 0.6);
   background: linear-gradient(135deg, #ff6a00, #ee0979);
+}
+
+footer {
+  margin-top: 10rem;
+  font-size: 0.9rem;
+  color: #888;
 }
