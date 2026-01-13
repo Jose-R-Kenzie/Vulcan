@@ -271,6 +271,27 @@ footer {
 }
 
 /* NAV ROW */
+
+/* Global button style for all nav-btn links */
+.nav-btn {
+  padding: 0.6rem 1rem;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  border-radius: 6px;
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(255, 80, 20, 0.3);
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.nav-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(255, 80, 20, 0.5);
+}
+
 .nav-row {
   display: flex;
   flex-wrap: wrap;
@@ -296,4 +317,23 @@ footer {
 .nav-row .nav-btn:hover {
   transform: translateY(-3px);
   box-shadow: 0 6px 18px rgba(255, 80, 20, 0.5);
+}
+
+.quick-send {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.quick-send input {
+  flex: 1;
+  padding: 0.6rem;
+  border-radius: 8px;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.quick-send button {
+  padding: 0.6rem 1rem;
 }

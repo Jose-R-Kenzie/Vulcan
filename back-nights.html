@@ -12,29 +12,32 @@
 <body class="dashboard-page">
 
   <div class="container">
+
+    <!-- HEADER BAR -->
     <div class="header-bar">
-  <img src="Vulcan_emblem.png" alt="Vulcan emblem" class="header-emblem" />
-  <h1 class="header-title">VULCAN</h1>
-</div>
+      <img src="Vulcan_emblem.png" alt="Vulcan emblem" class="header-emblem" />
+      <h1 class="header-title">VULCAN</h1>
+    </div>
 
-<hr class="header-divider" />
+    <hr class="header-divider" />
 
-<h2 class="page-subtitle">Back Half Nights</h2>
+    <h2 class="page-subtitle">Back Half Nights</h2>
 
-<nav class="nav-row">
-  <a href="reports.html" class="nav-btn">Reports</a>
-  <a href="drops.html" class="nav-btn">Drops</a>
-  <a href="transships.html" class="nav-btn">Transships</a>
-  <a href="lives.html" class="nav-btn">Lives</a>
-  <a href="cuts-dwells.html" class="nav-btn">CUTs & Dwells</a>
-  <a href="hot-list.html" class="nav-btn">Hot List</a>
-  <a href="appointments.html" class="nav-btn">Appointment Visualizer</a>
-  <a href="upload.html" class="nav-btn">Upload</a>
-  <a href="chat.html" class="nav-btn">Community Chat</a>
-  <a href="index.html" class="nav-btn">Back to Home</a>
-</nav>
+    <!-- NAVIGATION ROW -->
+    <nav class="nav-row">
+      <a href="reports.html" class="nav-btn"><i class="fas fa-chart-line"></i> Reports</a>
+      <a href="drops.html" class="nav-btn"><i class="fas fa-truck-loading"></i> Drops</a>
+      <a href="transships.html" class="nav-btn"><i class="fas fa-exchange-alt"></i> Transships</a>
+      <a href="lives.html" class="nav-btn"><i class="fas fa-user-clock"></i> Lives</a>
+      <a href="cuts-dwells.html" class="nav-btn"><i class="fas fa-clock"></i> CUTs & Dwells</a>
+      <a href="hot-list.html" class="nav-btn"><i class="fas fa-fire"></i> Hot List</a>
+      <a href="appointments.html" class="nav-btn"><i class="fas fa-map-marker-alt"></i> Appointment Visualizer</a>
+      <a href="upload.html" class="nav-btn"><i class="fas fa-file-upload"></i> Upload</a>
+      <a href="chat.html" class="nav-btn"><i class="fas fa-comments"></i> Community Chat</a>
+      <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Back to Home</a>
+    </nav>
 
-  </div> <!-- end of .container -->
+  </div> <!-- end container -->
 
   <!-- DASHBOARD GRID -->
   <div class="dashboard-grid">
@@ -42,7 +45,17 @@
     <!-- LEFT COLUMN: CHAT PREVIEW -->
     <section class="chat-preview">
       <h2>Latest Community Chat</h2>
+
+      <!-- Messages container -->
       <div id="chatPreviewMessages" class="chat-preview-messages scrollable-chat"></div>
+
+      <!-- Quick Send -->
+      <div class="quick-send">
+        <input id="quickMessage" type="text" placeholder="Send a quick message..." />
+        <button id="quickSendBtn" class="nav-btn">Send</button>
+      </div>
+
+      <!-- Full chat link -->
       <a href="chat.html" class="nav-btn"><i class="fas fa-comments"></i> Join the Conversation</a>
     </section>
 
@@ -73,10 +86,10 @@
 
   </div> <!-- end dashboard-grid -->
 
-  <!-- FIREBASE CHAT PREVIEW SCRIPT -->
+  <!-- FIREBASE CHAT PREVIEW + QUICK SEND -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getDatabase, ref, query, limitToLast, onValue } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getDatabase, ref, query, limitToLast, onValue, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCA2kq_rnqvVjZNSF440QkKYiZ3upgcD1U",
@@ -95,6 +108,7 @@
     const previewRef = query(ref(db, "messages"), limitToLast(20));
     const container = document.getElementById("chatPreviewMessages");
 
+    // CHAT PREVIEW LISTENER
     onValue(previewRef, (snapshot) => {
       container.innerHTML = "";
       snapshot.forEach((child) => {
@@ -110,6 +124,26 @@
         container.appendChild(div);
       });
       container.scrollTop = container.scrollHeight;
+    });
+
+    // QUICK SEND LOGIC
+    const quickInput = document.getElementById("quickMessage");
+    const quickSendBtn = document.getElementById("quickSendBtn");
+
+    quickSendBtn.addEventListener("click", () => {
+      const text = quickInput.value.trim();
+      if (text === "") return;
+
+      push(ref(db, "messages"), {
+        text: text,
+        timestamp: Date.now()
+      });
+
+      quickInput.value = "";
+    });
+
+    quickInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") quickSendBtn.click();
     });
   </script>
 
