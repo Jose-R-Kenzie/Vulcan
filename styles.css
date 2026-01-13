@@ -69,6 +69,7 @@ footer {
   color: #888;
 }
 
+/* Small phones */
 @media (max-width: 600px) {
   .home-link img {
     width: 35%;
@@ -79,14 +80,17 @@ footer {
   }
 }
 
+/* Mobile layout fix */
 @media (max-width: 768px) {
-  /*.home-link {
+
+  /* This is the critical fix */
+  .home-link {
     position: static;
     transform: none;
     top: auto;
     left: auto;
     margin-bottom: clamp(1rem, 4vw, 2rem);
-  }*/
+  }
 
   nav {
     flex-direction: column;
@@ -97,5 +101,4 @@ footer {
   nav a {
     width: clamp(140px, 60vw, 260px);
   }
-
 }
