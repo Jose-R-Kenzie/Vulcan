@@ -274,6 +274,8 @@ footer {
 
 /* Global button style for all nav-btn links */
 .nav-btn {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
   padding: 0.6rem 1rem;
   font-size: clamp(0.8rem, 1.5vw, 1rem);
   border-radius: 6px;
