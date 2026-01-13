@@ -48,12 +48,6 @@
 
     // Sign in user anonymously
     signInAnonymously(auth);
-    auth.onAuthStateChanged((user) => {
-        if (user) {
-            console.log("Signed in as:", user.uid);
-            sendBtn.disabled = false;
-        }
-    });
 
     // CHAT LOGIC
     const messagesDiv = document.getElementById("messages");
@@ -69,9 +63,7 @@
 
       push(messagesRef, {
         text: text,
-        timestamp: Date.now(),
-        uid: auth.currentUser.uid,
-        username: auth.currentUser.displayName || "Anonymous"
+        timestamp: Date.now()
       });
 
       messageInput.value = "";
