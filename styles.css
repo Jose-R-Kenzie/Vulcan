@@ -55,7 +55,7 @@ nav a {
   border-radius: clamp(4px, 1vw, 10px);
   background: linear-gradient(135deg, #ff6a00, #ee0979);
   box-shadow: 0 4px 15px rgba(218,31,5,0.3);
-  width: clamp(140px, 1vw, 10px);
+  width: clamp(140px, 60vw, 260px);
 }
 
 nav a:hover {
@@ -80,7 +80,22 @@ footer {
 }
 
 @media (max-width: 768px) {
+  /*.home-link {
+    position: static;
+    transform: none;
+    top: auto;
+    left: auto;
+    margin-bottom: clamp(1rem, 4vw, 2rem);
+  }*/
+
   nav {
     flex-direction: column;
+    align-items: center;
+    gap: clamp(0.8rem, 4vw, 2rem);
   }
+
+  nav a {
+    width: clamp(140px, 60vw, 260px);
+  }
+
 }
