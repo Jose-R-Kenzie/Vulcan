@@ -40,8 +40,10 @@ h1 {
 
 nav {
   display: flex;
-  gap: 10px;
+  flex-direction: row;
+  gap: clamp(0.5rem, 2vw, 2rem);
   justify-content: center;
+  align-items: center;
 }
 
 nav a {
@@ -53,7 +55,7 @@ nav a {
   border-radius: clamp(4px, 1vw, 10px);
   background: linear-gradient(135deg, #ff6a00, #ee0979);
   box-shadow: 0 4px 15px rgba(218,31,5,0.3);
-  width: clamp(120px, 30vw, 260px);
+  width: clamp(140px, 1vw, 10px);
 }
 
 nav a:hover {
@@ -74,5 +76,11 @@ footer {
 
   body {
     padding-top: 8rem;
+  }
+}
+
+@media (max-width: 600px) {
+  nav {
+    flex-direction: column;
   }
 }
