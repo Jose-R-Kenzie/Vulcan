@@ -48,11 +48,12 @@
 
     // Sign in user anonymously
     signInAnonymously(auth);
-    /*auth.onAuthStateChanged((user) => {
+    auth.onAuthStateChanged((user) => {
         if (user) {
-    console.log("Signed in as:", user.uid);
+            console.log("Signed in as:", user.uid);
+            sendBtn.disabled = false;
         }
-    });*/
+    });
 
     // CHAT LOGIC
     const messagesDiv = document.getElementById("messages");
