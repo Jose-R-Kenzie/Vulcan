@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vulcan Chat</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body class="chat-page">
+    <div class="home-link">
+    <a href="index.html">
+      <img src="Vulcan_emblem.png" alt="Vulcan emblem" class="emblem" />
+    </a>
+  </div>   
+  <h1>Community Chat</h1>
+
+  <!-- CHAT UI -->
+  <div class="chat-container">
+    <div id="messages" class="messages"></div>
+
+    <div class="input-row">
+      <input id="messageInput" type="text" placeholder="Type a message..." autocomplete="off">
+      <button id="sendBtn">Send</button>
+    </div>
+  </div>
+
+  <!-- FIREBASE + CHAT LOGIC -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+    import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCA2kq_rnqvVjZNSF440QkKYiZ3upgcD1U",
+      authDomain: "vulcan-chat-b45d6.firebaseapp.com",
+      projectId: "vulcan-chat-b45d6",
+      storageBucket: "vulcan-chat-b45d6.appspot.com",
+      messagingSenderId: "807313163744",
+      appId: "1:807313163744:web:abca3e352b17a27dced785",
+      measurementId: "G-PQL4L529WS"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
+    const auth = getAuth(app);
+
+    // Sign in user anonymously
+    signInAnonymously(auth);
+
+    // CHAT LOGIC
+    const messagesDiv = document.getElementById("messages");
+    const messageInput = document.getElementById("messageInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    const messagesRef = ref(db, "messages");
+
+    // Send message
+    sendBtn.addEventListener("click", () => {
+      const text = messageInput.value.trim();
+      if (text === "") return;
+
+      push(messagesRef, {
+        text: text,
+        timestamp: Date.now()
+      });
+
+      messageInput.value = "";
+    });
+
+    // Press Enter to send
+    messageInput.addEventListener("keypress", (e) => {
+      if (e.key === "Enter") sendBtn.click();
+    });
+
+    // Listen for new messages
+    onChildAdded(messagesRef, (snapshot) => {
+      const msg = snapshot.val();
+      const msgDiv = document.createElement("div");
+      msgDiv.classList.add("message");
+
+      const time = new Date(msg.timestamp).toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      msgDiv.innerHTML = `
+        <span class="msg-text">${msg.text}</span>
+        <span class="msg-time">${time}</span>
+      `;
+
+      messagesDiv.appendChild(msgDiv);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    });
+  </script>
+
+</body>
+</html>
