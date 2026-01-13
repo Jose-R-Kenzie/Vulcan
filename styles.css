@@ -274,8 +274,6 @@ footer {
 
 /* Global button style for all nav-btn links */
 .nav-btn {
-  margin-top: 1rem;
-  margin-bottom: 1rem;
   padding: 0.6rem 1rem;
   font-size: clamp(0.8rem, 1.5vw, 1rem);
   border-radius: 6px;
@@ -338,4 +336,24 @@ footer {
 
 .quick-send button {
   padding: 0.6rem 1rem;
+}
+
+.nav-button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.6rem 1rem;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  border-radius: 6px;
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(255, 80, 20, 0.3);
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+.nav-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(255, 80, 20, 0.5);
 }
