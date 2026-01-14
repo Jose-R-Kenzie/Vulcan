@@ -15,18 +15,20 @@
   <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body class="reports-page">
-  <div class="home-link">
-    <a href="index.html">
-      <img src="Vulcan_emblem.png" alt="Vulcan emblem" class="emblem" />
-    </a>
-  </div>
   <div class="page-wrap">
 
     <!-- LEFT SIDEBAR -->
     <aside class="sidebar">
       <div class="brand">
-        <h1>VULCAN</h1>
-        <p class="subtitle-small">Reports</p>
+        <div class="brand-left">
+          <div class="brand-title">
+            <h1>VULCAN</h1>
+            <a href="index.html" class="home-link inline" aria-label="Home">
+              <img src="Vulcan_emblem.png" alt="Vulcan emblem" />
+            </a>
+          </div>
+          <p class="subtitle-small">Reports</p>
+        </div>
       </div>
 
       <nav class="side-nav">
@@ -228,10 +230,10 @@
       <section id="tab-cuts" class="report-tab">
         <div class="report-controls">
           <div class="left-controls">
-            <button class="nav-btn" data-action="copy-data" data-target="cuts-table">
+            <button class="nav-btn" data-action="copy-data" data-target="cuts-dwells-table">
               <i class="fa-solid fa-copy"></i> Copy Table Data
             </button>
-            <button class="nav-btn" data-action="copy-image" data-target="cuts-table">
+            <button class="nav-btn" data-action="copy-image" data-target="cuts-dwells-table">
               <i class="fa-solid fa-file-image"></i> Copy Table as Image
             </button>
           </div>
@@ -298,5 +300,26 @@
 
   <!-- External JS (separate) -->
   <script src="reports.js"></script>
+  <script>
+  (function(){
+    const setTableMaxHeights = () => {
+      document.querySelectorAll('.table-wrap').forEach(el => {
+        const rect = el.getBoundingClientRect();
+        const avail = Math.max(120, Math.floor(window.innerHeight - rect.top - 20));
+        el.style.setProperty('--table-max-height', avail + 'px');
+      });
+    };
+    let t;
+    const onResize = () => { clearTimeout(t); t = setTimeout(setTableMaxHeights, 80); };
+    document.addEventListener('DOMContentLoaded', setTableMaxHeights);
+    window.addEventListener('load', setTableMaxHeights);
+    window.addEventListener('resize', onResize);
+    window.addEventListener('orientationchange', onResize);
+    // Observe mutations (e.g., data updates) and adjust
+    const target = document.querySelector('.main-content') || document.body;
+    const obs = new MutationObserver(() => setTableMaxHeights());
+    obs.observe(target, { childList: true, subtree: true });
+  })();
+  </script>
 </body>
 </html>

@@ -1,213 +1,276 @@
 // reports.js
 // Handles tab switching, copy table text, capture table image, and refresh toast.
-// Place this file next to reports.html and styles.css
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Tab switching
-    const tabs = document.querySelectorAll('.side-tab');
-    const tabPanels = document.querySelectorAll('.report-tab');
+  initializeTabs();
+  initializeCopyButtons();
+  initializeRefreshButton();
   
-    tabs.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // active tab button
-        tabs.forEach(t => t.classList.remove('active'));
-        btn.classList.add('active');
-  
-        // switch panels
-        const target = btn.dataset.target;
-        tabPanels.forEach(p => {
-          if (p.id === target) p.classList.add('active');
-          else p.classList.remove('active');
-        });
-      });
-    });
-  
-    // Copy and image buttons
-    const controls = document.querySelectorAll('[data-action]');
-    controls.forEach(ctrl => {
-      ctrl.addEventListener('click', async (e) => {
-        const action = ctrl.dataset.action;
-        const targetId = ctrl.dataset.target;
-        const table = document.getElementById(targetId);
-        if (!table) {
-          showToast('Could not find the table', 'error');
-          return;
-        }
-  
-        if (action === 'copy-data') {
-          try {
-            copyTableText(table);
-            showToast('Table data copied to clipboard', 'success');
-          } catch (err) {
-            console.error(err);
-            showToast('Failed to copy table data', 'error');
-          }
-        } else if (action === 'copy-image') {
-          try {
-            await copyTableAsImage(table);
-            showToast('Table image copied to clipboard', 'success');
-          } catch (err) {
-            console.error(err);
-            showToast('Failed to copy table image (browser may require permission)', 'error');
-          }
+  // Expose demo function for development
+  window.populateDemo = populateDemo;
+});
+
+/* ========== Tab Management ========== */
+function initializeTabs() {
+  const tabs = document.querySelectorAll('.side-tab');
+  const tabPanels = document.querySelectorAll('.report-tab');
+
+  tabs.forEach(btn => {
+    btn.addEventListener('click', () => {
+      // Update active tab button
+      tabs.forEach(t => t.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Switch panels
+      const target = btn.dataset.target;
+      tabPanels.forEach(p => {
+        if (p.id === target) {
+          p.classList.add('active');
+        } else {
+          p.classList.remove('active');
         }
       });
     });
+  });
+}
+
+/* ========== Copy & Image Functionality ========== */
+function initializeCopyButtons() {
+  const controls = document.querySelectorAll('[data-action]');
   
-    // Refresh button
-    const refreshBtn = document.getElementById('refreshBtn');
-    refreshBtn.addEventListener('click', async () => {
-      try {
-        await refreshData();
-        showToast('Data has been refreshed', 'success');
-      } catch (err) {
-        console.error(err);
-        showToast('Something went wrong. Please try again', 'error');
+  controls.forEach(ctrl => {
+    ctrl.addEventListener('click', async () => {
+      const action = ctrl.dataset.action;
+      const targetId = ctrl.dataset.target;
+      const table = document.getElementById(targetId);
+      
+      if (!table) {
+        showToast('Could not find the table', 'error');
+        return;
+      }
+
+      if (action === 'copy-data') {
+        try {
+          copyTableText(table);
+          showToast('Table data copied to clipboard', 'success');
+        } catch (err) {
+          console.error('Copy error:', err);
+          showToast('Failed to copy table data', 'error');
+        }
+      } else if (action === 'copy-image') {
+        try {
+          await copyTableAsImage(table);
+          showToast('Table image copied to clipboard', 'success');
+        } catch (err) {
+          console.error('Image copy error:', err);
+          showToast('Failed to copy table image (browser may require permission)', 'error');
+        }
       }
     });
-  
-    // expose for dev: a simple function to populate some demo numbers (optional)
-    window.populateDemo = populateDemo;
   });
+}
+
+/* ========== Refresh Button ========== */
+function initializeRefreshButton() {
+  const refreshBtn = document.getElementById('refreshBtn');
   
-  /* ========== Utilities ========== */
+  if (!refreshBtn) return;
   
-  function copyTableText(table){
-    // Build TSV-like text
-    const rows = Array.from(table.querySelectorAll('tr'));
-    const lines = rows.map(row => {
-      const cells = Array.from(row.querySelectorAll('th,td'));
-      return cells.map(c => c.textContent.trim()).join('\t');
-    });
-    const text = lines.join('\n');
-  
-    // Use Clipboard API
-    if (!navigator.clipboard) {
-      // fallback
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      ta.remove();
-    } else {
-      navigator.clipboard.writeText(text);
+  refreshBtn.addEventListener('click', async () => {
+    try {
+      await refreshData();
+      showToast('Data has been refreshed', 'success');
+    } catch (err) {
+      console.error('Refresh error:', err);
+      showToast('Something went wrong. Please try again', 'error');
     }
+  });
+}
+
+/* ========== Copy Table as Text (TSV) ========== */
+function copyTableText(table) {
+  const rows = Array.from(table.querySelectorAll('tr'));
+  const lines = rows.map(row => {
+    const cells = Array.from(row.querySelectorAll('th, td'));
+    return cells.map(c => c.textContent.trim()).join('\t');
+  });
+  const text = lines.join('\n');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text);
+  } else {
+    // Fallback for older browsers
+    const textarea = document.createElement('textarea');
+    textarea.value = text;
+    textarea.style.position = 'fixed';
+    textarea.style.opacity = '0';
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textarea);
   }
-  
-  async function copyTableAsImage(table){
-    // Use html2canvas to turn the table into a canvas, then clipboard
-    // Note: navigator.clipboard.write requires a secure context and may need permissions.
-    const options = { backgroundColor: null, scale: 1.5, useCORS: true };
-    const canvas = await html2canvas(table, options);
-    // convert to blob
-    return new Promise((resolve, reject) => {
-      canvas.toBlob(async (blob) => {
-        if (!blob) return reject(new Error('Canvas is empty'));
+}
+
+/* ========== Copy Table as Image ========== */
+async function copyTableAsImage(table) {
+  const options = {
+    backgroundColor: '#000',
+    scale: 2,
+    useCORS: true,
+    logging: false
+  };
+
+  const canvas = await html2canvas(table, options);
+
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(async (blob) => {
+      if (!blob) {
+        return reject(new Error('Canvas is empty'));
+      }
+
+      try {
         const item = new ClipboardItem({ [blob.type]: blob });
+        await navigator.clipboard.write([item]);
+        resolve();
+      } catch (err) {
+        // Fallback: Open image in new tab if clipboard fails
         try {
-          await navigator.clipboard.write([item]);
+          const url = URL.createObjectURL(blob);
+          window.open(url, '_blank');
           resolve();
-        } catch (err) {
-          // as fallback, open the image in new tab if clipboard not allowed
-          try {
-            const url = URL.createObjectURL(blob);
-            window.open(url, '_blank');
-          } catch (e) {
-            // ignore
-          }
+        } catch (e) {
           reject(err);
         }
-      }, 'image/png');
-    });
+      }
+    }, 'image/png');
+  });
+}
+
+/* ========== Data Refresh ========== */
+async function refreshData() {
+  // Simulate async operation
+  await new Promise(resolve => setTimeout(resolve, 300));
+
+  try {
+    // TODO: Replace with actual data processing logic
+    // This should:
+    // 1. Read uploaded files
+    // 2. Parse Excel/CSV data
+    // 3. Compute report values
+    // 4. Update DOM elements
+    
+    populateDemo();
+    return true;
+  } catch (err) {
+    throw err;
   }
-  
-  /* Simulated refresh function
-     In your real implementation this should:
-     - Re-read local data structures (or load parsed Excel JSON)
-     - Recompute counters
-     - Update DOM values
-  */
-  async function refreshData(){
-    // simulate a short async operation
-    await new Promise((r) => setTimeout(r, 250));
-  
-    try {
-      // Here you will call your processor functions that read uploaded files
-      // and compute the values for each report field.
-      // For now, we'll call a demo population function to show it working.
-      populateDemo();
-      return true;
-    } catch (err) {
-      throw err;
-    }
+}
+
+/* ========== Demo Data Population ========== */
+function populateDemo() {
+  // Start of Shift (SOS) values
+  const sosData = {
+    liveInDoorRollovers: 2,
+    liveStandbyRollovers: 1,
+    totalLiveRollovers: 3,
+    liveFloorloadsExpected: 6,
+    liveFloorloadsInDoors: 2,
+    livePalletLoadsExpected: 18,
+    livePalletsInDoors: 10,
+    totalLivesExpected: 24,
+    parcelInDoors: 120,
+    parcelOnsite: 300,
+    parcelsOffsite: 75,
+    totalParcelsAvailable: 495,
+    dropFloorloadsExpected: 5,
+    dropFloorloadsInDoors: 3,
+    dropFloorloadsOnsite: 1,
+    dropFloorloadsOffsite: 1,
+    totalDropFloorAvailable: 5,
+    dropPalletsExpected: 40,
+    dropPalletsInDoors: 18,
+    dropPalletsOnsite: 6,
+    dropPalletsOffsite: 2,
+    totalDropPalletAvailable: 26,
+    transFloorloadsInDoors: 0,
+    transFloorloadsOnsite: 0,
+    transFloorloadsOffsite: 0,
+    transPalletsInDoors: 0,
+    transPalletsOnsite: 2,
+    transPalletsOffsite: 0,
+    transTotalTrailerAvailable: 2,
+    totalDropLiveUnits: 31,
+    totalTransshipUnits: 2,
+    totalUnitsAvailable: 33,
+    oldestIsa: '123456',
+    oldestIsaLocation: 'Dock 7',
+    oldestIsaDwellTime: '4h 12m',
+    totalEmptySlips: 6,
+    azngPast72Hrs: 0
+  };
+
+  // Apply SOS data
+  Object.entries(sosData).forEach(([key, value]) => {
+    setText(key, value);
+  });
+
+  // Yard Freight Mix
+  const yardData = {
+    'yard-floorloads': 12,
+    'yard-pallets': 340,
+    'yard-parcels': 800,
+    'yard-trans': 5
+  };
+
+  Object.entries(yardData).forEach(([key, value]) => {
+    setText(key, value);
+  });
+
+  // CUTs & Dwells
+  const cutsData = {
+    'cuts-closed': 2,
+    'cuts-open': 7,
+    'cuts-indoor': 0,
+    'cuts-onsite': 0,
+    'cuts-offsite': 7,
+    'cuts-tagged': 0,
+    'dwells-closed': 27,
+    'dwells-open': 148,
+    'dwells-indoor': 16,
+    'dwells-onsite': 15,
+    'dwells-offsite': 117,
+    'dwells-tagged': 4
+  };
+
+  Object.entries(cutsData).forEach(([key, value]) => {
+    setText(key, value);
+  });
+}
+
+/* ========== Utility Functions ========== */
+function setText(id, value) {
+  const el = document.getElementById(id);
+  if (el) {
+    el.textContent = value;
   }
+}
+
+/* ========== Toast Notifications ========== */
+let toastTimer = null;
+
+function showToast(message, kind = 'success', duration = 3000) {
+  const toast = document.getElementById('toast');
   
-  function populateDemo(){
-    // Demo values — replace with real computed data assignment when available
-    // SOS
-    setText('liveInDoorRollovers', 2);
-    setText('liveStandbyRollovers', 1);
-    setText('totalLiveRollovers', 3);
-    setText('liveFloorloadsExpected', 6);
-    setText('liveFloorloadsInDoors', 2);
-    setText('livePalletLoadsExpected', 18);
-    setText('livePalletsInDoors', 10);
-    setText('totalLivesExpected', 24);
-    setText('parcelInDoors', 120);
-    setText('parcelOnsite', 300);
-    setText('parcelsOffsite', 75);
-    setText('totalParcelsAvailable', 495);
-    setText('dropFloorloadsExpected', 5);
-    setText('dropFloorloadsInDoors', 3);
-    setText('dropFloorloadsOnsite', 1);
-    setText('dropFloorloadsOffsite', 1);
-    setText('totalDropFloorAvailable', 5);
-    setText('dropPalletsExpected', 40);
-    setText('dropPalletsInDoors', 18);
-    setText('dropPalletsOnsite', 6);
-    setText('dropPalletsOffsite', 2);
-    setText('totalDropPalletAvailable', 26);
-    setText('transFloorloadsInDoors', 0);
-    setText('transTotalTrailerAvailable', 2);
-    setText('totalDropLiveUnits', 31);
-    setText('totalTransshipUnits', 2);
-    setText('totalUnitsAvailable', 33);
-    setText('oldestIsa', '123456');
-    setText('oldestIsaLocation', 'Dock 7');
-    setText('oldestIsaDwellTime', '4h 12m');
-    setText('totalEmptySlips', 6);
-    setText('azngPast72Hrs', 0);
-  
-    // Hourly: random small demo
-    for(let i=0;i<24;i++){
-      setText(`hour-${i}`, Math.floor(Math.random()*8));
-    }
-  
-    // Yard values
-    setText('yard-floorloads', 12);
-    setText('yard-pallets', 340);
-    setText('yard-parcels', 800);
-    setText('yard-trans', 5);
-  }
-  
-  function setText(id, value){
-    const el = document.getElementById(id);
-    if (el) el.textContent = value;
-  }
-  
-  /* Toast notifications */
-  let toastTimer = null;
-  function showToast(message, kind='success', ms=3000){
-    const toast = document.getElementById('toast');
-    toast.className = `toast ${kind}`;
-    toast.textContent = message;
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => {
-      toast.className = 'toast';
-      toast.style.display = 'none';
-      toast.textContent = '';
-    }, ms);
-    toast.style.display = 'block';
-  }
-  
+  if (!toast) return;
+
+  toast.className = `toast ${kind}`;
+  toast.textContent = message;
+  toast.style.display = 'block';
+
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => {
+    toast.className = 'toast';
+    toast.style.display = 'none';
+    toast.textContent = '';
+  }, duration);
+}

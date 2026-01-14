@@ -7,96 +7,93 @@
   <link rel="stylesheet" href="styles.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
-
 <body class="chat-page">
-    <div class="home-link">
+  <!-- Home Link -->
+  <div class="home-link">
     <a href="index.html">
       <img src="Vulcan_emblem.png" alt="Vulcan emblem" class="emblem" />
     </a>
-  </div>   
+  </div>
+  
   <h1>Community Chat</h1>
-  <a href="back-nights.html" class="nav-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-
+  
+  <!-- Top Back Button (for convenience) -->
+  <a href="back-nights.html" class="nav-button">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+  </a>
+  
   <!-- CHAT UI -->
   <div class="chat-container">
     <div id="messages" class="messages"></div>
-
     <div class="input-row">
       <input id="messageInput" type="text" placeholder="Type a message..." autocomplete="off">
       <button id="sendBtn">Send</button>
     </div>
   </div>
-
+  
+  <!-- Bottom Back Button (for convenience after scrolling) -->
+  <a href="back-nights.html" class="nav-button">
+    <i class="fas fa-arrow-left"></i> Back to Dashboard
+  </a>
+  
   <!-- FIREBASE + CHAT LOGIC -->
   <script type="module">
+    import { firebaseConfig } from './firebase-config.js';
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, push, onChildAdded } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
     import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyCA2kq_rnqvVjZNSF440QkKYiZ3upgcD1U",
-      authDomain: "vulcan-chat-b45d6.firebaseapp.com",
-      databaseURL: "https://vulcan-chat-b45d6-default-rtdb.firebaseio.com",
-      projectId: "vulcan-chat-b45d6",
-      storageBucket: "vulcan-chat-b45d6.appspot.com",
-      messagingSenderId: "807313163744",
-      appId: "1:807313163744:web:abca3e352b17a27dced785",
-      measurementId: "G-PQL4L529WS"
-    };
-
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
     const auth = getAuth(app);
-
+    
     // Sign in user anonymously
     signInAnonymously(auth);
-
-    // CHAT LOGIC
+    
+    // DOM elements
     const messagesDiv = document.getElementById("messages");
     const messageInput = document.getElementById("messageInput");
     const sendBtn = document.getElementById("sendBtn");
-
     const messagesRef = ref(db, "messages");
-
+    
     // Send message
-    sendBtn.addEventListener("click", () => {
+    function sendMessage() {
       const text = messageInput.value.trim();
       if (text === "") return;
-
+      
       push(messagesRef, {
         text: text,
         timestamp: Date.now()
       });
-
+      
       messageInput.value = "";
-    });
-
-    // Press Enter to send
+    }
+    
+    // Event listeners
+    sendBtn.addEventListener("click", sendMessage);
     messageInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") sendBtn.click();
+      if (e.key === "Enter") sendMessage();
     });
-
+    
     // Listen for new messages
     onChildAdded(messagesRef, (snapshot) => {
       const msg = snapshot.val();
       const msgDiv = document.createElement("div");
       msgDiv.classList.add("message");
-
+      
       const time = new Date(msg.timestamp).toLocaleTimeString([], {
         hour: "2-digit",
         minute: "2-digit"
       });
-
+      
       msgDiv.innerHTML = `
         <span class="msg-text">${msg.text}</span>
         <span class="msg-time">${time}</span>
       `;
-
+      
       messagesDiv.appendChild(msgDiv);
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     });
   </script>
-  <a href="back-nights.html" class="nav-button"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
-
 </body>
 </html>

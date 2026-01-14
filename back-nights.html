@@ -10,9 +10,7 @@
 </head>
 
 <body class="dashboard-page">
-
   <div class="container">
-
     <!-- HEADER BAR -->
     <div class="header-bar">
       <img src="Vulcan_emblem.png" alt="Vulcan emblem" class="header-emblem" />
@@ -36,12 +34,10 @@
       <a href="chat.html" class="nav-btn"><i class="fas fa-comments"></i> Community Chat</a>
       <a href="index.html" class="nav-btn"><i class="fas fa-home"></i> Back to Home</a>
     </nav>
-
-  </div> <!-- end container -->
+  </div>
 
   <!-- DASHBOARD GRID -->
   <div class="dashboard-grid">
-
     <!-- LEFT COLUMN: CHAT PREVIEW -->
     <section class="chat-preview">
       <h2>Latest Community Chat</h2>
@@ -56,14 +52,15 @@
       </div>
 
       <!-- Full chat link -->
-      <a href="chat.html" class="nav-btn"><i class="fas fa-comments"></i> Join the Conversation</a>
+      <a href="chat.html" class="nav-btn">
+        <i class="fas fa-comments"></i> Join the Conversation
+      </a>
     </section>
 
     <!-- RIGHT COLUMN: DASHBOARD CARDS -->
     <section class="right-column">
-
       <div class="dashboard-card forecast-card">
-        <h3>Tonight’s Forecast</h3>
+        <h3>Tonight's Forecast</h3>
         <p class="forecast-icon">⚠️ High Inbound Volumes</p>
         <p>Prepare for heavy traffic and potential delays.</p>
       </div>
@@ -81,26 +78,14 @@
         <p><i class="fas fa-warehouse"></i> Dock Doors Occupied: 18 / 22</p>
         <p><i class="fas fa-stopwatch"></i> Avg Dwell Time: 3h 45m</p>
       </div>
-
     </section>
-
-  </div> <!-- end dashboard-grid -->
+  </div>
 
   <!-- FIREBASE CHAT PREVIEW + QUICK SEND -->
   <script type="module">
+    import { firebaseConfig } from './firebase-config.js';
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getDatabase, ref, query, limitToLast, onValue, push } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyCA2kq_rnqvVjZNSF440QkKYiZ3upgcD1U",
-      authDomain: "vulcan-chat-b45d6.firebaseapp.com",
-      databaseURL: "https://vulcan-chat-b45d6-default-rtdb.firebaseio.com",
-      projectId: "vulcan-chat-b45d6",
-      storageBucket: "vulcan-chat-b45d6.appspot.com",
-      messagingSenderId: "807313163744",
-      appId: "1:807313163744:web:abca3e352b17a27dced785",
-      measurementId: "G-PQL4L529WS"
-    };
 
     const app = initializeApp(firebaseConfig);
     const db = getDatabase(app);
@@ -130,7 +115,7 @@
     const quickInput = document.getElementById("quickMessage");
     const quickSendBtn = document.getElementById("quickSendBtn");
 
-    quickSendBtn.addEventListener("click", () => {
+    function sendQuickMessage() {
       const text = quickInput.value.trim();
       if (text === "") return;
 
@@ -140,12 +125,12 @@
       });
 
       quickInput.value = "";
-    });
+    }
 
+    quickSendBtn.addEventListener("click", sendQuickMessage);
     quickInput.addEventListener("keypress", (e) => {
-      if (e.key === "Enter") quickSendBtn.click();
+      if (e.key === "Enter") sendQuickMessage();
     });
   </script>
-
 </body>
 </html>

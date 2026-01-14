@@ -1,22 +1,10 @@
-/* Logo + title + buttons container */
-.home-link {
-  text-align: center;
-  margin-top: clamp(2rem, 6vw, 6rem);
-}
+/* ========================================
+   VULCAN - Master Stylesheet
+   Organized by: Base → Layout → Components → Pages
+   ======================================== */
 
-/* Emblem */
-.home-link img {
-  width: clamp(80px, 20vw, 220px);
-  aspect-ratio: 3/2;
-  object-fit: contain;
-  height: auto;
-}
+/* ========== BASE STYLES ========== */
 
-.home-link img:hover {
-  transform: scale(1.05);
-}
-
-/* Page layout */
 body {
   margin: 0;
   min-height: 100dvh;
@@ -28,9 +16,13 @@ body {
   font-family: 'Inter', sans-serif;
   color: white;
   text-align: center;
+  overflow-x: hidden;
 }
 
-/* Title */
+:root {
+  --sidebar-width: 240px; /* centralize sidebar width */
+} 
+
 h1 {
   font-size: clamp(1.5rem, 5vw, 4rem);
   margin: clamp(1rem, 3vw, 2rem) 0;
@@ -38,7 +30,75 @@ h1 {
   letter-spacing: clamp(2px, 0.5vw, 4px);
 }
 
-/* Navigation buttons */
+/* ========== LAYOUT COMPONENTS ========== */
+
+/* Home Link / Logo Container */
+.home-link {
+  text-align: center;
+  margin-top: clamp(0.4rem, 1.5vw, 1rem); /* tightened top spacing */
+}
+
+.home-link img {
+  width: clamp(80px, 20vw, 220px);
+  aspect-ratio: 3/2;
+  object-fit: contain;
+  height: auto;
+}
+
+.home-link img:hover {
+  transform: scale(1.05);
+}
+
+/* Header Bar */
+.header-bar {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem auto;
+  width: min(95%, 1200px);
+}
+
+.header-emblem {
+  width: clamp(40px, 5vw, 60px);
+  height: auto;
+}
+
+.header-title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  letter-spacing: 3px;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+/* Divider */
+.header-divider {
+  width: min(95%, 1200px);
+  margin: 0.5rem auto 1rem;
+  border: none;
+  border-top: 2px solid rgba(255,255,255,0.2);
+}
+
+/* Page Subtitle */
+.page-subtitle {
+  text-align: left;
+  margin: 0.2rem 0 1.5rem 0;
+  font-weight: 400;
+  opacity: 0.9;
+  padding-left: calc(clamp(40px, 5vw, 60px) + 1rem);
+  font-size: clamp(1rem, 2vw, 1.4rem);
+  letter-spacing: 2px;
+}
+
+/* Footer */
+footer {
+  margin-top: clamp(3rem, 10vw, 12rem);
+  font-size: clamp(0.7rem, 1.5vw, 1rem);
+  color: #888;
+}
+
+/* ========== NAVIGATION ========== */
+
+/* Landing Page Navigation */
 nav {
   display: flex;
   flex-direction: row;
@@ -64,31 +124,105 @@ nav a:hover {
   box-shadow: 0 8px 25px rgba(254, 101, 13, 0.6);
 }
 
-/* Footer */
-footer {
-  margin-top: clamp(3rem, 10vw, 12rem);
-  font-size: clamp(0.7rem, 1.5vw, 1rem);
-  color: #888;
+/* Dashboard Navigation Row */
+.nav-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  width: min(95%, 1200px);
+  margin: 0 auto 2rem;
 }
 
-/* Mobile layout */
-@media (max-width: 980px) {
-  nav {
-    flex-direction: column;
-    gap: clamp(0.8rem, 4vw, 2rem);
-  }
-
-  nav a {
-    width: clamp(140px, 60vw, 260px);
-    font-size: clamp(1rem, 4vw, 1.4rem);
-    padding: clamp(0.6rem, 2vw, 1rem) clamp(1rem, 5vw, 2rem);
-  }
-
-  footer {
-    margin-top: clamp(2rem, 80vw, 10rem);
-  }
+/* Navigation Buttons */
+.nav-btn {
+  padding: 0.6rem 1rem;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  border-radius: 6px;
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(255, 80, 20, 0.3);
+  transition: transform 0.2s ease;
+  display: inline-block;
+  border: none;
+  cursor: pointer;
 }
 
+.nav-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(255, 80, 20, 0.5);
+}
+
+.nav-btn.small {
+  padding: 0.5rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.nav-button {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  padding: 0.6rem 1rem;
+  font-size: clamp(0.8rem, 1.5vw, 1rem);
+  border-radius: 6px;
+  background: linear-gradient(135deg, #ff6a00, #ee0979);
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(255, 80, 20, 0.3);
+  transition: transform 0.2s ease;
+  display: inline-block;
+}
+
+.nav-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(255, 80, 20, 0.5);
+}
+
+/* ========== DASHBOARD GRID ========== */
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 2rem;
+  width: min(95%, 1200px);
+  margin: 2rem auto;
+}
+
+/* Right Column Cards */
+.right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dashboard-card {
+  background: rgba(255,255,255,0.05);
+  padding: 1rem;
+  border-radius: 12px;
+  backdrop-filter: blur(6px);
+}
+
+.dashboard-card h3 {
+  margin-bottom: 0.5rem;
+}
+
+.dashboard-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dashboard-card li {
+  margin-bottom: 0.5rem;
+}
+
+/* ========== CHAT COMPONENTS ========== */
+
+/* Chat Page Container */
 .chat-container {
   width: min(90%, 600px);
   margin: 0 auto;
@@ -147,32 +281,8 @@ footer {
   font-weight: bold;
   cursor: pointer;
 }
-.chat-page {
-  justify-content: center;
-  padding-top: 2rem;
-}
 
-.chat-page h1 {
-  margin-top: 1rem;
-  margin-bottom: 1.5rem;
-}
-
-/* GRID LAYOUT */
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: 1fr 350px;
-  gap: 2rem;
-  width: min(95%, 1200px);
-  margin: 2rem auto;
-}
-
-@media (max-width: 900px) {
-  .dashboard-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* CHAT PREVIEW */
+/* Chat Preview (Dashboard) */
 .chat-preview {
   background: rgba(255,255,255,0.05);
   padding: 1rem;
@@ -203,122 +313,7 @@ footer {
   border-radius: 8px;
 }
 
-/* RIGHT COLUMN CARDS */
-.right-column {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-}
-
-.dashboard-card {
-  background: rgba(255,255,255,0.05);
-  padding: 1rem;
-  border-radius: 12px;
-  backdrop-filter: blur(6px);
-}
-
-.dashboard-card h3 {
-  margin-bottom: 0.5rem;
-}
-
-.dashboard-card ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dashboard-card li {
-  margin-bottom: 0.5rem;
-}
-/* HEADER BAR */
-.header-bar {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  margin: 1rem auto;
-  width: min(95%, 1200px);
-}
-
-.header-emblem {
-  width: clamp(40px, 5vw, 60px);
-  height: auto;
-}
-
-.header-title {
-  font-size: clamp(1.8rem, 4vw, 3rem);
-  letter-spacing: 3px;
-  margin: 0;
-  text-transform: uppercase;
-}
-
-/* DIVIDER */
-.header-divider {
-  width: min(95%, 1200px);
-  margin: 0.5rem auto 1rem;
-  border: none;
-  border-top: 2px solid rgba(255,255,255,0.2);
-}
-
-/* SUBTITLE */
-.page-subtitle {
-  text-align: left;
-  margin: 0.2rem 0 1.5rem 0;
-  font-weight: 400;
-  opacity: 0.9;
-  padding-left: calc(clamp(40px, 5vw, 60px) + 1rem);
-  font-size: clamp(1rem, 2vw, 1.4rem);
-  letter-spacing: 2px;
-}
-
-/* NAV ROW */
-
-/* Global button style for all nav-btn links */
-.nav-btn {
-  padding: 0.6rem 1rem;
-  font-size: clamp(0.8rem, 1.5vw, 1rem);
-  border-radius: 6px;
-  background: linear-gradient(135deg, #ff6a00, #ee0979);
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(255, 80, 20, 0.3);
-  transition: transform 0.2s ease;
-  display: inline-block;
-}
-
-.nav-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(255, 80, 20, 0.5);
-}
-
-.nav-row {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 0.6rem;
-  width: min(95%, 1200px);
-  margin: 0 auto 2rem;
-}
-
-.nav-row .nav-btn {
-  padding: 0.6rem 1rem;
-  font-size: clamp(0.8rem, 1.5vw, 1rem);
-  border-radius: 6px;
-  background: linear-gradient(135deg, #ff6a00, #ee0979);
-  color: white;
-  text-decoration: none;
-  font-weight: bold;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(255, 80, 20, 0.3);
-  transition: transform 0.2s ease;
-}
-
-.nav-row .nav-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(255, 80, 20, 0.5);
-}
-
+/* Quick Send */
 .quick-send {
   display: flex;
   gap: 0.5rem;
@@ -338,22 +333,439 @@ footer {
   padding: 0.6rem 1rem;
 }
 
-.nav-button {
-  margin-top: 1rem;
+/* ========== REPORTS PAGE ========== */
+
+.reports-page {
+  align-items: stretch;
+  text-align: left;
+  overflow-y: hidden; /* prevent page vertical scrolling */
+  overflow-x: hidden;
+  height: 100vh;
+} 
+
+/* Page Layout */
+.reports-page .page-wrap {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  align-items: start;
+  /* Slightly reduce content width and add extra left offset to avoid sidebar overlap */
+  width: auto;
+  max-width: calc(100vw - var(--sidebar-width) - 3rem);
+  height: calc(100vh - 2.5rem); /* keep inside viewport while sidebar uses top/bottom offsets */
+  margin: 0 1.5rem 0 calc(var(--sidebar-width) + 12px); /* increased left offset */
+  padding: 0.75rem 0.75rem 0.75rem 0.5rem; /* small left padding for breathing room */
+  overflow-x: hidden; /* prevent horizontal clipping */
+  overflow-y: visible;
+  box-sizing: border-box;
+}    
+
+/* Sidebar */
+.reports-page .sidebar {
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  border-radius: 0 12px 12px 0;
+  padding: 1.25rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255, 255, 255, 0);
+  width: var(--sidebar-width);
+  position: fixed;
+  top: 1.25rem;
+  bottom: 1.25rem;
+  left: 0;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  overflow-y: visible; /* don't allow sidebar to scroll */
+} 
+
+.reports-page .brand {
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(196, 46, 46, 0.532);
   margin-bottom: 1rem;
-  padding: 0.6rem 1rem;
-  font-size: clamp(0.8rem, 1.5vw, 1rem);
-  border-radius: 6px;
-  background: linear-gradient(135deg, #ff6a00, #ee0979);
-  color: white;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  gap: 0.75rem;
+}
+
+.reports-page .brand .brand-left {
+  display:flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+}
+
+.reports-page .brand .brand-title {
+  display:flex;
+  align-items:center;
+  gap: 0.5rem;
+}
+
+.reports-page .brand .home-link {
+  margin: 0; /* remove extra top spacing */
   text-decoration: none;
-  font-weight: bold;
-  white-space: nowrap;
-  box-shadow: 0 4px 12px rgba(255, 80, 20, 0.3);
-  transition: transform 0.2s ease;
   display: inline-block;
 }
-.nav-button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 6px 18px rgba(255, 80, 20, 0.5);
+
+.reports-page .brand .home-link img {
+  height: 2.2rem; /* larger to match heading visually */
+  width: auto;
+  display: block;
+  margin: 0; /* align vertically with h1 */
+}
+
+.reports-page .brand h1 {
+  margin: 0;
+  font-size: 1.45rem;
+  letter-spacing: 1px;
+}
+
+.reports-page .subtitle-small {
+  margin: 0.3rem 0 0 0;
+  color: #bbbbbb;
+  font-size: 0.85rem;
+}
+
+/* Sidebar Navigation */
+.reports-page .side-nav {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
+  justify-content: flex-start !important;
+  width: 100% !important;
+  flex: 1;
+  overflow-y: visible; /* keep sidebar nav from scrolling */
+  overflow-x: hidden;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  margin-bottom: 1rem;
+}
+
+.reports-page .side-tab {
+  display: flex !important;
+  flex-direction: row !important;
+  width: auto !important;
+  max-width: 180px; /* restrict tab width */
+  min-width: 0;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.4rem;
+  background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+  color: #fff;
+  border: 1px solid rgba(140, 22, 22, 0.61);
+  padding: 0.5rem 0.6rem; /* reduce horizontal padding */
+  border-radius: 8px;
+  text-align: left;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+  margin-bottom: 0.5rem;
+  flex-shrink: 0 !important;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 20px
+}
+
+.reports-page .side-tab:hover {
+  transform: translateX(6px);
+  box-shadow: 0 8px 2px rgba(255, 106, 0, 0.4), 0 0 2px rgba(238, 9, 121, 0.3);
+}
+
+.reports-page .side-tab.active {
+  background: linear-gradient(90deg, rgba(255, 106, 0, 0.15), rgba(238, 9, 121, 0.1));
+  border: 1px solid rgba(255, 106, 0, 0.3);
+  box-shadow: 0 6px 20px rgba(255, 106, 0, 0.4), 0 0 30px rgba(238, 9, 121, 0.2);
+  outline: 2px solid rgba(255, 106, 0, 0.2);
+  font-weight: 700;
+  transform: translateX(4px);
+}
+
+/* Sidebar Footer */
+.reports-page .sidebar-footer {
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.reports-page .side-link {
+  display: block;
+  padding: 0.7rem 1rem;
+  margin-bottom: 0.5rem;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.05);
+  transition: background 0.2s ease;
+}
+
+.reports-page .side-link:hover {
+  background: rgba(255,255,255,0.012);
+}
+
+/* Main Content Area */
+.reports-page .main-content {
+  width: 100%;
+  max-width: 100%;
+  max-height: none; /* allow content to size naturally; table will scroll */
+  overflow: visible;
+  overflow-x: hidden;
+  padding-bottom: 2rem;
+  padding-right: 1rem; /* ensure content doesn't touch viewport edge */
+  box-sizing: border-box;
+  margin-left: 0; /* reset accidental offset */
+} 
+
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.main-header h2 {
+  margin: 0 0 0.3rem 0;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+}
+
+.main-header .subtitle {
+  margin: 0;
+  color: #bbb;
+  font-size: 0.9rem;
+}
+
+.header-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* Report Section */
+.reports-page .report-section {
+  margin-top: 0.6rem;
+  padding: 1rem;
+  background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.02);
+  box-shadow: 0 6px 30px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.01);
+  max-width: 100%;
+  overflow: visible; /* allow internal scroll areas to be fully visible */
+  box-sizing: border-box;
+}
+
+/* Report Controls */
+.report-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.report-controls .left-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+/* Tables */
+.table-wrap {
+  overflow-x: auto;
+  overflow-y: auto; /* enable vertical scroll for large tables */
+  max-height: var(--table-max-height, calc(100vh - 150px)); /* dynamic via JS */
+  height: auto;
+  margin-top: 1rem;
+  width: 100%;
+  max-width: 100%;
+  padding-right: 1rem; /* breathing room on the right */
+  padding-bottom: 16px; /* extra gap so last row isn't clipped */
+  box-sizing: border-box;
+} 
+
+.reports-page .dark-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  table-layout: auto;
+}
+
+.reports-page .dark-table thead th {
+  background: linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+  color: #e9e9e9;
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+}
+
+.reports-page .dark-table tbody td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.02);
+  color: #f0f0f0;
+  background: linear-gradient(0deg, rgba(255,255,255,0.01), rgba(255,255,255,0.01));
+}
+
+.reports-page .dark-table tbody tr:hover td {
+  background: linear-gradient(90deg, rgba(255,255,255,0.01), rgba(255,255,255,0.03));
+}
+
+/* Tab Visibility */
+.reports-page .report-tab {
+  display: none;
+}
+
+.reports-page .report-tab.active {
+  display: block;
+}
+
+/* Scrollbar Styling */
+.table-wrap::-webkit-scrollbar {
+  height: 8px;
+}
+
+.table-wrap::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 4px;
+}
+
+.table-wrap::-webkit-scrollbar-thumb {
+  background: rgba(255, 106, 0, 0.3);
+  border-radius: 4px;
+}
+
+.table-wrap::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 106, 0, 0.5);
+}
+
+/* ========== TOAST NOTIFICATIONS ========== */
+
+.toast {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  padding: 1rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  z-index: 9999;
+  display: none;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(400px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.toast.success {
+  background: linear-gradient(135deg, #00c851, #007e33);
+  color: white;
+}
+
+.toast.error {
+  background: linear-gradient(135deg, #ff4444, #cc0000);
+  color: white;
+}
+
+.toast.info {
+  background: linear-gradient(135deg, #33b5e5, #0099cc);
+  color: white;
+}
+
+.toast.warning {
+  background: linear-gradient(135deg, #ffbb33, #ff8800);
+  color: white;
+}
+
+/* ========== PAGE-SPECIFIC OVERRIDES ========== */
+
+.chat-page {
+  justify-content: center;
+  padding-top: 2rem;
+}
+
+.chat-page h1 {
+  margin-top: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+/* Tablets and below */
+@media (max-width: 900px) {
+  .dashboard-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .reports-page .page-wrap {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+    margin-left: 0; /* reset offset on small screens */
+  }
+
+  .reports-page .sidebar {
+    position: relative;
+    height: auto;
+    top: 0;
+  }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .report-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .report-controls .left-controls {
+    width: 100%;
+  }
+
+  .report-controls .nav-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .main-header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 980px) {
+  nav {
+    flex-direction: column;
+    gap: clamp(0.8rem, 4vw, 2rem);
+  }
+
+  nav a {
+    width: clamp(140px, 60vw, 260px);
+    font-size: clamp(1rem, 4vw, 1.4rem);
+    padding: clamp(0.6rem, 2vw, 1rem) clamp(1rem, 5vw, 2rem);
+  }
+
+  footer {
+    margin-top: clamp(2rem, 80vw, 10rem);
+  }
+}
+
+@media (max-width: 600px) {
+  .toast {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    text-align: center;
+  }
 }
