@@ -15,31 +15,35 @@
       ".read": "auth !== null && (root.child('admins').child(auth.uid).val() === true || (query.orderByChild === 'homeShift' && query.equalTo === root.child('memberships').child(auth.uid).child('homeShift').val() && root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk')))",
       "$uid": {
         ".read": "auth !== null && auth.uid === $uid",
-        ".write": "auth !== null && auth.uid === $uid && !data.exists() && !root.child('memberships').child($uid).exists() && newData.exists()",
+        ".write": "auth !== null && auth.token.email_verified === true && auth.uid === $uid && !data.exists() && !root.child('memberships').child($uid).exists() && newData.exists()",
         ".validate": "newData.hasChildren(['uid','homeShift','role','requesterName','status','createdAt']) && newData.numChildren() === 6 && newData.child('requesterName').isString() && newData.child('requesterName').val().length > 0 && newData.child('requesterName').val().length <= 80 && newData.child('uid').val() === $uid && (newData.child('homeShift').val() === 'front-days' || newData.child('homeShift').val() === 'front-nights' || newData.child('homeShift').val() === 'back-days' || newData.child('homeShift').val() === 'back-nights') && (newData.child('role').val() === 'admin' || newData.child('role').val() === 'senior-operations-manager' || newData.child('role').val() === 'manager' || newData.child('role').val() === 'pa-clerk' || newData.child('role').val() === 'pa' || newData.child('role').val() === 'tier1-clerk' || newData.child('role').val() === 'tier1') && newData.child('status').val() === 'pending' && newData.child('createdAt').isNumber() && newData.child('createdAt').val() <= now && newData.child('createdAt').val() > now - 300000"
       }
     },
     "memberships": {
       "$uid": {
         ".read": "auth !== null && (auth.uid === $uid || root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk') && root.child('memberships').child(auth.uid).child('homeShift').val() === root.child('homeRequests').child($uid).child('homeShift').val()))",
-        ".write": "auth !== null && !data.exists() && newData.exists() && root.child('homeRequests').child($uid).exists() && newData.child('approvedBy').val() === auth.uid && newData.child('active').val() === true && newData.child('role').val() === root.child('homeRequests').child($uid).child('role').val() && newData.child('homeShift').val() === root.child('homeRequests').child($uid).child('homeShift').val() && (root.child('admins').child(auth.uid).val() === true || (newData.child('role').val() !== 'admin' && root.child('memberships').child(auth.uid).child('active').val() === true && root.child('memberships').child(auth.uid).child('homeShift').val() === newData.child('homeShift').val() && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || (root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk' && (newData.child('role').val() === 'tier1' || newData.child('role').val() === 'tier1-clerk' || newData.child('role').val() === 'pa' || newData.child('role').val() === 'pa-clerk')))))",
+        ".write": "auth !== null && auth.token.email_verified === true && !data.exists() && newData.exists() && root.child('homeRequests').child($uid).exists() && newData.child('approvedBy').val() === auth.uid && newData.child('active').val() === true && newData.child('role').val() === root.child('homeRequests').child($uid).child('role').val() && newData.child('homeShift').val() === root.child('homeRequests').child($uid).child('homeShift').val() && (root.child('admins').child(auth.uid).val() === true || (newData.child('role').val() !== 'admin' && root.child('memberships').child(auth.uid).child('active').val() === true && root.child('memberships').child(auth.uid).child('homeShift').val() === newData.child('homeShift').val() && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || (root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk' && (newData.child('role').val() === 'tier1' || newData.child('role').val() === 'tier1-clerk' || newData.child('role').val() === 'pa' || newData.child('role').val() === 'pa-clerk')))))",
         ".validate": "newData.hasChildren(['homeShift','role','active','approvedBy','approvedAt']) && newData.numChildren() === 5 && newData.child('approvedAt').isNumber() && newData.child('approvedAt').val() <= now && newData.child('approvedAt').val() > now - 300000"
       }
     },
     "profiles": {
       "$uid": {
         ".read": "auth !== null && auth.uid === $uid",
-        ".write": "auth !== null && auth.uid === $uid && root.child('memberships').child($uid).child('active').val() === true && newData.exists()",
+        ".write": "auth !== null && auth.token.email_verified === true && auth.uid === $uid && root.child('memberships').child($uid).child('active').val() === true && newData.exists()",
         ".validate": "newData.hasChildren(['setupComplete','displayName','pronunciation','about','color','status']) && newData.numChildren() === 6 && newData.child('setupComplete').val() === true && newData.child('displayName').isString() && newData.child('displayName').val().length <= 60 && newData.child('pronunciation').isString() && newData.child('pronunciation').val().length <= 80 && newData.child('about').isString() && newData.child('about').val().length <= 240 && newData.child('color').isString() && newData.child('color').val().matches(/^#[a-fA-F0-9]{6}$/) && (newData.child('status').val() === 'active' || newData.child('status').val() === 'away' || newData.child('status').val() === 'private')"
       }
     },
     "preferences": {
       "$uid": {
         ".read": "auth !== null && auth.uid === $uid",
-        ".write": "auth !== null && auth.uid === $uid && root.child('memberships').child($uid).child('active').val() === true",
+        ".write": "auth !== null && auth.token.email_verified === true && auth.uid === $uid && root.child('memberships').child($uid).child('active').val() === true",
         "widgets": {
-          ".validate": "newData.numChildren() <= 6"
-        }
+          ".validate": "newData.numChildren() <= 6",
+          "$index": {
+            ".validate": "newData.isString() && (newData.val() === 'lives' || newData.val() === 'drops' || newData.val() === 'transships' || newData.val() === 'dwells' || newData.val() === 'fifo' || newData.val() === 'reports')"
+          }
+        },
+        ".validate": "newData.numChildren() <= 1 && (!newData.exists() || newData.hasChild('widgets'))"
       }
     },
     "otRequestsByShift": {
@@ -47,7 +51,7 @@
         ".read": "auth !== null && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('homeShift').val() === $shift && root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk')))",
         "$uid": {
           ".read": "auth !== null && auth.uid === $uid",
-          ".write": "auth !== null && auth.uid === $uid && root.child('memberships').child($uid).child('active').val() === true && root.child('memberships').child($uid).child('homeShift').val() !== $shift && newData.exists() && (!data.exists() || newData.child('createdAt').val() > data.child('createdAt').val())",
+          ".write": "auth !== null && auth.token.email_verified === true && auth.uid === $uid && root.child('memberships').child($uid).child('active').val() === true && root.child('memberships').child($uid).child('homeShift').val() !== $shift && newData.exists() && (!data.exists() || newData.child('createdAt').val() > data.child('createdAt').val())",
           ".validate": "newData.hasChildren(['uid','targetShift','createdAt']) && newData.numChildren() === 3 && newData.child('uid').val() === $uid && newData.child('targetShift').val() === $shift && ($shift === 'front-days' || $shift === 'front-nights' || $shift === 'back-days' || $shift === 'back-nights') && newData.child('createdAt').isNumber() && newData.child('createdAt').val() <= now && newData.child('createdAt').val() > now - 300000"
         }
       }
@@ -56,7 +60,7 @@
       "$shift": {
         "$uid": {
           ".read": "auth !== null && (auth.uid === $uid || root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && root.child('memberships').child(auth.uid).child('homeShift').val() === $shift && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk')))",
-          ".write": "auth !== null && newData.exists() && (!data.exists() || data.child('expiresAt').val() <= now) && root.child('otRequestsByShift').child($shift).child($uid).exists() && newData.child('approvedBy').val() === auth.uid && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && root.child('memberships').child(auth.uid).child('homeShift').val() === $shift && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk')))",
+          ".write": "auth !== null && auth.token.email_verified === true && newData.exists() && (!data.exists() || data.child('expiresAt').val() <= now) && root.child('otRequestsByShift').child($shift).child($uid).exists() && newData.child('approvedBy').val() === auth.uid && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && root.child('memberships').child(auth.uid).child('homeShift').val() === $shift && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk')))",
           ".validate": "newData.hasChildren(['approvedBy','issuedAt','expiresAt']) && newData.numChildren() === 3 && newData.child('issuedAt').isNumber() && newData.child('issuedAt').val() <= now && newData.child('issuedAt').val() > now - 300000 && newData.child('expiresAt').isNumber() && newData.child('expiresAt').val() > now && newData.child('expiresAt').val() <= now + 86400000"
         }
       }
