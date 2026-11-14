@@ -10,7 +10,7 @@
 - Waiting screen; real-time Firebase listeners notice approved membership when database rules permit.
 - Optional personal profile (name/pronunciation/about/status/accent color). Individual dashboards start **empty**; users pin/remove placeholder widgets.
 - Active shift selected from the assigned home shift, current schedule, or 24-hour approved coverage. Wednesday overlap and clock-in/clock-out buffer windows are considered.
-- Approver view for authorized clerks, managers, and the bootstrapped administrator.
+- Approver view for authorized **home-shift** clerks, managers, and the bootstrapped administrator; administrators can switch their active shift to review any team.
 - Default operational pages are **informational placeholders**: no fake reports, no live CRUD or work data yet.
 
 ## Important: Firebase access is currently locked
