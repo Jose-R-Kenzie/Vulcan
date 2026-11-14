@@ -44,6 +44,7 @@ const WIDGETS = {
 const $ = (id) => document.getElementById(id);
 let user = null, member = null, homeRequest = null, profile = null, isAdmin = false;
 let currentShift = null, activeScreen = "loading", authMode = "signin";
+let adminShiftOverride = null;
 let widgets = [], stopListeners = [], renderVersion = 0;
 let currentTab = "overview";
 
@@ -84,7 +85,7 @@ function watch(path, callback) {
 }
 function approved() { return member?.active === true; }
 function canApprove() {
-  return isAdmin || (approved() && ["manager", "pa-clerk", "tier1-clerk"].includes(member.role));
+  return isAdmin || (approved() && currentShift === member.homeShift && ["manager", "pa-clerk", "tier1-clerk"].includes(member.role));
 }
 function canApproveRole(role) {
   if (isAdmin) return true;
@@ -127,7 +128,7 @@ async function startForSignedIn(nextUser) {
   renderVersion++;
   user = nextUser;
   member = null; homeRequest = null; profile = null; isAdmin = false;
-  currentShift = null; widgets = [];
+  currentShift = null; adminShiftOverride = null; widgets = [];
   if (!user) { show("auth"); return; }
   if (!user.emailVerified) {
     $("verify-email").textContent = user.email || "your email";
@@ -161,7 +162,7 @@ async function route() {
   }
   const possible = scheduledShifts();
   let nextShift = null;
-  if (isAdmin) nextShift = member.homeShift;
+  if (isAdmin) nextShift = adminShiftOverride || member.homeShift;
   else if (possible.includes(member.homeShift)) nextShift = member.homeShift;
   else {
     for (const shift of possible) {
@@ -195,6 +196,8 @@ async function enterDashboard(shift) {
   $("dashboard-shift").textContent = SHIFTS[shift] + " · " + (ROLES[member.role] || member.role);
   document.documentElement.style.setProperty("--accent", /^#[0-9a-f]{6}$/i.test(profile?.color || "") ? profile.color : "#f5a451");
   $("open-approvals").hidden = !canApprove();
+  $("admin-switch-wrap").hidden = !isAdmin;
+  if (isAdmin) $("admin-shift").value = shift;
   try {
     const saved = (await get(ref(db, "preferences/" + user.uid + "/widgets"))).val();
     widgets = Array.isArray(saved) ? saved.filter((id) => WIDGETS[id]) : [];
@@ -394,6 +397,11 @@ $("add-widget").addEventListener("click", () => { $("widget-catalog").hidden = !
 $("widget-catalog").addEventListener("click", (event) => {
   const widget = event.target.closest("button[data-widget]")?.dataset.widget;
   if (widget && !widgets.includes(widget)) saveWidgets([...widgets, widget]);
+});
+$("admin-shift").addEventListener("change", (event) => {
+  if (!isAdmin || !SHIFTS[event.target.value]) return;
+  adminShiftOverride = event.target.value;
+  route();
 });
 $("open-approvals").addEventListener("click", () => attempt(showApprovals));
 $("open-settings").addEventListener("click", () => show("settings"));
