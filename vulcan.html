@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#101824">
+  <title>Vulcan · Shift workspace</title>
+  <link rel="icon" href="Vulcan_emblem.png">
+  <link rel="stylesheet" href="vulcan.css">
+</head>
+<body>
+  <div class="shell">
+    <header class="masthead">
+      <div class="brand"><img src="Vulcan_emblem.png" alt=""><span><strong>VULCAN</strong><small>RECEIVE OPERATIONS</small></span></div>
+      <div id="account-bar" hidden><span id="account-name"></span><button id="signout" class="subtle" type="button">Sign out</button></div>
+    </header>
+    <p id="notice" class="notice" role="status" aria-live="polite" hidden></p>
+    <main>
+      <section id="screen-loading" class="panel compact"><h1>Opening Vulcan…</h1><p>Checking your sign-in and shift access.</p></section>
+
+      <section id="screen-auth" class="panel hero" hidden>
+        <div class="eyebrow">ONE WORKSPACE · FOUR SHIFTS</div><h1>Everything your shift needs.<br><em>In one place.</em></h1>
+        <p>Sign in to request access to your home shift. Your permissions are approved by your team.</p>
+        <form id="auth-form" class="form">
+          <label>Email <input id="email" type="email" autocomplete="email" required></label>
+          <label>Password <input id="password" type="password" minlength="6" autocomplete="current-password" required></label>
+          <button id="auth-submit" class="primary" type="submit">Sign in with email</button>
+        </form>
+        <div class="form-actions"><button id="auth-mode" class="text-button" type="button">New here? Create an account</button></div>
+        <div class="divider"><span>or</span></div>
+        <button id="google-login" class="secondary" type="button">Continue with Google</button>
+        <p class="fine-print">Experimental prototype. Do not enter actual work records until Vulcan is approved and operational security checks pass.</p>
+      </section>
+
+      <section id="screen-request" class="panel compact" hidden>
+        <div class="eyebrow">FIRST-TIME SETUP · STEP 1</div><h1>Request your home shift</h1>
+        <p>Select the shift and role you normally work. Approval is required before your dashboard opens.</p>
+        <form id="home-form" class="form">
+          <label>Your name for the approval request <input id="requester-name" maxlength="80" required placeholder="Name your teammates recognize"></label>
+          <label>Home shift <select id="home-shift" required>
+            <option value="">Choose a shift</option><option value="front-days">Front Half Days</option><option value="front-nights">Front Half Nights</option>
+            <option value="back-days">Back Half Days</option><option value="back-nights">Back Half Nights</option>
+          </select></label>
+          <label>Requested role <select id="home-role" required>
+            <option value="">Choose your role</option><option value="tier1">Tier 1 · view only</option><option value="tier1-clerk">Tier 1 Clerk</option>
+            <option value="pa">PA · view only</option><option value="pa-clerk">PA Clerk</option>
+            <option value="manager">Manager</option><option value="senior-operations-manager">Senior Operations Manager</option><option value="admin">Administrator · owner approval only</option>
+          </select></label>
+          <button class="primary" type="submit">Submit access request</button>
+        </form>
+      </section>
+
+      <section id="screen-pending" class="panel compact" hidden>
+        <span class="status-pill amber">Awaiting approval</span><h1>You're in the queue.</h1>
+        <p>A qualified clerk or administrator from your requested home shift will review your access.</p>
+        <div class="detail"><span>Requested shift</span><strong id="pending-shift"></strong></div>
+        <div class="detail"><span>Requested role</span><strong id="pending-role"></strong></div>
+        <p class="small">This screen updates automatically once you are approved. Please contact an authorized clerk if approval is taking longer than expected.</p>
+      </section>
+
+      <section id="screen-profile" class="panel compact" hidden>
+        <div class="eyebrow">FIRST-TIME SETUP · STEP 2</div><h1>Make Vulcan yours</h1>
+        <p>Your workspace starts blank. Choose how other people see your profile, or skip this step.</p>
+        <form id="profile-form" class="form">
+          <label>Display name <input id="profile-name" maxlength="60" autocomplete="name"></label>
+          <label>Name pronunciation <input id="profile-pronunciation" maxlength="80" placeholder="Optional"></label>
+          <label>About me <textarea id="profile-about" maxlength="240" rows="3" placeholder="Optional"></textarea></label>
+          <label>Accent color <input id="profile-color" type="color" value="#f5a451"></label>
+          <label>Status <select id="profile-status"><option value="active">🟢 Active</option><option value="away">💤 Away</option><option value="private">Private</option></select></label>
+          <button class="primary" type="submit">Save and continue</button>
+          <button id="skip-profile" class="subtle" type="button">Skip for now</button>
+        </form>
+      </section>
+
+      <section id="screen-access" class="panel compact" hidden>
+        <div class="eyebrow">SHIFT ACCESS</div><h1 id="access-title">Off-shift</h1>
+        <p id="access-explainer"></p>
+        <form id="ot-form" class="form" hidden>
+          <label>Shift you're covering <select id="ot-shift"></select></label>
+          <button class="primary" type="submit">Request temporary access</button>
+        </form>
+        <p class="small" id="ot-message"></p>
+        <p class="small">Temporary approvals last 24 hours. Your permanent home-shift approval remains unchanged.</p>
+      </section>
+
+      <section id="screen-dashboard" hidden>
+        <div class="dashboard-header"><div><div class="eyebrow">PERSONAL WORKSPACE</div><h1>Welcome, <span id="dashboard-name">Clerk</span></h1><p id="dashboard-shift" class="muted"></p></div>
+        <div class="top-actions"><button class="secondary" id="open-approvals" hidden type="button">Access requests <span id="approval-count"></span></button>
+          <button class="subtle" id="open-settings" type="button">Settings</button></div></div>
+        <nav id="workspace-nav" aria-label="Workspace sections" class="tabs">
+          <button data-tab="overview" aria-current="page">Dashboard</button>
+          <button data-tab="lives">Lives</button><button data-tab="drops">Drops</button><button data-tab="transships">Transships</button>
+          <button data-tab="cuts">CUTs & Dwells</button><button data-tab="fifo">FIFO & Hot List</button>
+          <button data-tab="reports">Reports</button><button data-tab="yard">Yard</button><button data-tab="communication">Communication</button>
+        </nav>
+        <section id="tab-overview">
+          <div class="section-title"><div><h2>My dashboard</h2><p>Your canvas starts empty. Add only what you want to track.</p></div><button id="add-widget" class="secondary" type="button">+ Add widget</button></div>
+          <div id="widget-catalog" class="catalog" hidden><button data-widget="lives">Lives tracker</button><button data-widget="drops">Drops tracker</button>
+            <button data-widget="transships">Transships tracker</button><button data-widget="dwells">Dwell watch</button><button data-widget="fifo">FIFO watch</button><button data-widget="reports">Reports summary</button></div>
+          <div id="widget-board" class="widget-board"></div>
+          <div id="empty-board" class="empty-board"><span>✦</span><h3>Your workspace, your way</h3><p>Nothing is pinned yet. Select “Add widget” to get started.</p></div>
+        </section>
+        <section id="tab-detail" class="panel detail-panel" hidden><div class="eyebrow">SHIFT WORKSPACE</div><h2 id="detail-title"></h2>
+          <p id="detail-copy"></p><p class="small">This section is being connected to the three data pillars and reports. No sample figures are presented as live operational data.</p></section>
+      </section>
+
+      <section id="screen-approvals" class="panel" hidden>
+        <div class="section-title"><div><div class="eyebrow">SHIFT TEAM</div><h1>Access requests</h1><p>One authorized approval is enough. Home access is permanent; coverage access expires.</p></div><button class="subtle back-dashboard" type="button">Back to dashboard</button></div>
+        <div id="approval-list" class="request-list"></div>
+      </section>
+      <section id="screen-settings" class="panel compact" hidden>
+        <div class="section-title"><h1>Settings</h1><button class="subtle back-dashboard" type="button">Back</button></div>
+        <p>Your sign-in methods should belong to the same Firebase account so shift approvals stay together.</p>
+        <button id="link-google" class="secondary" type="button">Link Google to this account</button>
+        <form id="link-password-form" class="form">
+          <label>Add email/password to current account <input type="email" id="link-email" placeholder="Email" required></label>
+          <label>New password <input type="password" id="link-password" minlength="6" required></label>
+          <button class="secondary" type="submit">Link email and password</button>
+        </form>
+        <p class="small">If that sign-in already belongs to a different account, Vulcan will stop and ask you to resolve it; it will not merge two memberships automatically.</p>
+      </section>
+    </main>
+    <footer>VULCAN · Prototype workspace · No operational data yet</footer>
+  </div>
+  <script type="module" src="vulcan-app.js"></script>
+</body>
+</html>
