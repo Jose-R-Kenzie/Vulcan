@@ -26,3 +26,5 @@ button:hover{filter:brightness(1.12)}button:disabled{opacity:.5;cursor:wait}.tex
 .detail-panel{max-width:800px}.request .muted{font-size:13px}
 footer{color:#738396;text-align:center;margin:65px 0 8px;font-size:11px;letter-spacing:.08em}
 [hidden]{display:none!important}@media(max-width:650px){.dashboard-header{align-items:start;flex-direction:column}.brand strong{font-size:18px}.brand img{height:44px;width:44px}.masthead{padding-bottom:18px}#account-name{display:none}}
+
+.admin-switch{display:grid;gap:3px;color:var(--muted);font-size:11px}.admin-switch select{padding:8px 10px;font-size:13px;min-width:160px}
