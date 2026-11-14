@@ -26,4 +26,5 @@ jobs:
       - run: npm run check:app
       - run: npm run test:schedule
       - run: npm run test:pillars
+      - run: npm run test:dom
       - run: npx firebase-tools emulators:exec --only database --project demo-vulcan-auth-tests 'npm run test:rules'

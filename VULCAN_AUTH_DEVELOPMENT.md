@@ -17,7 +17,7 @@
 ## Important: Firebase access is currently locked
 
 Realtime Database was deliberately locked with global `.read: false` and `.write: false`.
-**Do not replace those live rules yet.** `database.rules.proposed.json` is a **local security proposal**, not a deployed policy. An earlier draft passed 28 Firebase permission tests, and the expanded pillar rules must pass CI as well. Sign-in may authenticate but requesting access will correctly fail with permission denied until the rules are explicitly approved for deployment.
+**Do not replace those live rules yet.** `database.rules.proposed.json` is a **local security proposal**, not a deployed policy. The expanded draft passed **56 Firebase emulator permission tests** with no failures on the development branch. Sign-in may authenticate but requesting access will correctly fail with permission denied until the rules are explicitly approved for deployment.
 
 The old public chat remains blocked. Existing chat messages, spreadsheets, and Google Drive have not been touched.
 
@@ -60,7 +60,7 @@ The schedule **allows Wednesday overlap** and the 04:30–05:00 / 16:30–17:30 
 - JavaScript syntax parses and the site has all initial sign-in / shift views.
 - Eight schedule cases passed, including Wednesday overlap and overnight handoff.
 - Pillar schema validation tests check the three original field counts, types, and editor/viewer role distinctions.
-- Isolated GitHub Actions Firebase database emulator tests passed 28 original approval checks before pillar rules were added. The expanded test suite must be rechecked whenever rules change.
+- Isolated GitHub Actions Firebase database emulator tests passed **56/56** checks, including all approval and operational data access cases. A static HTML/JavaScript contract test also verifies that interactive elements exist.
 - `scripts/build-proposed-rules.mjs` regenerates the isolated `database.rules.proposed.json` field allowlists from `vulcan-pillars.js`; it never deploys.
 
 **Not yet verified:** Real browser sign-in, profile updates, OAuth linking/provider collisions, email verification, real-time approval end-to-end, mobile accessibility, reports, and operational CRUD against a safe Firebase staging instance. None of this should be represented as deployed or ready for actual operations.
