@@ -1,6 +1,6 @@
 # Vulcan · authentication and shift access (development branch)
 
-**Status:** Development-only implementation of sign-in, access approvals, shift schedules, optional profile, blank dashboard, and first operational record screens. **Not deployed.** Main branch, live Firebase database rules, and the GitHub Pages site remain unchanged.
+**Status:** Development-only website implementation of sign-in, access approvals, shift schedules, optional profile, blank dashboard, and first operational record screens. **The website is not deployed.** The proposed Realtime Database rules were explicitly approved by Jose and published to `vulcan-chat-b45d6-default-rtdb` through Firebase Console on November 14, 2026. The GitHub `main` branch and the public GitHub Pages site remain unchanged.
 
 ## What the branch adds
 
@@ -14,20 +14,21 @@
 - Lives, Drops, and Transships now have searchable, shift-scoped editable tables and record forms, with **15 / 36 / 58** original Excel field labels and available dropdown choices. There are no imported real records. Read-only roles can view; authorized clerks/managers can create, update, archive, and restore. Optimistic version checks prevent silent overwrites when two clerks edit the same record.
 - Derived reports, Dwells, FIFO, CUTs, Yard, and messages remain **informational placeholders**: no fake reports or live calculations.
 
-## Important: Firebase access is currently locked
+## Important: Firebase access rules are published, not yet pilot-tested
 
-Realtime Database was deliberately locked with global `.read: false` and `.write: false`.
-**Do not replace those live rules yet.** `database.rules.proposed.json` is a **local security proposal**, not a deployed policy. The expanded draft passed **56 Firebase emulator permission tests** with no failures on the development branch. Sign-in may authenticate but requesting access will correctly fail with permission denied until the rules are explicitly approved for deployment.
+The previous Realtime Database rules were globally locked. A copy is retained in `database.rules.before-experiment.json` for rollback. The new published policy keeps root `.read: false` and `.write: false`, forbids access to the legacy `messages` path, and allows narrowly scoped authenticated requests, memberships, profiles, and shift records. Firebase Console displayed **“Success: Rules published.”**
+
+The policy passed **56 Firebase emulator permission tests** before publication. That does not replace real account and browser integration tests. No admin account has been bootstrapped; no real work records have been imported; no website changes have been made public.
 
 The old public chat remains blocked. Existing chat messages, spreadsheets, and Google Drive have not been touched.
 
 ## Required before a usable protected pilot
 
 1. Confirm the facility time zone; the development code temporarily uses `America/Los_Angeles`.
-2. Add the intended test host (for GitHub Pages, `jose-r-kenzie.github.io`) to Firebase Authentication → Settings → Authorized domains. Verify both sign-in methods from that host.
+2. `jose-r-kenzie.github.io` is already authorized in Firebase Authentication → Settings → Authorized domains. Verify both sign-in methods from a safely hosted test version.
 3. Verify GitHub Actions **Firebase Realtime Database Emulator** tests are green. The test suite checks public access, self-approval, permission ceilings, cross-shift isolation, 24-hour expiration, write types, archive/restore, and the locked legacy messages path. This is isolated test data and does not change production Firebase.
 4. Bootstrap Jose's administrator **by a trusted console/Admin SDK operation**, not through website code: after Jose first creates an Auth user, use that authenticated user's exact Firebase UID and set `admins/UID = true`. Separately seed that user's approved `memberships/UID` once (same UID, `role: "admin"`, `homeShift`, `active: true`, `approvedBy`, `approvedAt`). The browser is intentionally unable to grant itself Admin rights. **Do not perform this bootstrap until Jose confirms the exact UID and requests it.**
-5. Only after security tests and explicit owner approval, publish rules and expose a test build. Leave production work records out of the experiment until organizational approval.
+5. Security rules are published with owner approval; **do not publish the test website or import any production work records** until Jose separately approves that step. Organizational approval remains required before actual operations.
 6. Add decline/revoke/deactivation workflows, a durable audit trail, resubmission, messaging notifications, browser-level integration tests and rate controls before real workers are onboarded.
 7. Port Excel report calculations, Dwells and FIFO with independently checked totals and row-level ordering. The 21-sheet workbook has not been imported. Old `.html` pages are currently public via direct URL and must be blocked/retired before real work data is stored.
 8. Review whether backend rules must enforce schedule windows as well as shift membership. Currently shift windows are enforced by the **UI**, while backend pillar rules enforce permanent home-shift membership or a valid 24-hour grant. A determined client could call the backend outside a home shift's scheduled hours unless additional trusted schedule enforcement is added.
