@@ -91,7 +91,7 @@
 
       <section id="screen-dashboard" hidden>
         <div class="dashboard-header"><div><div class="eyebrow">PERSONAL WORKSPACE</div><h1>Welcome, <span id="dashboard-name">Clerk</span></h1><p id="dashboard-shift" class="muted"></p></div>
-        <div class="top-actions"><button class="secondary" id="open-approvals" hidden type="button">Access requests <span id="approval-count"></span></button>
+        <div class="top-actions"><label id="admin-switch-wrap" class="admin-switch" hidden>Admin shift <select id="admin-shift"><option value="front-days">Front Half Days</option><option value="front-nights">Front Half Nights</option><option value="back-days">Back Half Days</option><option value="back-nights">Back Half Nights</option></select></label><button class="secondary" id="open-approvals" hidden type="button">Access requests <span id="approval-count"></span></button>
           <button class="subtle" id="open-settings" type="button">Settings</button></div></div>
         <nav id="workspace-nav" aria-label="Workspace sections" class="tabs">
           <button data-tab="overview" aria-current="page">Dashboard</button>
