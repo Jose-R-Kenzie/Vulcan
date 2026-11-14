@@ -7,8 +7,9 @@ import {
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getDatabase, ref, get, set, onValue, query, orderByChild,
-  equalTo, serverTimestamp
+  equalTo, serverTimestamp, push, runTransaction
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+import { PILLARS, editableRole, normalizePillarFields } from "./vulcan-pillars.js";
 
 // Development branch: never treat browser-selected roles as authorization.
 // Backend RTDB rules must validate every approval before enabling this for workers.
@@ -28,9 +29,9 @@ const ROLES = {
   "tier1-clerk": "Tier 1 Clerk", "tier1": "Tier 1"
 };
 const TABS = {
-  lives: ["Lives", "The editable Lives pillar will live here."],
-  drops: ["Drops", "The editable Drops pillar will live here."],
-  transships: ["Transships", "The editable Transships pillar will live here."],
+  lives: ["Lives", "Live appointments · 15 Excel fields"],
+  drops: ["Drops", "Drop appointments · 36 Excel fields"],
+  transships: ["Transships", "Transship appointments · 58 Excel fields"],
   cuts: ["CUTs & Dwells", "Time-critical CUT and dwell calculations will be read-only unless a role is explicitly granted a field override."],
   fifo: ["FIFO & Hot List", "Prioritized FIFO queues and hot lists will be derived from shift records."],
   reports: ["Reports", "Reports will summarize the shift's operational records, not hardcoded metrics."],
@@ -47,6 +48,8 @@ let currentShift = null, activeScreen = "loading", authMode = "signin";
 let adminShiftOverride = null;
 let widgets = [], stopListeners = [], renderVersion = 0;
 let currentTab = "overview";
+let stopPillar = null, pillarRecords = {}, pillarLimit = 60;
+let editingRecord = null;
 
 function show(screen) {
   activeScreen = screen;
@@ -78,6 +81,12 @@ async function attempt(callback) {
 function cleanup() {
   stopListeners.forEach((stop) => stop());
   stopListeners = [];
+  closePillarListener();
+}
+function closePillarListener() {
+  if (stopPillar) stopPillar();
+  stopPillar = null;
+  pillarRecords = {};
 }
 function watch(path, callback) {
   const unsub = onValue(ref(db, path), (snapshot) => callback(snapshot.val()), (err) => notice(errorMessage(err)));
@@ -207,6 +216,7 @@ async function enterDashboard(shift) {
   show("dashboard");
 }
 function switchTab(tab) {
+  if (currentTab !== tab) closePillarListener();
   currentTab = tab;
   document.querySelectorAll("#workspace-nav button").forEach((button) => {
     button.setAttribute("aria-current", button.dataset.tab === tab ? "page" : "false");
@@ -217,6 +227,184 @@ function switchTab(tab) {
     $("detail-title").textContent = TABS[tab][0];
     $("detail-copy").textContent = TABS[tab][1];
   }
+  const pillar = Boolean(PILLARS[tab]);
+  $("pillar-panel").hidden = !pillar;
+  $("detail-placeholder").hidden = pillar;
+  if (pillar && currentShift && !stopPillar) openPillar(tab);
+}
+
+function mayEditPillar() {
+  return approved() && (isAdmin || editableRole(member?.role));
+}
+function pillarPath(pillar, id = "") {
+  return `operational/${currentShift}/${pillar}` + (id ? "/" + id : "");
+}
+function openPillar(pillar) {
+  pillarLimit = 60;
+  $("pillar-search").value = "";
+  $("pillar-show-archived").checked = false;
+  $("pillar-add").hidden = !mayEditPillar();
+  $("pillar-count").textContent = "Loading records…";
+  stopPillar = onValue(ref(db, pillarPath(pillar)), (snapshot) => {
+    if (currentTab !== pillar) return;
+    pillarRecords = snapshot.val() || {};
+    renderPillar();
+  }, (error) => {
+    $("pillar-count").textContent = "Records cannot be loaded until the proposed database rules are approved and installed.";
+    notice(errorMessage(error));
+  });
+}
+function displayPillarValue(field, value) {
+  if (value == null || value === "") return "—";
+  if (field.kind === "datetime") {
+    const time = new Date(value);
+    return Number.isNaN(time.getTime()) ? String(value) : time.toLocaleString();
+  }
+  return String(value);
+}
+function renderPillar() {
+  const pillar = PILLARS[currentTab];
+  if (!pillar) return;
+  const queryText = $("pillar-search").value.trim().toLocaleLowerCase();
+  const archived = $("pillar-show-archived").checked;
+  const all = Object.entries(pillarRecords).filter(([, record]) => record && typeof record === "object");
+  const visible = all.filter(([, record]) => (archived || !record.archived) &&
+    (!queryText || Object.values(record.fields || {}).some((v) => String(v).toLocaleLowerCase().includes(queryText))))
+    .sort((a, b) => (Number(b[1].updatedAt) || 0) - (Number(a[1].updatedAt) || 0));
+  const columns = pillar.fields.slice(0, 7);
+  const headRow = document.createElement("tr");
+  for (const field of columns) {
+    const cell = document.createElement("th");
+    cell.scope = "col";
+    cell.textContent = field.label;
+    headRow.append(cell);
+  }
+  const actionsHead = document.createElement("th");
+  actionsHead.textContent = "Actions";
+  headRow.append(actionsHead);
+  $("pillar-table").querySelector("thead").replaceChildren(headRow);
+  const body = document.createDocumentFragment();
+  for (const [id, record] of visible.slice(0, pillarLimit)) {
+    const row = document.createElement("tr");
+    if (record.archived) row.className = "archived";
+    for (const field of columns) {
+      const cell = document.createElement("td");
+      cell.textContent = displayPillarValue(field, record.fields?.[field.code]);
+      row.append(cell);
+    }
+    const actions = document.createElement("td");
+    actions.className = "table-actions";
+    const view = document.createElement("button");
+    view.type = "button";
+    view.className = "secondary";
+    view.textContent = mayEditPillar() ? "Edit" : "View";
+    view.addEventListener("click", () => openPillarEditor(id, record));
+    actions.append(view);
+    if (mayEditPillar()) {
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "subtle";
+      toggle.textContent = record.archived ? "Restore" : "Archive";
+      toggle.addEventListener("click", () => archivePillar(id, record));
+      actions.append(toggle);
+    }
+    row.append(actions);
+    body.append(row);
+  }
+  if (!visible.length) {
+    const empty = document.createElement("tr");
+    const cell = document.createElement("td");
+    cell.colSpan = columns.length + 1;
+    cell.textContent = all.length ? "No matching records." : "No records yet. Your shift starts with an empty table.";
+    empty.append(cell);
+    body.append(empty);
+  }
+  $("pillar-table").querySelector("tbody").replaceChildren(body);
+  $("pillar-count").textContent = `${visible.length} matching · ${all.length} total records for ${SHIFTS[currentShift]}`;
+  $("pillar-load-more").hidden = visible.length <= pillarLimit;
+}
+function openPillarEditor(id = null, record = null) {
+  if (!currentShift || !PILLARS[currentTab]) return;
+  editingRecord = id ? { id, version: record?.version } : null;
+  const pillar = PILLARS[currentTab];
+  const writable = mayEditPillar();
+  $("pillar-editor-title").textContent = (id ? (writable ? "Edit" : "View") : "New") + " " + pillar.label + " record";
+  $("pillar-editor-context").textContent = `${SHIFTS[currentShift]} · ${pillar.fields.length} fields · ${writable ? "Authorized editing" : "Read only"}`;
+  $("pillar-save").hidden = !writable;
+  const container = $("pillar-fields");
+  const inputs = document.createDocumentFragment();
+  for (const field of pillar.fields) {
+    const label = document.createElement("label");
+    label.textContent = field.label;
+    const value = record?.fields?.[field.code];
+    let input;
+    if (field.kind === "select") {
+      input = document.createElement("select");
+      input.add(new Option("— Not set —", ""));
+      field.choices.forEach((choice) => input.add(new Option(choice, choice)));
+    } else if (field.kind === "note") {
+      input = document.createElement("textarea");
+      input.maxLength = 2000;
+    } else {
+      input = document.createElement("input");
+      input.type = field.kind === "datetime" ? "datetime-local" : field.kind === "number" ? "number" : "text";
+      if (field.kind === "number") { input.min = "0"; input.step = "any"; }
+      if (field.kind === "text") input.maxLength = 250;
+    }
+    input.name = field.code;
+    input.disabled = !writable;
+    if (field.kind === "datetime" && value) {
+      const dt = new Date(value);
+      // Convert saved UTC instants for editing in the clerk's local browser time.
+      if (!Number.isNaN(dt.getTime())) input.value = new Date(dt.getTime() - dt.getTimezoneOffset() * 60000).toISOString().slice(0, 16);
+    } else if (value !== undefined && value !== null) input.value = String(value);
+    label.append(input);
+    inputs.append(label);
+  }
+  container.replaceChildren(inputs);
+  $("pillar-editor").showModal();
+}
+async function savePillar(event) {
+  event.preventDefault();
+  if (!mayEditPillar() || !PILLARS[currentTab]) return;
+  const raw = Object.fromEntries(new FormData($("pillar-form")).entries());
+  await attempt(async () => {
+    const fields = normalizePillarFields(currentTab, raw);
+    const target = editingRecord ? ref(db, pillarPath(currentTab, editingRecord.id)) : push(ref(db, pillarPath(currentTab)));
+    $("pillar-save").disabled = true;
+    try {
+      if (!editingRecord) {
+        await set(target, {
+          fields, version: 1, archived: false, createdBy: user.uid,
+          createdAt: serverTimestamp(), updatedBy: user.uid, updatedAt: serverTimestamp()
+        });
+      } else {
+        const expected = editingRecord.version;
+        const result = await runTransaction(target, (existing) => {
+          if (!existing || existing.version !== expected) return;
+          return { ...existing, fields, version: expected + 1,
+            updatedBy: user.uid, updatedAt: serverTimestamp() };
+        }, { applyLocally: false });
+        if (!result.committed) throw Error("Another clerk changed this record. Reopen it to review the latest version before saving.");
+      }
+      $("pillar-editor").close();
+      notice("Record saved to " + SHIFTS[currentShift] + ".");
+    } finally { $("pillar-save").disabled = false; }
+  });
+}
+async function archivePillar(id, record) {
+  if (!mayEditPillar()) return;
+  const action = record.archived ? "restore" : "archive";
+  if (!window.confirm(`Do you want to ${action} this record? Its data will be preserved.`)) return;
+  await attempt(async () => {
+    const result = await runTransaction(ref(db, pillarPath(currentTab, id)), (existing) => {
+      if (!existing || existing.version !== record.version) return;
+      return { ...existing, archived: !record.archived, version: record.version + 1,
+        updatedBy: user.uid, updatedAt: serverTimestamp() };
+    }, { applyLocally: false });
+    if (!result.committed) throw Error("This record changed while you were working. Review the latest record and try again.");
+    notice("Record " + (record.archived ? "restored" : "archived") + ".");
+  });
 }
 function renderWidgets() {
   const board = $("widget-board");
@@ -393,6 +581,13 @@ $("workspace-nav").addEventListener("click", (event) => {
   const button = event.target.closest("button[data-tab]");
   if (button) switchTab(button.dataset.tab);
 });
+$("pillar-search").addEventListener("input", renderPillar);
+$("pillar-show-archived").addEventListener("change", renderPillar);
+$("pillar-load-more").addEventListener("click", () => { pillarLimit += 60; renderPillar(); });
+$("pillar-add").addEventListener("click", () => openPillarEditor());
+$("pillar-form").addEventListener("submit", savePillar);
+$("pillar-cancel").addEventListener("click", () => $("pillar-editor").close());
+$("pillar-cancel-top").addEventListener("click", () => $("pillar-editor").close());
 $("add-widget").addEventListener("click", () => { $("widget-catalog").hidden = !$("widget-catalog").hidden; });
 $("widget-catalog").addEventListener("click", (event) => {
   const widget = event.target.closest("button[data-widget]")?.dataset.widget;

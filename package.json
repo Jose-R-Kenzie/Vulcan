@@ -5,9 +5,10 @@
   "type": "module",
   "description": "Development-only tests for Vulcan authentication and shift access",
   "scripts": {
-    "check:app": "node --check vulcan-app.js",
+    "check:app": "node --check vulcan-app.js && node --check vulcan-pillars.js",
     "test:rules": "node tests/rules-test.mjs",
-    "test:schedule": "node tests/schedule-test.mjs"
+    "test:schedule": "node tests/schedule-test.mjs",
+    "test:pillars": "node tests/pillars-test.mjs"
   },
   "devDependencies": {
     "@firebase/rules-unit-testing": "3.0.4",

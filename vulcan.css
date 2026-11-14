@@ -28,3 +28,31 @@ footer{color:#738396;text-align:center;margin:65px 0 8px;font-size:11px;letter-s
 [hidden]{display:none!important}@media(max-width:650px){.dashboard-header{align-items:start;flex-direction:column}.brand strong{font-size:18px}.brand img{height:44px;width:44px}.masthead{padding-bottom:18px}#account-name{display:none}}
 
 .admin-switch{display:grid;gap:3px;color:var(--muted);font-size:11px}.admin-switch select{padding:8px 10px;font-size:13px;min-width:160px}
+
+/* Spreadsheet-style pillars on a single protected workspace route. */
+.detail-panel:has(#pillar-panel:not([hidden])){max-width:none;padding:clamp(18px,3vw,32px)}
+.pillar-toolbar{display:flex;align-items:end;flex-wrap:wrap;gap:12px;margin:22px 0 8px}
+.pillar-toolbar label{font-size:12px;font-weight:650;color:#d5dfeb;display:grid;gap:7px;min-width:220px}
+.pillar-toolbar label:first-child{flex:1}.pillar-toolbar .check-label{display:flex;align-items:center;gap:9px;min-width:0;padding-bottom:12px}
+.check-label input{width:17px;height:17px;accent-color:var(--accent)}
+.table-scroll{overflow:auto;max-height:65vh;border:1px solid #3b4b61;border-radius:12px}
+#pillar-table{border-collapse:separate;border-spacing:0;width:100%;min-width:760px;font-size:12px;text-align:left}
+#pillar-table th{position:sticky;top:0;z-index:1;background:#26364b;color:#eef4fb;white-space:nowrap;font-weight:700}
+#pillar-table td,#pillar-table th{border-bottom:1px solid #344255;padding:12px 13px;max-width:235px;overflow-wrap:anywhere}
+#pillar-table tr:nth-child(even) td{background:#1b2b3e}
+#pillar-table tr:hover td{background:#2a3c51}
+#pillar-table td:first-child{font-weight:750;color:#f4f7fa}
+#pillar-table .table-actions{display:flex;gap:6px;flex-wrap:wrap}
+#pillar-table .table-actions button{padding:7px 9px;font-size:11px}
+#pillar-table .archived td{opacity:.6}
+#pillar-load-more{margin-top:14px}
+#pillar-editor{background:#142132;color:#f4f7fa;border:1px solid #51637a;border-radius:17px;box-shadow:0 25px 90px #0009;width:min(910px,94vw);max-height:89vh;padding:clamp(20px,3vw,34px)}
+#pillar-editor::backdrop{background:#030913b8;backdrop-filter:blur(4px)}
+.editor-header{display:flex;align-items:start;justify-content:space-between;gap:20px;border-bottom:1px solid var(--border);padding-bottom:14px;margin-bottom:16px}
+.editor-header h2{margin:10px 0 3px}
+.field-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:17px}
+.field-grid label{display:grid;align-content:start;gap:7px;font-size:12px;color:#d5dfeb;font-weight:700}
+.field-grid label small{font-weight:400;color:var(--muted)}
+.field-grid textarea{min-height:82px}
+.editor-actions{display:flex;gap:10px;justify-content:flex-end;position:sticky;bottom:-34px;background:#142132;padding:20px 0 0;margin-top:24px}
+@media(max-width:650px){.pillar-toolbar label:first-child{flex-basis:100%}.field-grid{grid-template-columns:1fr}.editor-actions{bottom:-20px}}

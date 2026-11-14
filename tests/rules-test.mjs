@@ -19,6 +19,10 @@ const request = (uid, shift, role) => ({
   uid, homeShift: shift, role, requesterName: uid,
   status: 'pending', createdAt: serverTimestamp()
 });
+const record = (uid, fields, version = 1, archived = false, created = uid) => ({
+  fields, version, archived, createdBy: created, createdAt: serverTimestamp(),
+  updatedBy: uid, updatedAt: serverTimestamp()
+});
 async function test(name, success, run) {
   let outcome;
   try { await run(); outcome = true; }
@@ -35,7 +39,9 @@ try {
       ['admin', 'back-nights', 'admin'],
       ['clerkB', 'back-nights', 'tier1-clerk'],
       ['managerB', 'back-nights', 'manager'],
-      ['clerkF', 'front-days', 'tier1-clerk']
+      ['clerkF', 'front-days', 'tier1-clerk'],
+      ['viewerB', 'back-nights', 'tier1'],
+      ['seniorB', 'back-nights', 'senior-operations-manager']
     ]) {
       await set(ref(db, 'memberships/' + uid), {
         homeShift, role, active: true, approvedBy: 'BOOTSTRAP', approvedAt: timestamp()
@@ -71,6 +77,49 @@ try {
   await test('target-shift clerk can approve 24 hour coverage', true, () => set(ref(auth('clerkF'), 'otGrants/front-days/newclerk'), {approvedBy:'clerkF',issuedAt:serverTimestamp(),expiresAt:timestamp()+86400000}));
   await test('existing active coverage cannot be overwritten by the worker', false, () => set(ref(auth('newclerk'), 'otGrants/front-days/newclerk'), {approvedBy:'newclerk',issuedAt:serverTimestamp(),expiresAt:timestamp()+86400000}));
   await test('existing chat messages remain protected', false, () => get(ref(auth('newclerk'), 'messages')));
+
+  // Fictional records only. Production work data is never loaded into test runners.
+  const livePath = 'operational/back-nights/lives/testLive';
+  const testLive = { A: 'FICTIONAL-ISA-01', B: 'DOOR-TEST', C: 'ARRIVED', G: 12, O: 'Test note' };
+  await test('anonymous cannot list operational records', false, () => get(ref(noAuth, 'operational/back-nights/lives')));
+  await test('even a member cannot list all shifts at database root', false, () => get(ref(auth('clerkB'), 'operational')));
+  await test('home clerk can create a Lives record', true, () => set(ref(auth('clerkB'), livePath), record('clerkB', testLive)));
+  await test('home clerk can read their Lives pillar', true, () => get(ref(auth('clerkB'), 'operational/back-nights/lives')));
+  await test('other shift cannot read the Lives pillar', false, () => get(ref(auth('clerkF'), 'operational/back-nights/lives')));
+  await test('tier 1 viewer may read home-shift records', true, () => get(ref(auth('viewerB'), livePath)));
+  await test('senior operations manager may read home-shift records', true, () => get(ref(auth('seniorB'), livePath)));
+  await test('tier 1 viewer cannot edit records', false, () => set(ref(auth('viewerB'), 'operational/back-nights/lives/viewerAttempt'), record('viewerB', {A:'NO'})));
+  await test('senior operations manager cannot edit three pillars', false, () => set(ref(auth('seniorB'), 'operational/back-nights/lives/seniorAttempt'), record('seniorB', {A:'NO'})));
+  await test('other shift cannot create records', false, () => set(ref(auth('clerkF'), 'operational/back-nights/drops/crossShift'), record('clerkF', {A:'NO'})));
+  await test('cannot write extra fields to Lives', false, () => set(ref(auth('clerkB'), 'operational/back-nights/lives/extra'), record('clerkB', {A:'TEST', ADMIN:'true'})));
+  await test('cannot set a negative unit count', false, () => set(ref(auth('clerkB'), 'operational/back-nights/lives/negative'), record('clerkB', {A:'TEST', G:-1})));
+  await test('cannot save unsupported status', false, () => set(ref(auth('clerkB'), 'operational/back-nights/lives/status'), record('clerkB', {A:'TEST', C:'MADE_UP'})));
+  await test('cannot impersonate creator', false, () => set(ref(auth('clerkB'), 'operational/back-nights/lives/forged'), record('clerkB', {A:'TEST'}, 1, false, 'admin')));
+  await test('cannot add privileged top-level field', false, () => set(ref(auth('clerkB'), 'operational/back-nights/lives/privileged'), {...record('clerkB', {A:'TEST'}), role:'admin'}));
+  await test('cannot directly delete a record', false, () => set(ref(auth('clerkB'), livePath), null));
+  await test('cannot overwrite without increasing version', false, () => set(ref(auth('clerkB'), livePath), record('clerkB', {A:'CHANGED'}, 1)));
+  await test('cannot replace original creator on update', false, () => set(ref(auth('managerB'), livePath), record('managerB', {A:'CHANGED'}, 2)));
+  const original = (await get(ref(auth('clerkB'), livePath))).val();
+  await test('can update Lives with version increment', true, () => set(ref(auth('managerB'), livePath), {...original, fields:{...testLive, G:13},version:2,updatedBy:'managerB',updatedAt:serverTimestamp()}));
+  await test('archiving is allowed and preserves data', true, async () => {
+    const previous = (await get(ref(auth('clerkB'), livePath))).val();
+    await set(ref(auth('clerkB'), livePath), {...previous, archived:true, version:3,updatedBy:'clerkB',updatedAt:serverTimestamp()});
+  });
+  await test('archived record can be restored', true, async () => {
+    const previous = (await get(ref(auth('clerkB'), livePath))).val();
+    await set(ref(auth('clerkB'), livePath), {...previous, archived:false, version:4,updatedBy:'clerkB',updatedAt:serverTimestamp()});
+  });
+  await test('home clerk can create Drops record with matching schema', true, () => set(ref(auth('clerkB'), 'operational/back-nights/drops/testDrop'), record('clerkB', {A:'FICTIONAL-ISA-02', D:'ARRIVED', N:5})));
+  await test('home clerk can create Transships record with matching schema', true, () => set(ref(auth('clerkB'), 'operational/back-nights/transships/testTransship'), record('clerkB', {A:'FICTIONAL-VRID-02', G:'PALLETIZED', R:7})));
+  await test('approved overtime user can read target shift pillar', true, () => get(ref(auth('newclerk'), 'operational/front-days/lives')));
+  await test('approved overtime PA clerk may edit target shift', true, () => set(ref(auth('newclerk'), 'operational/front-days/lives/overtime'), record('newclerk', {A:'FICTIONAL-OVERTIME'})));
+  await env.withSecurityRulesDisabled(async (ctx) => {
+    const db = ctx.database();
+    await set(ref(db, 'otGrants/front-days/newclerk/expiresAt'), timestamp() - 1000);
+  });
+  await test('expired overtime cannot read target shift', false, () => get(ref(auth('newclerk'), 'operational/front-days/lives')));
+  await test('expired overtime cannot edit target shift', false, () => set(ref(auth('newclerk'), 'operational/front-days/drops/expired'), record('newclerk', {A:'NO'})));
+  await test('expired overtime user retains home access', true, () => get(ref(auth('newclerk'), 'operational/back-nights/lives')));
 } finally {
   await env.cleanup();
 }

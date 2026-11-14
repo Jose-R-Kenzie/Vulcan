@@ -150,6 +150,439 @@
           }
         }
       }
+    },
+    "operational": {
+      "$shift": {
+        "lives": {
+          ".read": "auth !== null && auth.token.email_verified === true && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('homeShift').val() === $shift || root.child('otGrants').child($shift).child(auth.uid).child('expiresAt').val() > now)))",
+          "$recordId": {
+            ".write": "auth !== null && auth.token.email_verified === true && newData.exists() && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk') && (root.child('memberships').child(auth.uid).child('homeShift').val() === $shift || root.child('otGrants').child($shift).child(auth.uid).child('expiresAt').val() > now)))",
+            ".validate": "newData.hasChildren(['fields','version','archived','createdBy','createdAt','updatedBy','updatedAt']) && newData.child('createdBy').isString() && newData.child('updatedBy').val() === auth.uid && newData.child('archived').isBoolean() && newData.child('version').isNumber() && newData.child('version').val() === (data.exists() ? data.child('version').val() + 1 : 1) && newData.child('createdAt').isNumber() && newData.child('updatedAt').isNumber() && newData.child('updatedAt').val() <= now && newData.child('updatedAt').val() > now - 300000 && (data.exists() ? (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('createdAt').val() === data.child('createdAt').val()) : (newData.child('createdBy').val() === auth.uid && newData.child('createdAt').val() <= now && newData.child('createdAt').val() > now - 300000))",
+            "fields": {
+              ".validate": "newData.exists()",
+              "A": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "B": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "C": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"ARRIVAL_SCHEDULED\" || newData.val() === \"ARRIVED\" || newData.val() === \"CHECKED_IN\" || newData.val() === \"CLOSED\" || newData.val() === \"REFUSED\" || newData.val() === \"RESCHEDULED\" || newData.val() === \"DELETED\")"
+              },
+              "D": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "E": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"FLOOR_LOADED\" || newData.val() === \"PALLETIZED\" || newData.val() === \"BOXTRUCK\" || newData.val() === \"CLAMPABLE\")"
+              },
+              "F": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "G": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "H": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "I": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "J": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "K": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "L": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "M": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"FL\" || newData.val() === \"Parcel\" || newData.val() === \"LP\" || newData.val() === \"LP/Mix\" || newData.val() === \"NPC\" || newData.val() === \"PREP\" || newData.val() === \"PR\")"
+              },
+              "N": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"YT\" || newData.val() === \"RT\")"
+              },
+              "O": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 2000"
+              },
+              "$other": {
+                ".validate": "false"
+              }
+            },
+            "version": {
+              ".validate": "true"
+            },
+            "archived": {
+              ".validate": "true"
+            },
+            "createdBy": {
+              ".validate": "true"
+            },
+            "createdAt": {
+              ".validate": "true"
+            },
+            "updatedBy": {
+              ".validate": "true"
+            },
+            "updatedAt": {
+              ".validate": "true"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          }
+        },
+        "drops": {
+          ".read": "auth !== null && auth.token.email_verified === true && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('homeShift').val() === $shift || root.child('otGrants').child($shift).child(auth.uid).child('expiresAt').val() > now)))",
+          "$recordId": {
+            ".write": "auth !== null && auth.token.email_verified === true && newData.exists() && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk') && (root.child('memberships').child(auth.uid).child('homeShift').val() === $shift || root.child('otGrants').child($shift).child(auth.uid).child('expiresAt').val() > now)))",
+            ".validate": "newData.hasChildren(['fields','version','archived','createdBy','createdAt','updatedBy','updatedAt']) && newData.child('createdBy').isString() && newData.child('updatedBy').val() === auth.uid && newData.child('archived').isBoolean() && newData.child('version').isNumber() && newData.child('version').val() === (data.exists() ? data.child('version').val() + 1 : 1) && newData.child('createdAt').isNumber() && newData.child('updatedAt').isNumber() && newData.child('updatedAt').val() <= now && newData.child('updatedAt').val() > now - 300000 && (data.exists() ? (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('createdAt').val() === data.child('createdAt').val()) : (newData.child('createdBy').val() === auth.uid && newData.child('createdAt').val() <= now && newData.child('createdAt').val() > now - 300000))",
+            "fields": {
+              ".validate": "newData.exists()",
+              "A": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "B": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "C": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "D": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"ARRIVAL_SCHEDULED\" || newData.val() === \"ARRIVED\" || newData.val() === \"CHECKED_IN\" || newData.val() === \"CLOSED\" || newData.val() === \"DELETED\" || newData.val() === \"DEFECT\")"
+              },
+              "E": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "F": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "G": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "H": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"CARP\" || newData.val() === \"SMALL_PARCEL\")"
+              },
+              "I": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"LIVE\" || newData.val() === \"DROP\")"
+              },
+              "J": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"FLOOR-LOAD\" || newData.val() === \"CLAMPABLE\" || newData.val() === \"PALLETIZED\" || newData.val() === \"UNKNOWN\")"
+              },
+              "K": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "L": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"FL\" || newData.val() === \"Parcel\" || newData.val() === \"LP\" || newData.val() === \"LP/Mix\" || newData.val() === \"NPC\" || newData.val() === \"PREP\" || newData.val() === \"PR\" || newData.val() === \"MISSHIP\")"
+              },
+              "M": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"Red Tagged\" || newData.val() === \"Yellow Tagged\")"
+              },
+              "N": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "O": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "P": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "Q": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "R": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "S": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "T": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "U": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "V": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "W": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "X": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "Y": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "Z": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AA": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AB": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AC": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AD": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AE": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AF": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AG": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AH": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "AI": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "AJ": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "$other": {
+                ".validate": "false"
+              }
+            },
+            "version": {
+              ".validate": "true"
+            },
+            "archived": {
+              ".validate": "true"
+            },
+            "createdBy": {
+              ".validate": "true"
+            },
+            "createdAt": {
+              ".validate": "true"
+            },
+            "updatedBy": {
+              ".validate": "true"
+            },
+            "updatedAt": {
+              ".validate": "true"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          }
+        },
+        "transships": {
+          ".read": "auth !== null && auth.token.email_verified === true && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('homeShift').val() === $shift || root.child('otGrants').child($shift).child(auth.uid).child('expiresAt').val() > now)))",
+          "$recordId": {
+            ".write": "auth !== null && auth.token.email_verified === true && newData.exists() && (root.child('admins').child(auth.uid).val() === true || (root.child('memberships').child(auth.uid).child('active').val() === true && (root.child('memberships').child(auth.uid).child('role').val() === 'manager' || root.child('memberships').child(auth.uid).child('role').val() === 'pa-clerk' || root.child('memberships').child(auth.uid).child('role').val() === 'tier1-clerk') && (root.child('memberships').child(auth.uid).child('homeShift').val() === $shift || root.child('otGrants').child($shift).child(auth.uid).child('expiresAt').val() > now)))",
+            ".validate": "newData.hasChildren(['fields','version','archived','createdBy','createdAt','updatedBy','updatedAt']) && newData.child('createdBy').isString() && newData.child('updatedBy').val() === auth.uid && newData.child('archived').isBoolean() && newData.child('version').isNumber() && newData.child('version').val() === (data.exists() ? data.child('version').val() + 1 : 1) && newData.child('createdAt').isNumber() && newData.child('updatedAt').isNumber() && newData.child('updatedAt').val() <= now && newData.child('updatedAt').val() > now - 300000 && (data.exists() ? (newData.child('createdBy').val() === data.child('createdBy').val() && newData.child('createdAt').val() === data.child('createdAt').val()) : (newData.child('createdBy').val() === auth.uid && newData.child('createdAt').val() <= now && newData.child('createdAt').val() > now - 300000))",
+            "fields": {
+              ".validate": "newData.exists()",
+              "A": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "B": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "C": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "D": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "E": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"ARRIVAL_SCHEDULED\" || newData.val() === \"ARRIVED\" || newData.val() === \"CHECKED_IN\" || newData.val() === \"CLOSED\" || newData.val() === \"DEFECT\" || newData.val() === \"DELETED\")"
+              },
+              "F": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "G": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"FLOOR-LOAD\" || newData.val() === \"PALLETIZED\" || newData.val() === \"UNKNOWN\")"
+              },
+              "H": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"PURE CASE\" || newData.val() === \"PURE TOTES\" || newData.val() === \"HYBRID\" || newData.val() === \"PALLETIZED\" || newData.val() === \"UNKNOWN\")"
+              },
+              "I": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "J": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "K": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "L": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 50"
+              },
+              "M": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"FL\" || newData.val() === \"Parcel\" || newData.val() === \"LP\" || newData.val() === \"LP/Mix\" || newData.val() === \"NPC\" || newData.val() === \"PREP\" || newData.val() === \"PR\")"
+              },
+              "N": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250 && (newData.val() === \"Red Tagged\" || newData.val() === \"Yellow Tagged\")"
+              },
+              "O": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "P": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "Q": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "R": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "S": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "T": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "U": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "V": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "W": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "X": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "Y": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "Z": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AA": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AB": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AC": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AD": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AE": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AF": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AG": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AH": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AI": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AJ": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AK": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AL": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AM": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AN": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AO": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AP": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AQ": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AR": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AS": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AT": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AU": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AV": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AW": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AX": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AY": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "AZ": {
+                ".validate": "newData.isNumber() && newData.val() >= 0 && newData.val() <= 1000000000000"
+              },
+              "BA": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "BB": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "BC": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "BD": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "BE": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "BF": {
+                ".validate": "newData.isString() && newData.val().length > 0 && newData.val().length <= 250"
+              },
+              "$other": {
+                ".validate": "false"
+              }
+            },
+            "version": {
+              ".validate": "true"
+            },
+            "archived": {
+              ".validate": "true"
+            },
+            "createdBy": {
+              ".validate": "true"
+            },
+            "createdAt": {
+              ".validate": "true"
+            },
+            "updatedBy": {
+              ".validate": "true"
+            },
+            "updatedAt": {
+              ".validate": "true"
+            },
+            "$other": {
+              ".validate": "false"
+            }
+          }
+        }
+      }
     }
   }
 }

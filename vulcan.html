@@ -107,7 +107,28 @@
           <div id="empty-board" class="empty-board"><span>✦</span><h3>Your workspace, your way</h3><p>Nothing is pinned yet. Select “Add widget” to get started.</p></div>
         </section>
         <section id="tab-detail" class="panel detail-panel" hidden><div class="eyebrow">SHIFT WORKSPACE</div><h2 id="detail-title"></h2>
-          <p id="detail-copy"></p><p class="small">This section is being connected to the three data pillars and reports. No sample figures are presented as live operational data.</p></section>
+          <p id="detail-copy"></p>
+          <div id="pillar-panel" hidden>
+            <div class="pillar-toolbar">
+              <label>Find a record <input id="pillar-search" type="search" placeholder="Search any visible field" autocomplete="off"></label>
+              <label class="check-label"><input id="pillar-show-archived" type="checkbox"> Show archived</label>
+              <button id="pillar-add" class="primary" type="button">+ New record</button>
+            </div>
+            <p class="small" id="pillar-count" aria-live="polite"></p>
+            <div class="table-scroll"><table id="pillar-table"><thead></thead><tbody></tbody></table></div>
+            <button id="pillar-load-more" class="secondary" type="button" hidden>Show more records</button>
+            <p class="small">Records are scoped to your approved shift. Archiving preserves the record and its history. No records are imported from the Excel workbook.</p>
+          </div>
+          <p class="small" id="detail-placeholder">Reports and derived calculations will be connected to verified data. No sample figures are presented as live operational data.</p>
+        </section>
+        <dialog id="pillar-editor" aria-labelledby="pillar-editor-title">
+          <form id="pillar-form" class="editor-form">
+            <div class="editor-header"><div><div class="eyebrow">SHIFT RECORD</div><h2 id="pillar-editor-title">New record</h2><p id="pillar-editor-context" class="small"></p></div>
+              <button id="pillar-cancel-top" class="subtle" type="button" aria-label="Close editor">✕</button></div>
+            <div id="pillar-fields" class="field-grid"></div>
+            <div class="editor-actions"><button id="pillar-save" class="primary" type="submit">Save record</button><button id="pillar-cancel" class="subtle" type="button">Cancel</button></div>
+          </form>
+        </dialog>
       </section>
 
       <section id="screen-approvals" class="panel" hidden>
