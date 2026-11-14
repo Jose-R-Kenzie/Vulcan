@@ -3,7 +3,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebas
 import {
   getAuth, onAuthStateChanged, createUserWithEmailAndPassword,
   signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider,
-  linkWithPopup, EmailAuthProvider, linkWithCredential, signOut
+  linkWithPopup, EmailAuthProvider, linkWithCredential, signOut, sendEmailVerification, reload
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 import {
   getDatabase, ref, get, set, onValue, query, orderByChild,
@@ -129,6 +129,11 @@ async function startForSignedIn(nextUser) {
   member = null; homeRequest = null; profile = null; isAdmin = false;
   currentShift = null; widgets = [];
   if (!user) { show("auth"); return; }
+  if (!user.emailVerified) {
+    $("verify-email").textContent = user.email || "your email";
+    show("verify");
+    return;
+  }
   show("loading");
   $("account-name").textContent = user.displayName || user.email || "Signed in";
   try {
@@ -315,10 +320,26 @@ $("auth-mode").addEventListener("click", () => {
 });
 $("auth-form").addEventListener("submit", (event) => {
   event.preventDefault();
-  attempt(() => authMode === "signup"
-    ? createUserWithEmailAndPassword(auth, $("email").value.trim(), $("password").value)
-    : signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value));
+  attempt(async () => {
+    if (authMode === "signup") {
+      const created = await createUserWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
+      await sendEmailVerification(created.user);
+      notice("Verification email sent. Please check your inbox.");
+    } else {
+      await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
+    }
+  });
 });
+$("resend-verification").addEventListener("click", () => attempt(async () => {
+  await sendEmailVerification(auth.currentUser);
+  notice("Another verification email was sent.");
+}));
+$("check-verified").addEventListener("click", () => attempt(async () => {
+  await reload(auth.currentUser);
+  await auth.currentUser.getIdToken(true);
+  if (!auth.currentUser.emailVerified) throw Error("Your email is not yet verified. Open the verification link first.");
+  await startForSignedIn(auth.currentUser);
+}));
 $("google-login").addEventListener("click", () => attempt(() => signInWithPopup(auth, GOOGLE)));
 $("signout").addEventListener("click", () => attempt(() => signOut(auth)));
 $("home-form").addEventListener("submit", (event) => {
