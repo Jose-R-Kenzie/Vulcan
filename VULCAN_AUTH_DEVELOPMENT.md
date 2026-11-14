@@ -6,7 +6,7 @@
 
 - New `vulcan.html` entry point, `vulcan-app.js` logic, and `vulcan.css` styling. The existing `index.html` and operational pages remain intact.
 - Email/password or Google sign-in. Under Settings, users can **link** their other sign-in provider to the *same Firebase UID* to avoid duplicate memberships.
-- First-time request with chosen home shift, visible requester name, and requested role.
+- One-time email verification for email/password sign-in; Google normally arrives verified. First-time request with chosen home shift, visible requester name, and requested role.
 - Waiting screen; real-time Firebase listeners notice approved membership when database rules permit.
 - Optional personal profile (name/pronunciation/about/status/accent color). Individual dashboards start **empty**; users pin/remove placeholder widgets.
 - Active shift selected from the assigned home shift, current schedule, or 24-hour approved coverage. Wednesday overlap and clock-in/clock-out buffer windows are considered.
@@ -56,9 +56,9 @@ The schedule **allows Wednesday overlap** and the 04:30–05:00 / 16:30–17:30 
 
 - Source JavaScript syntax parsed.
 - Proposed rules file parses as JSON and denies root-level reads and writes.
-- All seven application screens exist.
+- All ten application screens exist.
 - Six schedule examples passed, including Wednesday overlap and overnight handoff.
 
-**Not yet verified:** Firebase emulator security checks, OAuth redirect and authorized domain behavior, production browser UI, accessibility, real-time approval end-to-end, email/Google linking across provider collisions, report values, operational CRUD. No deployed behavior should be implied.
+**Not yet verified:** Firebase emulator security checks (including unverified accounts, profile abuse, and widget payload limits), OAuth redirect and authorized domain behavior, production browser UI, accessibility, real-time approval end-to-end, email/Google linking across provider collisions, report values, operational CRUD. No deployed behavior should be implied.
 
 The actual GitHub Pages root `index.html` is intentionally unchanged for this phase. To review the prototype on GitHub, open `vulcan.html` in this development branch; the existing live Pages URL does not yet serve branch-only files.
